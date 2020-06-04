@@ -4,7 +4,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        Base3DInterpolation.cpp \
         main.cpp
 
 HEADERS += \
-    I3DInterpolation.h
+    Base3DInterpolation.hpp \
+    I3DInterpolation.hpp \
+    Vertex.hpp

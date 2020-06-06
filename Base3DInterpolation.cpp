@@ -5,7 +5,7 @@ namespace i3d {
 Base3DInterpolation::Base3DInterpolation(const Vertices &vertices)
     : _vertices(vertices)
 {
-
+    std::sort(_vertices.begin(), _vertices.end());
 }
 
 const Vertices &Base3DInterpolation::vertices() const

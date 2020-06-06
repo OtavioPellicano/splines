@@ -3,7 +3,6 @@
 
 #include "I3DInterpolation.hpp"
 #include <algorithm>
-#include <cmath>
 
 namespace i3d {
 
@@ -15,6 +14,14 @@ public:
     const Vertices & vertices() const;
 
     AdjacentVertices calculate_adjacent_vertices(double curve_length) const override;
+
+    //TODO: Remove this implementation after specific interpolation was created
+    Vertex vertex_at_position(double curve_length) const {}
+    double calculate_inclination(double curve_length) const {}
+    double calculate_azimuth(double curve_length) const {}
+    double calculate_x_projection(double curve_length) const {}
+    double calculate_y_projection(double curve_length) const {}
+    double calculate_z_projection(double curve_length) const {}
 
 private:
     Vertices _vertices;

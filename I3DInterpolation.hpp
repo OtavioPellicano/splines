@@ -8,6 +8,8 @@ namespace i3d {
 class I3DInterpolation
 {
 public:
+    virtual ~I3DInterpolation(){}
+
     virtual Vertex vertex_at_position(double curve_length) const = 0;
     virtual AdjacentVertices calculate_adjacent_vertices(double curve_length) const = 0;
     virtual double calculate_inclination(double curve_length) const = 0;

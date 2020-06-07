@@ -3,7 +3,7 @@
 namespace utf = boost::unit_test;
 
 #include <map>
-#include <Base3DInterpolation.hpp>
+#include <MinimumCurvature3DInterpolation.hpp>
 using namespace i3d;
 
 std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE( test_calculate_adjacent_vertices )
         {1.0, 0.0, 0.0},
     };
 
-    Base3DInterpolation interpolator{trajectory_points};
+    MinimumCurvature3DInterpolation interpolator{trajectory_points};
 
     std::map<double, AdjacentVertices> expected =
     {
@@ -61,5 +61,39 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
 
     BOOST_TEST(vertices[1].inclination() == M_PI / 4);
     BOOST_TEST(vertices[1].azimuth() == M_PI / 6);
+
+}
+
+BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
+{
+
+    Vertices trajectory =
+    {
+        {214.13724, 5.5, 45.0, AngleUnit::deg},
+        {598.800936, 29.75, 77.05, AngleUnit::deg},
+        {1550.31948, 29.75, 77.05, AngleUnit::deg},
+        {3018.032064, 120.0, 285.0, AngleUnit::deg},
+    };
+
+    MinimumCurvature3DInterpolation interpolator{trajectory};
+
+    std::map<double, Vertex> samples_expected =
+    {
+        {214.13724, {214.13724, 5.5, 45.0, AngleUnit::deg}},
+        {598.800936, {598.800936, 29.75, 77.05, AngleUnit::deg}},
+        {1295.4, {1295.4, 29.75, 77.05, AngleUnit::deg}},
+        {1550.31948, {1550.31948, 29.75, 77.05, AngleUnit::deg}},
+        {2592.052728, {2592.052728, 80.89, 300.71, AngleUnit::deg}},
+        {2690.786592, {2690.786592, 90.0, 297.31, AngleUnit::deg}},
+        {2789.520456, {2789.520456, 99.11, 293.92, AngleUnit::deg}},
+        {3018.032064, {3018.032064, 120.0, 285.0, AngleUnit::deg}},
+    };
+
+    for(auto&& item : samples_expected)
+    {
+        auto const& v_1 = interpolator.vertex_at_position(item.first);
+        auto const& v_2 = item.second;
+        BOOST_TEST(v_1.approx_equal(v_2, .2), message_error_vertices_compare(v_1, v_2));
+    }
 
 }

@@ -14,10 +14,12 @@ isEmpty(BOOST_INCLUDE_DIR): {
 
 SOURCES += \
         Base3DInterpolation.cpp \
+        MinimumCurvature3DInterpolation.cpp \
         Vertex.cpp \
         _tests/test_3d_interpolation.cpp
 
 HEADERS += \
     Base3DInterpolation.hpp \
     I3DInterpolation.hpp \
+    MinimumCurvature3DInterpolation.hpp \
     Vertex.hpp

@@ -53,8 +53,6 @@ public:
     double azimuth(AngleUnit angle_unit=AngleUnit::rad) const;
     void set_azimuth(double azimuth);
 
-    AngleUnit angle_unit() const;
-    void set_angle_unit(const AngleUnit &angle_unit);
 
 private:
     void calculate_tangent(const Vertex& vt, Point& point) const;
@@ -65,7 +63,7 @@ private:
 
     double deg_from_rad(double rad) const;
 
-    double angle_in(double angle) const;
+    double angle_in(double angle, AngleUnit angle_unit) const;
 
     double angle_out(double angle, AngleUnit angle_unit) const;
 
@@ -74,7 +72,6 @@ private:
     double m_curve_length;
     double m_inclination;     //angle from z axis
     double m_azimuth;         //angle from x axis
-    AngleUnit m_angle_unit;
 
 };
 

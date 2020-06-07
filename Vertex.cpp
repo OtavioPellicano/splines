@@ -6,12 +6,11 @@ Vertex::Vertex(double curve_length, double inclination, double azimuth, AngleUni
     : m_curve_length(curve_length)
     , m_inclination(inclination)
     , m_azimuth(azimuth)
-    , m_angle_unit(angle_unit)
 {
-    if(m_angle_unit != AngleUnit::rad)
+    if(angle_unit != AngleUnit::rad)
     {
-        m_inclination = this->angle_in(inclination);
-        m_azimuth = this->angle_in(azimuth);
+        m_inclination = this->angle_in(inclination, angle_unit);
+        m_azimuth = this->angle_in(azimuth, angle_unit);
     }
 }
 
@@ -45,16 +44,6 @@ void Vertex::set_azimuth(double azimuth)
     m_azimuth = azimuth;
 }
 
-AngleUnit Vertex::angle_unit() const
-{
-    return m_angle_unit;
-}
-
-void Vertex::set_angle_unit(const AngleUnit &angle_type)
-{
-    m_angle_unit = angle_type;
-}
-
 void Vertex::calculate_tangent(const Vertex &vt, Point &point) const
 {
     point.x = vt.m_curve_length * sin(vt.m_inclination) * cos(vt.m_azimuth);
@@ -79,9 +68,9 @@ double Vertex::deg_from_rad(double rad) const
     return rad * 180.0 / M_PI;
 }
 
-double Vertex::angle_in(double angle) const
+double Vertex::angle_in(double angle, AngleUnit angle_unit) const
 {
-    switch (m_angle_unit)
+    switch (angle_unit)
     {
     case AngleUnit::deg:
         return rad_from_deg(angle);

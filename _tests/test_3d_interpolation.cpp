@@ -56,11 +56,9 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
     BOOST_TEST(vertices[0].inclination() == M_PI / 2);
     BOOST_TEST(vertices[0].azimuth() == M_PI);
 
-    vertices[0].set_angle_unit(AngleUnit::deg);
     BOOST_TEST(vertices[0].inclination(AngleUnit::deg) == 90.0);
     BOOST_TEST(vertices[0].azimuth(AngleUnit::deg) == 180.0);
 
-    vertices[1].set_angle_unit(AngleUnit::rad);
     BOOST_TEST(vertices[1].inclination() == M_PI / 4);
     BOOST_TEST(vertices[1].azimuth() == M_PI / 6);
 

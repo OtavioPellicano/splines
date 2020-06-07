@@ -2,13 +2,13 @@
 
 namespace i3d {
 
-Vertex::Vertex(double curve_length, double inclination, double azimuth, AngleType angle_type)
+Vertex::Vertex(double curve_length, double inclination, double azimuth, AngleUnit angle_unit)
     : m_curve_length(curve_length)
     , m_inclination(inclination)
     , m_azimuth(azimuth)
-    , m_angle_type(angle_type)
+    , m_angle_unit(angle_unit)
 {
-    if(m_angle_type != AngleType::rad)
+    if(m_angle_unit != AngleUnit::rad)
     {
         m_inclination = this->angle_in(inclination);
         m_azimuth = this->angle_in(azimuth);
@@ -25,9 +25,9 @@ void Vertex::set_curve_length(double curve_length)
     m_curve_length = curve_length;
 }
 
-double Vertex::inclination() const
+double Vertex::inclination(AngleUnit angle_unit) const
 {
-    return angle_out(m_inclination);
+    return angle_out(m_inclination, angle_unit);
 }
 
 void Vertex::set_inclination(double inclination)
@@ -35,9 +35,9 @@ void Vertex::set_inclination(double inclination)
     m_inclination = inclination;
 }
 
-double Vertex::azimuth() const
+double Vertex::azimuth(AngleUnit angle_unit) const
 {
-    return angle_out(m_azimuth);
+    return angle_out(m_azimuth, angle_unit);
 }
 
 void Vertex::set_azimuth(double azimuth)
@@ -45,14 +45,14 @@ void Vertex::set_azimuth(double azimuth)
     m_azimuth = azimuth;
 }
 
-AngleType Vertex::angle_type() const
+AngleUnit Vertex::angle_unit() const
 {
-    return m_angle_type;
+    return m_angle_unit;
 }
 
-void Vertex::set_angle_type(const AngleType &angle_type)
+void Vertex::set_angle_unit(const AngleUnit &angle_type)
 {
-    m_angle_type = angle_type;
+    m_angle_unit = angle_type;
 }
 
 void Vertex::calculate_tangent(const Vertex &vt, Point &point) const
@@ -81,20 +81,20 @@ double Vertex::deg_from_rad(double rad) const
 
 double Vertex::angle_in(double angle) const
 {
-    switch (m_angle_type)
+    switch (m_angle_unit)
     {
-    case AngleType::deg:
+    case AngleUnit::deg:
         return rad_from_deg(angle);
     default:
         return angle;
     }
 }
 
-double Vertex::angle_out(double angle) const
+double Vertex::angle_out(double angle, AngleUnit angle_unit) const
 {
-    switch (m_angle_type)
+    switch (angle_unit)
     {
-    case AngleType::deg:
+    case AngleUnit::deg:
         return deg_from_rad(angle);
     default:
         return angle;

@@ -3,7 +3,7 @@
 namespace utf = boost::unit_test;
 
 #include <map>
-#include <Base3DInterpolation.hpp>
+#include <MinimumCurvature3DInterpolation.hpp>
 using namespace i3d;
 
 std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE( test_calculate_adjacent_vertices )
         {1.0, 0.0, 0.0},
     };
 
-    Base3DInterpolation interpolator{trajectory_points};
+    MinimumCurvature3DInterpolation interpolator{trajectory_points};
 
     std::map<double, AdjacentVertices> expected =
     {
@@ -49,19 +49,53 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
 
     Vertices vertices =
     {
-        {0.5, M_PI / 2, M_PI, AngleType::rad},
-        {1.0, 45.0, 30.0, AngleType::deg}
+        {0.5, M_PI / 2, M_PI, AngleUnit::rad},
+        {1.0, 45.0, 30.0, AngleUnit::deg}
     };
 
     BOOST_TEST(vertices[0].inclination() == M_PI / 2);
     BOOST_TEST(vertices[0].azimuth() == M_PI);
 
-    vertices[0].set_angle_type(AngleType::deg);
-    BOOST_TEST(vertices[0].inclination() == 90.0);
-    BOOST_TEST(vertices[0].azimuth() == 180.0);
+    vertices[0].set_angle_unit(AngleUnit::deg);
+    BOOST_TEST(vertices[0].inclination(AngleUnit::deg) == 90.0);
+    BOOST_TEST(vertices[0].azimuth(AngleUnit::deg) == 180.0);
 
-    vertices[1].set_angle_type(AngleType::rad);
+    vertices[1].set_angle_unit(AngleUnit::rad);
     BOOST_TEST(vertices[1].inclination() == M_PI / 4);
     BOOST_TEST(vertices[1].azimuth() == M_PI / 6);
+
+}
+
+BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
+{
+
+    Vertices trajectory =
+    {
+        {214.13724, 5.5, 45.0, AngleUnit::deg},
+        {598.800936, 29.75, 77.05, AngleUnit::deg},
+        {1550.31948, 29.75, 77.05, AngleUnit::deg},
+        {3018.032064, 120.0, 285.0, AngleUnit::deg},
+    };
+
+    MinimumCurvature3DInterpolation interpolator{trajectory};
+
+    std::map<double, Vertex> samples_expected =
+    {
+        {214.13724, {214.13724, 5.5, 45.0, AngleUnit::deg}},
+        {598.800936, {598.800936, 29.75, 77.05, AngleUnit::deg}},
+        {1550.31948, {1550.31948, 29.75, 77.05, AngleUnit::deg}},
+        {3018.032064, {3018.032064, 120.0, 285.0, AngleUnit::deg}},
+    };
+
+    for(auto&& item : samples_expected)
+    {
+        auto vt_1 = interpolator.vertex_at_position(item.first);
+        auto vt_2 = item.second;
+
+        if(!vt_1.approx_equal(vt_2))
+        {
+            std::cout << message_error_vertices_compare(vt_1, vt_2) << std::endl;
+        }
+    }
 
 }

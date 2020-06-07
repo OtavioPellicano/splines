@@ -56,8 +56,7 @@ double MinimumCurvature3DInterpolation::angle_at_position(double curve_length, M
         auto const comp_weight = 1 - weight;
 
         if (alpha < std::numeric_limits<double>::epsilon()) {
-            auto test = acos((comp_weight) * cos(v_1.inclination()) + (weight) * cos(v_2.inclination()));;
-            return test;
+            return v_1.inclination();
         } else {
             auto const numerator =
             (sin(comp_weight * alpha) * cos(v_1.inclination())

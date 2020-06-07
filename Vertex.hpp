@@ -13,15 +13,21 @@ struct Point
     double z = 0.0;
 };
 
-struct Vertex
+enum class AngleType
 {
-    double curve_length = 0.0;
-    double inclination = 0.0;     //angle from z axis
-    double azimuth = 0.0;         //angle from x axis
+    rad,
+    deg
+};
+
+class Vertex
+{
+public:
+
+    Vertex(double curve_length = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleType angle_type = AngleType::rad);
 
     bool operator<(const Vertex& vt) const
     {
-        return this->curve_length < vt.curve_length;
+        return this->m_curve_length < vt.m_curve_length;
     }
 
     bool operator>(const Vertex& vt) const
@@ -38,20 +44,37 @@ struct Vertex
         return this->euclidean_distance(point_1, point_2) < tol_radius;
     }
 
-private:
-    void calculate_tangent(const Vertex& vt, Point& point) const
-    {
-        point.x = vt.curve_length * sin(vt.inclination) * cos(vt.azimuth);
-        point.y = vt.curve_length * sin(vt.inclination) * sin(vt.azimuth);
-        point.z = vt.curve_length * cos(vt.inclination);
-    }
+    double curve_length() const;
+    void set_curve_length(double curve_length);
 
-    double euclidean_distance(const Point& point_1, const Point& point_2) const
-    {
-        return sqrt((point_1.x - point_2.x) * (point_1.x - point_2.x) +
-                    (point_1.y - point_2.y) * (point_1.y - point_2.y) +
-                    (point_1.z - point_2.z) * (point_1.z - point_2.z));
-    }
+    double inclination() const;
+    void set_inclination(double inclination);
+
+    double azimuth() const;
+    void set_azimuth(double azimuth);
+
+    AngleType angle_type() const;
+    void set_angle_type(const AngleType &angle_type);
+
+private:
+    void calculate_tangent(const Vertex& vt, Point& point) const;
+
+    double euclidean_distance(const Point& point_1, const Point& point_2) const;
+
+    double rad_from_deg(double deg) const;
+
+    double deg_from_rad(double rad) const;
+
+    double angle_in(double angle) const;
+
+    double angle_out(double angle) const;
+
+private:
+
+    double m_curve_length;
+    double m_inclination;     //angle from z axis
+    double m_azimuth;         //angle from x axis
+    AngleType m_angle_type;
 
 };
 

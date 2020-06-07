@@ -14,6 +14,7 @@ isEmpty(BOOST_INCLUDE_DIR): {
 
 SOURCES += \
         Base3DInterpolation.cpp \
+        Vertex.cpp \
         _tests/test_3d_interpolation.cpp
 
 HEADERS += \

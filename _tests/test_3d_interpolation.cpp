@@ -49,18 +49,16 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
 
     Vertices vertices =
     {
-        {0.5, M_PI / 2, M_PI, AngleType::rad},
-        {1.0, 45.0, 30.0, AngleType::deg}
+        {0.5, M_PI / 2, M_PI, AngleUnit::rad},
+        {1.0, 45.0, 30.0, AngleUnit::deg}
     };
 
     BOOST_TEST(vertices[0].inclination() == M_PI / 2);
     BOOST_TEST(vertices[0].azimuth() == M_PI);
 
-    vertices[0].set_angle_type(AngleType::deg);
-    BOOST_TEST(vertices[0].inclination() == 90.0);
-    BOOST_TEST(vertices[0].azimuth() == 180.0);
+    BOOST_TEST(vertices[0].inclination(AngleUnit::deg) == 90.0);
+    BOOST_TEST(vertices[0].azimuth(AngleUnit::deg) == 180.0);
 
-    vertices[1].set_angle_type(AngleType::rad);
     BOOST_TEST(vertices[1].inclination() == M_PI / 4);
     BOOST_TEST(vertices[1].azimuth() == M_PI / 6);
 

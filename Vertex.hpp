@@ -13,7 +13,7 @@ struct Point
     double z = 0.0;
 };
 
-enum class AngleType
+enum class AngleUnit
 {
     rad,
     deg
@@ -23,7 +23,7 @@ class Vertex
 {
 public:
 
-    Vertex(double curve_length = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleType angle_type = AngleType::rad);
+    Vertex(double curve_length = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
 
     bool operator<(const Vertex& vt) const
     {
@@ -47,14 +47,12 @@ public:
     double curve_length() const;
     void set_curve_length(double curve_length);
 
-    double inclination() const;
+    double inclination(AngleUnit angle_unit=AngleUnit::rad) const;
     void set_inclination(double inclination);
 
-    double azimuth() const;
+    double azimuth(AngleUnit angle_unit=AngleUnit::rad) const;
     void set_azimuth(double azimuth);
 
-    AngleType angle_type() const;
-    void set_angle_type(const AngleType &angle_type);
 
 private:
     void calculate_tangent(const Vertex& vt, Point& point) const;
@@ -65,16 +63,15 @@ private:
 
     double deg_from_rad(double rad) const;
 
-    double angle_in(double angle) const;
+    double angle_in(double angle, AngleUnit angle_unit) const;
 
-    double angle_out(double angle) const;
+    double angle_out(double angle, AngleUnit angle_unit) const;
 
 private:
 
     double m_curve_length;
     double m_inclination;     //angle from z axis
     double m_azimuth;         //angle from x axis
-    AngleType m_angle_type;
 
 };
 

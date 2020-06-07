@@ -81,19 +81,19 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
     {
         {214.13724, {214.13724, 5.5, 45.0, AngleUnit::deg}},
         {598.800936, {598.800936, 29.75, 77.05, AngleUnit::deg}},
+        {1295.4, {1295.4, 29.75, 77.05, AngleUnit::deg}},
         {1550.31948, {1550.31948, 29.75, 77.05, AngleUnit::deg}},
+        {2592.052728, {2592.052728, 80.89, 300.71, AngleUnit::deg}},
+        {2690.786592, {2690.786592, 90.0, 297.31, AngleUnit::deg}},
+        {2789.520456, {2789.520456, 99.11, 293.92, AngleUnit::deg}},
         {3018.032064, {3018.032064, 120.0, 285.0, AngleUnit::deg}},
     };
 
     for(auto&& item : samples_expected)
     {
-        auto vt_1 = interpolator.vertex_at_position(item.first);
-        auto vt_2 = item.second;
-
-        if(!vt_1.approx_equal(vt_2))
-        {
-            std::cout << message_error_vertices_compare(vt_1, vt_2) << std::endl;
-        }
+        auto const& v_1 = interpolator.vertex_at_position(item.first);
+        auto const& v_2 = item.second;
+        BOOST_TEST(v_1.approx_equal(v_2, .2), message_error_vertices_compare(v_1, v_2));
     }
 
 }

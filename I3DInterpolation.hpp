@@ -18,6 +18,9 @@ public:
     virtual double calculate_y_projection(double curve_length) const = 0;
     virtual double calculate_z_projection(double curve_length) const = 0;
 
+    virtual void add_n_drop(const Vertex& vertex) = 0;
+    virtual void drop_n_add(const Vertex& vertex) = 0;
+
 };
 
 }

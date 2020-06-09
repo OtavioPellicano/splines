@@ -53,14 +53,14 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
         {1.0, 45.0, 30.0, AngleUnit::deg}
     };
 
-    BOOST_TEST(vertices[0].inclination() == M_PI / 2);
-    BOOST_TEST(vertices[0].azimuth() == M_PI);
+    BOOST_TEST(vertices.begin()->inclination() == M_PI / 2);
+    BOOST_TEST(vertices.begin()->azimuth() == M_PI);
 
-    BOOST_TEST(vertices[0].inclination(AngleUnit::deg) == 90.0);
-    BOOST_TEST(vertices[0].azimuth(AngleUnit::deg) == 180.0);
+    BOOST_TEST(vertices.begin()->inclination(AngleUnit::deg) == 90.0);
+    BOOST_TEST(vertices.begin()->azimuth(AngleUnit::deg) == 180.0);
 
-    BOOST_TEST(vertices[1].inclination() == M_PI / 4);
-    BOOST_TEST(vertices[1].azimuth() == M_PI / 6);
+    BOOST_TEST(vertices.rbegin()->inclination() == M_PI / 4);
+    BOOST_TEST(vertices.rbegin()->azimuth() == M_PI / 6);
 
 }
 
@@ -94,6 +94,51 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
         auto const& v_1 = interpolator.vertex_at_position(item.first);
         auto const& v_2 = item.second;
         BOOST_TEST(v_1.approx_equal(v_2, .2), message_error_vertices_compare(v_1, v_2));
+    }
+
+}
+
+BOOST_AUTO_TEST_CASE( test_add_and_drop )
+{
+
+    Vertices trajectory =
+    {
+        {214.13724, 5.5, 45.0, AngleUnit::deg},
+        {598.800936, 29.75, 77.05, AngleUnit::deg},
+        {1550.31948, 29.75, 77.05, AngleUnit::deg},
+        {3018.032064, 120.0, 285.0, AngleUnit::deg},
+    };
+
+    MinimumCurvature3DInterpolation interpolator{trajectory};
+
+    Vertices samples =
+    {
+        {10.0, 5.5, 45.0, AngleUnit::deg},
+        {1600.0, 29.75, 77.05, AngleUnit::deg},
+    };
+
+    interpolator.add_n_drop(*samples.begin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    interpolator.add_n_drop(*samples.rbegin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    interpolator.drop_n_add(*samples.begin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    interpolator.drop_n_add(*samples.rbegin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+
+    Vertices expected =
+    {
+        {214.13724, 5.5, 45.0, AngleUnit::deg},
+        {598.800936, 29.75, 77.05, AngleUnit::deg},
+        {1550.31948, 29.75, 77.05, AngleUnit::deg},
+        {1600.0, 29.75, 77.05, AngleUnit::deg},
+    };
+
+    auto const& vertices = interpolator.vertices();
+
+    for(Vertices::const_iterator it_1 = vertices.begin(), it_2 = expected.begin(); it_1 != vertices.end(); ++it_1, ++it_2)
+    {
+        BOOST_TEST(it_1->approx_equal(*it_2), message_error_vertices_compare(*it_1, *it_2));
     }
 
 }

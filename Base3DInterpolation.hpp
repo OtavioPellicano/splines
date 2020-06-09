@@ -20,6 +20,9 @@ public:
 
     Vertex vertex_at_position(double curve_length) const override;
 
+    void add_n_drop(const Vertex& vertex) override;
+    void drop_n_add(const Vertex& vertex) override;
+
     //TODO: Remove this implementation after specific interpolation was created
 
     double calculate_x_projection(double curve_length) const {}

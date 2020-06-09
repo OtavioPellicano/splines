@@ -97,3 +97,48 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
     }
 
 }
+
+BOOST_AUTO_TEST_CASE( test_add_and_drop )
+{
+
+    Vertices trajectory =
+    {
+        {214.13724, 5.5, 45.0, AngleUnit::deg},
+        {598.800936, 29.75, 77.05, AngleUnit::deg},
+        {1550.31948, 29.75, 77.05, AngleUnit::deg},
+        {3018.032064, 120.0, 285.0, AngleUnit::deg},
+    };
+
+    MinimumCurvature3DInterpolation interpolator{trajectory};
+
+    Vertices samples =
+    {
+        {10.0, 5.5, 45.0, AngleUnit::deg},
+        {1600.0, 29.75, 77.05, AngleUnit::deg},
+    };
+
+    interpolator.add_n_drop(*samples.begin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    interpolator.add_n_drop(*samples.rbegin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    interpolator.drop_n_add(*samples.begin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    interpolator.drop_n_add(*samples.rbegin());
+    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+
+    Vertices expected =
+    {
+        {214.13724, 5.5, 45.0, AngleUnit::deg},
+        {598.800936, 29.75, 77.05, AngleUnit::deg},
+        {1550.31948, 29.75, 77.05, AngleUnit::deg},
+        {1600.0, 29.75, 77.05, AngleUnit::deg},
+    };
+
+    auto const& vertices = interpolator.vertices();
+
+    for(Vertices::const_iterator it_1 = vertices.begin(), it_2 = expected.begin(); it_1 != vertices.end(); ++it_1, ++it_2)
+    {
+        BOOST_TEST(it_1->approx_equal(*it_2), message_error_vertices_compare(*it_1, *it_2));
+    }
+
+}

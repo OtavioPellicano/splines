@@ -53,4 +53,16 @@ Vertex Base3DInterpolation::vertex_at_position(double curve_length) const
     }
 }
 
+void Base3DInterpolation::add_n_drop(const Vertex &vertex)
+{
+    m_vertices.emplace(vertex);
+    m_vertices.erase(*m_vertices.rbegin());
+}
+
+void Base3DInterpolation::drop_n_add(const Vertex &vertex)
+{
+    m_vertices.erase(*m_vertices.begin());
+    m_vertices.emplace(vertex);
+}
+
 }

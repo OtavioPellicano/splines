@@ -19,6 +19,11 @@ enum class AngleUnit
     deg
 };
 
+class Vertex;
+
+typedef std::pair<Vertex, Vertex> AdjacentVertices;
+typedef std::set<Vertex> Vertices;
+
 class Vertex
 {
 public:
@@ -73,10 +78,9 @@ private:
     double m_inclination;     //angle from z axis
     double m_azimuth;         //angle from x axis
 
-};
+    friend bool approx_equal(const Vertices& vertices_1, const Vertices& vertices_2);
 
-typedef std::pair<Vertex, Vertex> AdjacentVertices;
-typedef std::set<Vertex> Vertices;
+};
 
 }
 

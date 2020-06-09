@@ -13,14 +13,14 @@ const Vertices &Base3DInterpolation::vertices() const
     return m_vertices;
 }
 
+void Base3DInterpolation::set_vertices(const Vertices &vertices)
+{
+    m_vertices = vertices;
+}
+
 AdjacentVertices Base3DInterpolation::calculate_adjacent_vertices(double curve_length) const
 {
-    auto compare_vertices = [](double curve_length, Vertex const& vt) -> bool {
-        return curve_length < vt.curve_length();
-    };
-
-    auto upper_vertex =
-        std::upper_bound(m_vertices.begin(), m_vertices.end(), curve_length, compare_vertices);
+    auto upper_vertex = m_vertices.upper_bound(curve_length);
 
     if (std::fabs(upper_vertex->curve_length()) > std::numeric_limits<double>::epsilon()) {
         return { *std::prev(upper_vertex), *upper_vertex };

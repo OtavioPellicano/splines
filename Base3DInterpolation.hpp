@@ -14,6 +14,7 @@ public:
     Base3DInterpolation(const Vertices& vertices);
 
     const Vertices & vertices() const;
+    void set_vertices(const Vertices &vertices);
 
     AdjacentVertices calculate_adjacent_vertices(double curve_length) const override;
 
@@ -24,6 +25,7 @@ public:
     double calculate_x_projection(double curve_length) const {}
     double calculate_y_projection(double curve_length) const {}
     double calculate_z_projection(double curve_length) const {}
+
 
 private:
     Vertices m_vertices;

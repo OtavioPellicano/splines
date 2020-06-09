@@ -53,14 +53,14 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
         {1.0, 45.0, 30.0, AngleUnit::deg}
     };
 
-    BOOST_TEST(vertices[0].inclination() == M_PI / 2);
-    BOOST_TEST(vertices[0].azimuth() == M_PI);
+    BOOST_TEST(vertices.begin()->inclination() == M_PI / 2);
+    BOOST_TEST(vertices.begin()->azimuth() == M_PI);
 
-    BOOST_TEST(vertices[0].inclination(AngleUnit::deg) == 90.0);
-    BOOST_TEST(vertices[0].azimuth(AngleUnit::deg) == 180.0);
+    BOOST_TEST(vertices.begin()->inclination(AngleUnit::deg) == 90.0);
+    BOOST_TEST(vertices.begin()->azimuth(AngleUnit::deg) == 180.0);
 
-    BOOST_TEST(vertices[1].inclination() == M_PI / 4);
-    BOOST_TEST(vertices[1].azimuth() == M_PI / 6);
+    BOOST_TEST(vertices.rbegin()->inclination() == M_PI / 4);
+    BOOST_TEST(vertices.rbegin()->azimuth() == M_PI / 6);
 
 }
 

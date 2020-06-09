@@ -5,7 +5,7 @@ namespace i3d {
 Base3DInterpolation::Base3DInterpolation(const Vertices &vertices)
     : m_vertices(vertices)
 {
-    std::sort(m_vertices.begin(), m_vertices.end());
+
 }
 
 const Vertices &Base3DInterpolation::vertices() const
@@ -31,13 +31,13 @@ AdjacentVertices Base3DInterpolation::calculate_adjacent_vertices(double curve_l
 
 Vertex Base3DInterpolation::vertex_at_position(double curve_length) const
 {
-    if (curve_length < m_vertices.front().curve_length()
-        || std::fabs(curve_length - m_vertices.front().curve_length()) < std::numeric_limits<double>::epsilon()) {
-        return m_vertices.front();
+    if (curve_length < m_vertices.begin()->curve_length()
+        || std::fabs(curve_length - m_vertices.begin()->curve_length()) < std::numeric_limits<double>::epsilon()) {
+        return *m_vertices.begin();
     } else if (
-        curve_length > m_vertices.back().curve_length()
-        || std::fabs(m_vertices.back().curve_length() - curve_length) < std::numeric_limits<double>::epsilon()) {
-        return m_vertices.back();
+        curve_length > m_vertices.rbegin()->curve_length()
+        || std::fabs(m_vertices.rbegin()->curve_length() - curve_length) < std::numeric_limits<double>::epsilon()) {
+        return *m_vertices.rbegin();
     } else {
 
         auto adjacent_vertices = this->calculate_adjacent_vertices(curve_length);

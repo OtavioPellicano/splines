@@ -1,7 +1,7 @@
 ﻿#ifndef VERTICESDEFINITION_HPP
 #define VERTICESDEFINITION_HPP
 
-#include <vector>
+#include <set>
 #include <cmath>
 
 namespace i3d {
@@ -76,7 +76,7 @@ private:
 };
 
 typedef std::pair<Vertex, Vertex> AdjacentVertices;
-typedef std::vector<Vertex> Vertices;
+typedef std::set<Vertex> Vertices;
 
 }
 

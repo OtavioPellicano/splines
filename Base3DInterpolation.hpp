@@ -23,11 +23,12 @@ public:
     void add_n_drop(const Vertex& vertex) override;
     void drop_n_add(const Vertex& vertex) override;
 
-    //TODO: Remove this implementation after specific interpolation was created
+    double x_at_position(double curve_length) const override;
+    double y_at_position(double curve_length) const override;
+    double z_at_position(double curve_length) const override;
 
-    double calculate_x_projection(double curve_length) const {}
-    double calculate_y_projection(double curve_length) const {}
-    double calculate_z_projection(double curve_length) const {}
+private:
+    double projection_at_position(double (I3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const;
 
 
 private:
@@ -36,5 +37,4 @@ private:
 };
 
 }
-
 #endif // BASE3DINTERPOLATION_HPP

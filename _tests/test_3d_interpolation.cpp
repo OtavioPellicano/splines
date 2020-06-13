@@ -142,3 +142,52 @@ BOOST_AUTO_TEST_CASE( test_add_and_drop )
     }
 
 }
+
+/**
+ * @brief BOOST_AUTO_TEST_CASE
+ *
+ * The vertices choise were based on paper SPE 84246, pg. 16
+ *
+ */
+BOOST_AUTO_TEST_CASE( test_projection_at_position , * utf::tolerance(1E-6))
+{
+    Vertices trajectory =
+    {
+        {214.13724, 0.095993095, 0.785398049999999},
+        {598.800936, 0.519235377499999, 1.3447759945},
+        {1550.31948, 0.519235377499999, 1.3447759945},
+        {3018.032064, 2.09439479999999, 4.97418765}
+    };
+
+    MinimumCurvature3DInterpolation interpolator{trajectory};
+
+    // the std::array<double, 3> represents the x, y, z expected values
+    std::map<std::array<double, 3>, Vertex> samples_expected =
+    {
+        {{7.2619580385825513, 7.2619580385825513, 213.808524}, {214.13724, 5.5, 45.0, AngleUnit::deg}},
+        {{42.252476733170006, 115.05692333344899, 578.1493471}, {598.800936, 29.75, 77.05, AngleUnit::deg}},
+        {{148.06374664425934 , 575.20715056762072, 1404.256654}, {1550.31948, 29.75, 77.05, AngleUnit::deg}},
+        {{757.17661872735744, -65.828691703728509, 2073.043306}, {3018.032064, 120.0, 285.0, AngleUnit::deg}},
+
+        //interpolated vertices:
+        {{119.71605539435078, 451.92919935155186, 1182.935855}, {1295.4, 29.75, 77.05, AngleUnit::deg}},
+        {{594.72150050487528, 310.07764311833108, 2149.247025}, {2592.052728, 80.89, 300.71, AngleUnit::deg}},
+        {{642.38182819109716, 224.1, 2157.081421}, {2690.786592, 90.0, 297.31, AngleUnit::deg}},
+        {{684.89863558697255, 135.46634412415341, 2149.244745}, {2789.520456, 99.11, 293.92, AngleUnit::deg}},
+
+    };
+
+    for(auto& item: samples_expected)
+    {
+        auto x = interpolator.x_at_position(item.second.curve_length());
+        auto y = interpolator.y_at_position(item.second.curve_length());
+        auto z = interpolator.z_at_position(item.second.curve_length());
+
+        BOOST_TEST(x == item.first[0]);
+        BOOST_TEST(y == item.first[1]);
+        BOOST_TEST(z == item.first[2]);
+
+    }
+
+
+}

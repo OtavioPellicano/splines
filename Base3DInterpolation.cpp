@@ -65,4 +65,54 @@ void Base3DInterpolation::drop_n_add(const Vertex &vertex)
     m_vertices.emplace(vertex);
 }
 
+double Base3DInterpolation::x_at_position(double curve_length) const
+{
+    return this->projection_at_position(&I3DInterpolation::calculate_delta_x_projection, curve_length);
+}
+
+double Base3DInterpolation::y_at_position(double curve_length) const
+{
+    return this->projection_at_position(&I3DInterpolation::calculate_delta_y_projection, curve_length);
+}
+
+double Base3DInterpolation::z_at_position(double curve_length) const
+{
+    return this->projection_at_position(&I3DInterpolation::calculate_delta_z_projection , curve_length);
+}
+
+
+double Base3DInterpolation::projection_at_position(double (I3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const
+{
+
+    auto sum_delta = 0.0;
+    for(auto it_v = m_vertices.begin(); it_v != m_vertices.end(); ++it_v)
+    {
+        if(it_v->curve_length() > curve_length || fabs(curve_length - it_v->curve_length()) < std::numeric_limits<double>::epsilon())
+        {
+            const AdjacentVertices& adjacent_vertices = {
+                it_v != m_vertices.begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0},
+                this->vertex_at_position(curve_length)};
+
+            sum_delta += std::invoke(
+                        delta_calculator,
+                        *this,
+                        adjacent_vertices.second.curve_length(),
+                        adjacent_vertices);
+
+            break;
+        }
+
+        const AdjacentVertices& adjacent_vertices = {it_v != m_vertices.begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0}, *it_v};
+        sum_delta += std::invoke(
+                    delta_calculator,
+                    *this,
+                    it_v->curve_length(),
+                    adjacent_vertices);
+    }
+
+
+    return sum_delta;
+}
+
+
 }

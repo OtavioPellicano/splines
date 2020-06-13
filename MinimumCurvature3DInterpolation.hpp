@@ -25,7 +25,19 @@ private:
 
     double calculate_alpha(const AdjacentVertices& adjacent_vertices) const;
 
+    double calculate_delta_x_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
+    double calculate_delta_y_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
+    double calculate_delta_z_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
 
+    /**
+     * @brief calculate_common_delta_projection
+     * computes common parts of delta_any_projection which are: delta_s and factor_f
+     * @param curve_length
+     * @param adjacent_vertices`
+     * @return
+     * std::pair<double, double>(delta_s, factor_f)
+     */
+    std::pair<double, double> calculate_common_delta_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const;
 };
 
 }

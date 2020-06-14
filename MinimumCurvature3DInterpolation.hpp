@@ -15,13 +15,16 @@ public:
     double inclination_at_position(double curve_length) const override;
     double azimuth_at_position(double curve_length) const override;
 
+    double inclination_at_position(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
+    double azimuth_at_position(double curve_length,  const AdjacentVertices& adjacent_vertices) const override;
+
 private:
 
     enum class AngleType{
         inclination,
         azimuth
     };
-    double angle_at_position(double curve_length, AngleType angle_type) const;
+    double angle_at_position(double curve_length, const AdjacentVertices& adjacent_vertices, AngleType angle_type) const;
 
     double calculate_alpha(const AdjacentVertices& adjacent_vertices) const;
 

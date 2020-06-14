@@ -4,12 +4,22 @@ namespace i3d {
 
 double MinimumCurvature3DInterpolation::inclination_at_position(double curve_length) const
 {
-    return this->angle_at_position(curve_length, AngleType::inclination);
+    return this->inclination_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
 }
 
 double MinimumCurvature3DInterpolation::azimuth_at_position(double curve_length) const
 {
-    return this->angle_at_position(curve_length, AngleType::azimuth);
+    return this->azimuth_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
+}
+
+double MinimumCurvature3DInterpolation::inclination_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
+{
+    return this->angle_at_position(curve_length, adjacent_vertices, AngleType::inclination);
+}
+
+double MinimumCurvature3DInterpolation::azimuth_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
+{
+    return this->angle_at_position(curve_length, adjacent_vertices, AngleType::azimuth);
 }
 
 double MinimumCurvature3DInterpolation::calculate_alpha(const AdjacentVertices &adjacent_vertices) const
@@ -69,13 +79,12 @@ std::pair<double, double> MinimumCurvature3DInterpolation::calculate_common_delt
     return {delta_s, factor_f};
 }
 
-double MinimumCurvature3DInterpolation::angle_at_position(double curve_length, MinimumCurvature3DInterpolation::AngleType angle_type) const
+double MinimumCurvature3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, MinimumCurvature3DInterpolation::AngleType angle_type) const
 {
-    auto adjacent_vertice = this->calculate_adjacent_vertices(curve_length);
-    auto const alpha = this->calculate_alpha(adjacent_vertice);
+    auto const alpha = this->calculate_alpha(adjacent_vertices);
 
-    auto const& v_1 = adjacent_vertice.first;
-    auto const& v_2 = adjacent_vertice.second;
+    auto const& v_1 = adjacent_vertices.first;
+    auto const& v_2 = adjacent_vertices.second;
 
     auto const delta_md = v_2.curve_length() - v_1.curve_length();
     auto delta_md_star = curve_length - v_1.curve_length();

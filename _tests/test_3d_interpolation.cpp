@@ -3,6 +3,7 @@
 namespace utf = boost::unit_test;
 
 #include <map>
+#include <iomanip>
 #include "MinimumCurvature3DInterpolation.hpp"
 #include "Linear3DInterpolation.hpp"
 using namespace i3d;
@@ -14,6 +15,18 @@ std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
     return "{" + to_string(v_1.curve_length()) + ", " + to_string(v_1.inclination()) + ", " + to_string(v_1.azimuth()) + "} != "
            "{" + to_string(v_2.curve_length()) + ", " + to_string(v_2.inclination()) + ", " + to_string(v_2.azimuth()) + "}";
 }
+
+namespace Trajectory {
+
+const Vertices SPE84246 =
+    {
+        {214.13724, 0.095993095, 0.785398049999999},
+        {598.800936, 0.519235377499999, 1.3447759945},
+        {1550.31948, 0.519235377499999, 1.3447759945},
+        {3018.032064, 2.09439479999999, 4.97418765}
+    };
+
+};
 
 BOOST_AUTO_TEST_CASE( test_calculate_adjacent_vertices )
 {
@@ -99,39 +112,35 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
 
 }
 
-//BOOST_AUTO_TEST_CASE( test_vertex_at_position_linear_interpolation)
-//{
+BOOST_AUTO_TEST_CASE( test_vertex_at_position_linear_interpolation)
+{
 
-//    Vertices trajectory =
-//    {
-//        {214.13724, 5.5, 45.0, AngleUnit::deg},
-//        {598.800936, 29.75, 77.05, AngleUnit::deg},
-//        {1550.31948, 29.75, 77.05, AngleUnit::deg},
-//        {3018.032064, 120.0, 285.0, AngleUnit::deg},
-//    };
+    Vertices trajectory = Trajectory::SPE84246;
 
-//    Linear3DInterpolation interpolator{trajectory};
+    Linear3DInterpolation interpolator{trajectory};
 
-//    std::map<double, Vertex> samples_expected =
-//    {
-//        {214.13724, {214.13724, 5.5, 45.0, AngleUnit::deg}},
-//        {598.800936, {598.800936, 29.75, 77.05, AngleUnit::deg}},
-//        {1295.4, {1295.4, 29.75, 77.05, AngleUnit::deg}},
-//        {1550.31948, {1550.31948, 29.75, 77.05, AngleUnit::deg}},
-//        {2592.052728, {2592.052728, 80.89, 300.71, AngleUnit::deg}},
-//        {2690.786592, {2690.786592, 90.0, 297.31, AngleUnit::deg}},
-//        {2789.520456, {2789.520456, 99.11, 293.92, AngleUnit::deg}},
-//        {3018.032064, {3018.032064, 120.0, 285.0, AngleUnit::deg}},
-//    };
+    std::map<double, Vertex> samples_expected =
+    {
+        {214.13724, {214.13724, 0.095993095, 0.785398049999999}},
+        {598.800936, {598.800936, 0.519235377499999, 1.3447759945}},
+        {1550.31948, {1550.31948, 0.519235377499999, 1.3447759945}},
+        {3018.032064, {3018.032064, 2.09439479999999, 4.97418765}},
 
-//    for(auto&& item : samples_expected)
-//    {
-//        auto const& v_1 = interpolator.vertex_at_position(item.first);
-//        auto const& v_2 = item.second;
-//        BOOST_TEST(v_1.approx_equal(v_2, .2), message_error_vertices_compare(v_1, v_2));
-//    }
+        {1295.4, {1295.4, 0.519235, 1.344776}},
+        {2592.052728, {2592.052728, 1.637231, 5.744402}},
+        {2690.786592, {2690.786592, 1.743193, 5.565881}},
+        {2789.520456, {2789.520456, 1.849155, 5.387360}},
+    };
 
-//}
+
+    for(auto&& item : samples_expected)
+    {
+        auto const& v_1 = interpolator.vertex_at_position(item.first);
+        auto const& v_2 = item.second;
+        BOOST_TEST(v_1.approx_equal(v_2, 1E-2), message_error_vertices_compare(v_1, v_2));
+    }
+
+}
 
 
 BOOST_AUTO_TEST_CASE( test_add_and_drop )

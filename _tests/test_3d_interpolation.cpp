@@ -81,13 +81,7 @@ BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
 BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
 {
 
-    Vertices trajectory =
-    {
-        {214.13724, 5.5, 45.0, AngleUnit::deg},
-        {598.800936, 29.75, 77.05, AngleUnit::deg},
-        {1550.31948, 29.75, 77.05, AngleUnit::deg},
-        {3018.032064, 120.0, 285.0, AngleUnit::deg},
-    };
+    Vertices trajectory = Trajectory::SPE84246;
 
     MinimumCurvature3DInterpolation interpolator{trajectory};
 
@@ -146,13 +140,7 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_linear_interpolation)
 BOOST_AUTO_TEST_CASE( test_add_and_drop )
 {
 
-    Vertices trajectory =
-    {
-        {214.13724, 5.5, 45.0, AngleUnit::deg},
-        {598.800936, 29.75, 77.05, AngleUnit::deg},
-        {1550.31948, 29.75, 77.05, AngleUnit::deg},
-        {3018.032064, 120.0, 285.0, AngleUnit::deg},
-    };
+    Vertices trajectory = Trajectory::SPE84246;
 
     MinimumCurvature3DInterpolation interpolator{trajectory};
 
@@ -183,7 +171,7 @@ BOOST_AUTO_TEST_CASE( test_add_and_drop )
 
     for(Vertices::const_iterator it_1 = vertices.begin(), it_2 = expected.begin(); it_1 != vertices.end(); ++it_1, ++it_2)
     {
-        BOOST_TEST(it_1->approx_equal(*it_2), message_error_vertices_compare(*it_1, *it_2));
+        BOOST_TEST(it_1->approx_equal(*it_2, 1E-3), message_error_vertices_compare(*it_1, *it_2));
     }
 
 }
@@ -196,13 +184,7 @@ BOOST_AUTO_TEST_CASE( test_add_and_drop )
  */
 BOOST_AUTO_TEST_CASE( test_projection_at_position , * utf::tolerance(1E-6))
 {
-    Vertices trajectory =
-    {
-        {214.13724, 0.095993095, 0.785398049999999},
-        {598.800936, 0.519235377499999, 1.3447759945},
-        {1550.31948, 0.519235377499999, 1.3447759945},
-        {3018.032064, 2.09439479999999, 4.97418765}
-    };
+    Vertices trajectory = Trajectory::SPE84246;
 
     MinimumCurvature3DInterpolation interpolator{trajectory};
 

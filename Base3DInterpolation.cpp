@@ -53,6 +53,16 @@ Vertex Base3DInterpolation::vertex_at_position(double curve_length) const
     }
 }
 
+double Base3DInterpolation::inclination_at_position(double curve_length) const
+{
+    return this->inclination_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
+}
+
+double Base3DInterpolation::azimuth_at_position(double curve_length) const
+{
+    return this->azimuth_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
+}
+
 void Base3DInterpolation::add_n_drop(const Vertex &vertex)
 {
     m_vertices.emplace(vertex);

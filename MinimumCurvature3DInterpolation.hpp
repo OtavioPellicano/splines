@@ -9,16 +9,11 @@ class MinimumCurvature3DInterpolation : public Base3DInterpolation
 {
 public:
 
-
     using Base3DInterpolation::Base3DInterpolation;
 
-    double inclination_at_position(double curve_length) const override;
-    double azimuth_at_position(double curve_length) const override;
-
+private:
     double inclination_at_position(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
     double azimuth_at_position(double curve_length,  const AdjacentVertices& adjacent_vertices) const override;
-
-private:
 
     enum class AngleType{
         inclination,

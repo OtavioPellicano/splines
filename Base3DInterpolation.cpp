@@ -67,20 +67,20 @@ void Base3DInterpolation::drop_n_add(const Vertex &vertex)
 
 double Base3DInterpolation::x_at_position(double curve_length) const
 {
-    return this->projection_at_position(&I3DInterpolation::calculate_delta_x_projection, curve_length);
+    return this->projection_at_position(&Base3DInterpolation::calculate_delta_x_projection, curve_length);
 }
 
 double Base3DInterpolation::y_at_position(double curve_length) const
 {
-    return this->projection_at_position(&I3DInterpolation::calculate_delta_y_projection, curve_length);
+    return this->projection_at_position(&Base3DInterpolation::calculate_delta_y_projection, curve_length);
 }
 
 double Base3DInterpolation::z_at_position(double curve_length) const
 {
-    return this->projection_at_position(&I3DInterpolation::calculate_delta_z_projection , curve_length);
+    return this->projection_at_position(&Base3DInterpolation::calculate_delta_z_projection , curve_length);
 }
 
-double Base3DInterpolation::projection_at_position(double (I3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const
+double Base3DInterpolation::projection_at_position(double (Base3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const
 {
 
     auto sum_delta = 0.0;

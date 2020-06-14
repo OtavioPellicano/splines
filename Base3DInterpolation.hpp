@@ -32,7 +32,11 @@ public:
 
 private:
 
-    double projection_at_position(double (I3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const;
+    double projection_at_position(double (Base3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const;
+
+    virtual double calculate_delta_x_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
+    virtual double calculate_delta_y_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
+    virtual double calculate_delta_z_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
 
     virtual double inclination_at_position(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
     virtual double azimuth_at_position(double curve_length,  const AdjacentVertices& adjacent_vertices) const = 0;

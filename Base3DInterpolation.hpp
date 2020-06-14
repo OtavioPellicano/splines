@@ -23,6 +23,9 @@ public:
 
     Vertex vertex_at_position(double curve_length) const override;
 
+    double inclination_at_position(double curve_length) const override;
+    double azimuth_at_position(double curve_length) const override;
+
     void add_n_drop(const Vertex& vertex) override;
     void drop_n_add(const Vertex& vertex) override;
 

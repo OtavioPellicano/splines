@@ -2,16 +2,6 @@
 
 namespace i3d {
 
-double MinimumCurvature3DInterpolation::inclination_at_position(double curve_length) const
-{
-    return this->inclination_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
-}
-
-double MinimumCurvature3DInterpolation::azimuth_at_position(double curve_length) const
-{
-    return this->azimuth_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
-}
-
 double MinimumCurvature3DInterpolation::inclination_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
 {
     return this->angle_at_position(curve_length, adjacent_vertices, AngleType::inclination);

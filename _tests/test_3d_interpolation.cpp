@@ -3,9 +3,10 @@
 namespace utf = boost::unit_test;
 
 #include <map>
-#include <iomanip>
+
 #include "MinimumCurvature3DInterpolation.hpp"
 #include "Linear3DInterpolation.hpp"
+
 using namespace i3d;
 
 std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
@@ -18,6 +19,7 @@ std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
 
 namespace Trajectory {
 
+//The vertices choise were based on paper SPE 84246, pg. 16
 const Vertices SPE84246 =
     {
         {214.13724, 0.095993095, 0.785398049999999},
@@ -176,13 +178,7 @@ BOOST_AUTO_TEST_CASE( test_add_and_drop )
 
 }
 
-/**
- * @brief BOOST_AUTO_TEST_CASE
- *
- * The vertices choise were based on paper SPE 84246, pg. 16
- *
- */
-BOOST_AUTO_TEST_CASE( test_projection_at_position , * utf::tolerance(1E-6))
+BOOST_AUTO_TEST_CASE( test_projection_at_position_minimum_curvature , * utf::tolerance(1E-6))
 {
     Vertices trajectory = Trajectory::SPE84246;
 
@@ -216,6 +212,40 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position , * utf::tolerance(1E-6))
 
     }
 
-
 }
 
+BOOST_AUTO_TEST_CASE( test_projection_at_position_linear , * utf::tolerance(1E-6))
+{
+    Vertices trajectory = Trajectory::SPE84246;
+
+    Linear3DInterpolation interpolator{trajectory};
+
+    // the std::array<double, 3> represents the x, y, z expected values
+    std::map<std::array<double, 3>, Vertex> samples_expected =
+        {
+            {{14.512758309548609, 14.512758309548609, 213.1513949}, {214.13724, 0.095993095, 0.785398049999999}},
+            {{57.288337987899368, 200.53444778608741, 547.1159741}, {598.800936, 0.519235377499999, 1.3447759945}},
+            {{163.09960789898872 , 660.68467502025919, 1373.223281}, {1550.31948, 0.519235377499999, 1.3447759945}},
+            {{492.07755932444019, -567.08128131544527, 639.3673737}, {3018.032064, 2.09439479999999, 4.97418765}},
+
+            //interpolated vertices:
+            {{134.75191664908016, 537.40672380419028, 1151.902482}, {1295.4, 0.5192353775, 1.3447759945}},
+            {{1055.2815792122528, 127.35839178394474, 1304.067185}, {2592.052728, 1.63723079377336, 5.74440162129123}},
+            {{1009.7933937687196, -77.894972532420184, 1177.583381}, {2690.78659199999, 1.74319266798144, 5.56588075169589}},
+            {{907.63861625602476, -269.5504761021067, 1032.718821}, {2789.520456, 1.84915454218953, 5.38735988210054}},
+        };
+
+
+    for(auto& item: samples_expected)
+    {
+        auto x = interpolator.x_at_position(item.second.curve_length());
+        auto y = interpolator.y_at_position(item.second.curve_length());
+        auto z = interpolator.z_at_position(item.second.curve_length());
+
+        BOOST_TEST(x == item.first[0]);
+        BOOST_TEST(y == item.first[1]);
+        BOOST_TEST(z == item.first[2]);
+
+    }
+
+}

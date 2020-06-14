@@ -9,6 +9,9 @@ namespace i3d {
 class Base3DInterpolation : public I3DInterpolation
 {
 public:
+    using I3DInterpolation::inclination_at_position;
+    using I3DInterpolation::azimuth_at_position;
+
     virtual ~Base3DInterpolation() = default;
 
     Base3DInterpolation(const Vertices& vertices);
@@ -20,6 +23,9 @@ public:
 
     Vertex vertex_at_position(double curve_length) const override;
 
+    double inclination_at_position(double curve_length) const override;
+    double azimuth_at_position(double curve_length) const override;
+
     void add_n_drop(const Vertex& vertex) override;
     void drop_n_add(const Vertex& vertex) override;
 
@@ -28,8 +34,15 @@ public:
     double z_at_position(double curve_length) const override;
 
 private:
-    double projection_at_position(double (I3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const;
 
+    double projection_at_position(double (Base3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const;
+
+    virtual double calculate_delta_x_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
+    virtual double calculate_delta_y_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
+    virtual double calculate_delta_z_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
+
+    virtual double inclination_at_position(double curve_length, const AdjacentVertices& adjacent_vertices) const = 0;
+    virtual double azimuth_at_position(double curve_length,  const AdjacentVertices& adjacent_vertices) const = 0;
 
 private:
     Vertices m_vertices;

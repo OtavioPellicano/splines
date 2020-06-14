@@ -40,17 +40,27 @@ Vertex Base3DInterpolation::vertex_at_position(double curve_length) const
         return *m_vertices.rbegin();
     } else {
 
-        auto adjacent_vertices = this->calculate_adjacent_vertices(curve_length);
+        auto const& adjacent_vertices = this->calculate_adjacent_vertices(curve_length);
 
         if (adjacent_vertices.first.approx_equal(adjacent_vertices.second)) {
             return { adjacent_vertices.first };
         }
 
-        auto inclination_interpolated = this->inclination_at_position(curve_length);
-        auto azimuth_interpolated = this->azimuth_at_position(curve_length);
+        auto inclination_interpolated = this->inclination_at_position(curve_length, adjacent_vertices);
+        auto azimuth_interpolated = this->azimuth_at_position(curve_length, adjacent_vertices);
 
         return { curve_length, inclination_interpolated, azimuth_interpolated };
     }
+}
+
+double Base3DInterpolation::inclination_at_position(double curve_length) const
+{
+    return this->inclination_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
+}
+
+double Base3DInterpolation::azimuth_at_position(double curve_length) const
+{
+    return this->azimuth_at_position(curve_length, this->calculate_adjacent_vertices(curve_length));
 }
 
 void Base3DInterpolation::add_n_drop(const Vertex &vertex)
@@ -67,21 +77,20 @@ void Base3DInterpolation::drop_n_add(const Vertex &vertex)
 
 double Base3DInterpolation::x_at_position(double curve_length) const
 {
-    return this->projection_at_position(&I3DInterpolation::calculate_delta_x_projection, curve_length);
+    return this->projection_at_position(&Base3DInterpolation::calculate_delta_x_projection, curve_length);
 }
 
 double Base3DInterpolation::y_at_position(double curve_length) const
 {
-    return this->projection_at_position(&I3DInterpolation::calculate_delta_y_projection, curve_length);
+    return this->projection_at_position(&Base3DInterpolation::calculate_delta_y_projection, curve_length);
 }
 
 double Base3DInterpolation::z_at_position(double curve_length) const
 {
-    return this->projection_at_position(&I3DInterpolation::calculate_delta_z_projection , curve_length);
+    return this->projection_at_position(&Base3DInterpolation::calculate_delta_z_projection , curve_length);
 }
 
-
-double Base3DInterpolation::projection_at_position(double (I3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const
+double Base3DInterpolation::projection_at_position(double (Base3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double curve_length) const
 {
 
     auto sum_delta = 0.0;

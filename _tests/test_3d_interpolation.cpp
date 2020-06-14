@@ -3,8 +3,8 @@
 namespace utf = boost::unit_test;
 
 #include <map>
-#include <MinimumCurvature3DInterpolation.hpp>
-#include <Linear3DInterpolation.hpp>
+#include "MinimumCurvature3DInterpolation.hpp"
+#include "Linear3DInterpolation.hpp"
 using namespace i3d;
 
 std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)

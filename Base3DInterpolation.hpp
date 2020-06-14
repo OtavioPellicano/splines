@@ -19,19 +19,19 @@ public:
     const Vertices & vertices() const;
     void set_vertices(const Vertices &vertices);
 
-    AdjacentVertices calculate_adjacent_vertices(double curve_length) const override;
+    AdjacentVertices calculate_adjacent_vertices(double curve_length) const final;
 
     Vertex vertex_at_position(double curve_length) const override;
 
-    double inclination_at_position(double curve_length) const override;
-    double azimuth_at_position(double curve_length) const override;
+    double inclination_at_position(double curve_length) const final;
+    double azimuth_at_position(double curve_length) const final;
 
-    void add_n_drop(const Vertex& vertex) override;
-    void drop_n_add(const Vertex& vertex) override;
+    void add_n_drop(const Vertex& vertex) final;
+    void drop_n_add(const Vertex& vertex) final;
 
-    double x_at_position(double curve_length) const override;
-    double y_at_position(double curve_length) const override;
-    double z_at_position(double curve_length) const override;
+    double x_at_position(double curve_length) const final;
+    double y_at_position(double curve_length) const final;
+    double z_at_position(double curve_length) const final;
 
 private:
 

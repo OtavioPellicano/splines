@@ -42,7 +42,7 @@ double Linear3DInterpolation::calculate_linear_spline(double x_1, double y_1, do
     return delta_x < std::numeric_limits<double>::epsilon() ? y_2 : (y_1 * (x_2 - x_star) + y_2 * (x_star - x_1)) / delta_x;
 }
 
-double Linear3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, Linear3DInterpolation::AngleType angle_type) const
+double Linear3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
     auto angle_1 = v_1.inclination();

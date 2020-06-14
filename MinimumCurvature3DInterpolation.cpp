@@ -69,7 +69,7 @@ std::pair<double, double> MinimumCurvature3DInterpolation::calculate_common_delt
     return {delta_s, factor_f};
 }
 
-double MinimumCurvature3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, MinimumCurvature3DInterpolation::AngleType angle_type) const
+double MinimumCurvature3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const
 {
     auto const alpha = this->calculate_alpha(adjacent_vertices);
 

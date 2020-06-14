@@ -12,20 +12,14 @@ public:
     using Base3DInterpolation::Base3DInterpolation;
 
 private:
-    double inclination_at_position(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
-    double azimuth_at_position(double curve_length,  const AdjacentVertices& adjacent_vertices) const override;
-
-    enum class AngleType{
-        inclination,
-        azimuth
-    };
-    double angle_at_position(double curve_length, const AdjacentVertices& adjacent_vertices, AngleType angle_type) const;
+    double inclination_at_position(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
+    double azimuth_at_position(double curve_length,  const AdjacentVertices& adjacent_vertices) const final;
+    double angle_at_position(double curve_length, const AdjacentVertices& adjacent_vertices, AngleType angle_type) const final;
+    double calculate_delta_x_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
+    double calculate_delta_y_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
+    double calculate_delta_z_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
 
     double calculate_alpha(const AdjacentVertices& adjacent_vertices) const;
-
-    double calculate_delta_x_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
-    double calculate_delta_y_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
-    double calculate_delta_z_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const override;
 
     /**
      * @brief calculate_common_delta_projection

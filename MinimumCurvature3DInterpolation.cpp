@@ -51,7 +51,12 @@ double MinimumCurvature3DInterpolation::calculate_delta_z_projection(double curv
     auto const& [v_1, v_2] = adjacent_vertices;
     auto const [delta_s, factor_f] = this->calculate_common_delta_projection(curve_length, adjacent_vertices);
 
-    return (delta_s / 2.0) * (cos(v_2.inclination()) + cos(v_1.inclination()) ) * factor_f;
+            return (delta_s / 2.0) * (cos(v_2.inclination()) + cos(v_1.inclination()) ) * factor_f;
+}
+
+InterpolationType MinimumCurvature3DInterpolation::interpolation_type() const
+{
+    return m_interpolation_type;
 }
 
 std::pair<double, double> MinimumCurvature3DInterpolation::calculate_common_delta_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const

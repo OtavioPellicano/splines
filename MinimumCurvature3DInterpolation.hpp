@@ -18,6 +18,7 @@ private:
     double calculate_delta_x_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
     double calculate_delta_y_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
     double calculate_delta_z_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const final;
+    InterpolationType interpolation_type() const final;
 
     double calculate_alpha(const AdjacentVertices& adjacent_vertices) const;
 
@@ -30,6 +31,9 @@ private:
      * std::pair<double, double>(delta_s, factor_f)
      */
     std::pair<double, double> calculate_common_delta_projection(double curve_length, const AdjacentVertices& adjacent_vertices) const;
+
+private:
+    const InterpolationType m_interpolation_type = InterpolationType::minimum_curvature;
 };
 
 }

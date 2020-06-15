@@ -5,6 +5,12 @@
 
 namespace i3d {
 
+enum class InterpolationType
+{
+    linear,
+    minimum_curvature
+};
+
 class I3DInterpolation
 {
 public:
@@ -21,6 +27,8 @@ public:
 
     virtual void add_n_drop(const Vertex& vertex) = 0;
     virtual void drop_n_add(const Vertex& vertex) = 0;
+
+    virtual InterpolationType interpolation_type() const = 0;
 
 };
 

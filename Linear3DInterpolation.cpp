@@ -90,4 +90,9 @@ double Linear3DInterpolation::angle_at_position(double curve_length, const Adjac
 
 }
 
+InterpolationType Linear3DInterpolation::interpolation_type() const
+{
+    return m_interpolation_type;
+}
+
 }

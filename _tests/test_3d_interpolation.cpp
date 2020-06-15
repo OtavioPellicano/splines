@@ -4,8 +4,7 @@ namespace utf = boost::unit_test;
 
 #include <map>
 
-#include "MinimumCurvature3DInterpolation.hpp"
-#include "Linear3DInterpolation.hpp"
+#include "TrajectoryBuilder.hpp"
 
 using namespace i3d;
 
@@ -247,5 +246,16 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position_linear , * utf::tolerance(1E-6
         BOOST_TEST(z == item.first[2]);
 
     }
+
+}
+
+BOOST_AUTO_TEST_CASE( test_builder )
+{
+
+    auto linear_trajectory = build_trajectory(Trajectory::SPE84246, InterpolationType::linear);
+    auto minimum_curvature_trajectory = build_trajectory(Trajectory::SPE84246, InterpolationType::minimum_curvature);
+
+    BOOST_CHECK(linear_trajectory->interpolation_type() == InterpolationType::linear);
+    BOOST_CHECK(minimum_curvature_trajectory->interpolation_type() == InterpolationType::minimum_curvature);
 
 }

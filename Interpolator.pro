@@ -16,6 +16,7 @@ SOURCES += \
         Base3DInterpolation.cpp \
         Linear3DInterpolation.cpp \
         MinimumCurvature3DInterpolation.cpp \
+        TrajectoryBuilder.cpp \
         Vertex.cpp \
         _tests/test_3d_interpolation.cpp
 
@@ -24,4 +25,5 @@ HEADERS += \
     I3DInterpolation.hpp \
     Linear3DInterpolation.hpp \
     MinimumCurvature3DInterpolation.hpp \
+    TrajectoryBuilder.hpp \
     Vertex.hpp

@@ -17,9 +17,12 @@ private:
     double calculate_delta_y_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const final;
     double calculate_delta_z_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const final;
     double angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const final;
+    InterpolationType interpolation_type() const final;
 
     double calculate_linear_spline(double x_1, double y_1, double x_2, double y_2, double x_star) const;
 
+private:
+    const InterpolationType m_interpolation_type = InterpolationType::linear;
 };
 
 }

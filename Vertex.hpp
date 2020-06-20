@@ -28,11 +28,11 @@ class Vertex
 {
 public:
 
-    Vertex(double curve_length = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
+    Vertex(double position = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
 
     bool operator<(const Vertex& vt) const
     {
-        return this->m_curve_length < vt.m_curve_length;
+        return this->m_position < vt.m_position;
     }
 
     bool operator>(const Vertex& vt) const
@@ -49,8 +49,8 @@ public:
         return this->euclidean_distance(point_1, point_2) < tol_radius;
     }
 
-    double curve_length() const;
-    void set_curve_length(double curve_length);
+    double position() const;
+    void set_position(double position);
 
     double inclination(AngleUnit angle_unit=AngleUnit::rad) const;
     void set_inclination(double inclination);
@@ -74,7 +74,7 @@ private:
 
 private:
 
-    double m_curve_length;
+    double m_position;
     double m_inclination;     //angle from z axis
     double m_azimuth;         //angle from x axis
 

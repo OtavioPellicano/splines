@@ -13,6 +13,10 @@ struct Point
     double z = 0.0;
 };
 
+/**
+ * @brief The AngleUnit enum
+ * The angle selector for inclination and azimuth
+ */
 enum class AngleUnit
 {
     rad,
@@ -24,15 +28,23 @@ class Vertex;
 typedef std::pair<Vertex, Vertex> AdjacentVertices;
 typedef std::set<Vertex> Vertices;
 
+/**
+ * @brief The Vertex class
+ * represents the vertex abstraction composed of:
+ *
+ * -> position (curve length with the first trajectory vertex as reference)
+ * -> inclination: angle from Z to Y axis
+ * -> azimuth: angle from X to Y
+ */
 class Vertex
 {
 public:
 
-    Vertex(double curve_length = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
+    Vertex(double position = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
 
     bool operator<(const Vertex& vt) const
     {
-        return this->m_curve_length < vt.m_curve_length;
+        return this->m_position < vt.m_position;
     }
 
     bool operator>(const Vertex& vt) const
@@ -49,8 +61,8 @@ public:
         return this->euclidean_distance(point_1, point_2) < tol_radius;
     }
 
-    double curve_length() const;
-    void set_curve_length(double curve_length);
+    double position() const;
+    void set_position(double position);
 
     double inclination(AngleUnit angle_unit=AngleUnit::rad) const;
     void set_inclination(double inclination);
@@ -68,13 +80,43 @@ private:
 
     double deg_from_rad(double rad) const;
 
+    /**
+     * @brief angle_in
+     * convert the given angle to radian
+     *
+     * @param angle
+     * the angle (inclination or azimuth)
+     *
+     * @param angle_unit
+     * the unit angle
+     *
+     * @see AngleUnit
+     *
+     * @return
+     * the angle [radian]
+     *
+     */
     double angle_in(double angle, AngleUnit angle_unit) const;
 
+    /**
+     * @brief angle_out
+     * convert a radian angle to a specific angle defined in angle_unit variable
+     *
+     * @param angle
+     * the angle (inclination or azimuth)
+     *
+     * @param angle_unit
+     * the unit angle
+     *
+     * @return
+     * the angle [AngleUnit]
+     *
+     */
     double angle_out(double angle, AngleUnit angle_unit) const;
 
 private:
 
-    double m_curve_length;
+    double m_position;
     double m_inclination;     //angle from z axis
     double m_azimuth;         //angle from x axis
 

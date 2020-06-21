@@ -2,14 +2,14 @@
 
 namespace i3d {
 
-double MinimumCurvature3DInterpolation::inclination_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double MinimumCurvature3DInterpolation::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
-    return this->angle_at_position(curve_length, adjacent_vertices, AngleType::inclination);
+    return this->angle_at_position(position, adjacent_vertices, AngleType::inclination);
 }
 
-double MinimumCurvature3DInterpolation::azimuth_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double MinimumCurvature3DInterpolation::azimuth_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
-    return this->angle_at_position(curve_length, adjacent_vertices, AngleType::azimuth);
+    return this->angle_at_position(position, adjacent_vertices, AngleType::azimuth);
 }
 
 double MinimumCurvature3DInterpolation::calculate_alpha(const AdjacentVertices &adjacent_vertices) const
@@ -30,26 +30,26 @@ double MinimumCurvature3DInterpolation::calculate_alpha(const AdjacentVertices &
     }
 }
 
-double MinimumCurvature3DInterpolation::calculate_delta_x_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double MinimumCurvature3DInterpolation::calculate_delta_x_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
-    auto const [delta_s, factor_f] = this->calculate_common_delta_projection(curve_length, adjacent_vertices);
+    auto const [delta_s, factor_f] = this->calculate_common_delta_projection(position, adjacent_vertices);
 
     return (delta_s / 2.0) * (sin(v_2.inclination()) * cos(v_2.azimuth()) + sin(v_1.inclination()) * cos(v_1.azimuth())) * factor_f;
 }
 
-double MinimumCurvature3DInterpolation::calculate_delta_y_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double MinimumCurvature3DInterpolation::calculate_delta_y_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
-    auto const [delta_s, factor_f] = this->calculate_common_delta_projection(curve_length, adjacent_vertices);
+    auto const [delta_s, factor_f] = this->calculate_common_delta_projection(position, adjacent_vertices);
 
     return (delta_s / 2.0) * (sin(v_2.inclination()) * sin(v_2.azimuth()) + sin(v_1.inclination()) * sin(v_1.azimuth())) * factor_f;
 }
 
-double MinimumCurvature3DInterpolation::calculate_delta_z_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double MinimumCurvature3DInterpolation::calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
-    auto const [delta_s, factor_f] = this->calculate_common_delta_projection(curve_length, adjacent_vertices);
+    auto const [delta_s, factor_f] = this->calculate_common_delta_projection(position, adjacent_vertices);
 
             return (delta_s / 2.0) * (cos(v_2.inclination()) + cos(v_1.inclination()) ) * factor_f;
 }
@@ -59,10 +59,10 @@ InterpolationType MinimumCurvature3DInterpolation::interpolation_type() const
     return m_interpolation_type;
 }
 
-std::pair<double, double> MinimumCurvature3DInterpolation::calculate_common_delta_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+std::pair<double, double> MinimumCurvature3DInterpolation::calculate_common_delta_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& v_1 = adjacent_vertices.first;
-    auto const delta_s = curve_length - v_1.curve_length();
+    auto const delta_s = position - v_1.position();
     if(delta_s < std::numeric_limits<double>::epsilon())
     {
         return {0.0, 0.0};
@@ -74,15 +74,15 @@ std::pair<double, double> MinimumCurvature3DInterpolation::calculate_common_delt
     return {delta_s, factor_f};
 }
 
-double MinimumCurvature3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const
+double MinimumCurvature3DInterpolation::angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const
 {
     auto const alpha = this->calculate_alpha(adjacent_vertices);
 
     auto const& v_1 = adjacent_vertices.first;
     auto const& v_2 = adjacent_vertices.second;
 
-    auto const delta_md = v_2.curve_length() - v_1.curve_length();
-    auto delta_md_star = curve_length - v_1.curve_length();
+    auto const delta_md = v_2.position() - v_1.position();
+    auto delta_md_star = position - v_1.position();
 
     // Avoid flaky
     if (delta_md_star > delta_md) {

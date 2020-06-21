@@ -2,8 +2,8 @@
 
 namespace i3d {
 
-Vertex::Vertex(double curve_length, double inclination, double azimuth, AngleUnit angle_unit)
-    : m_curve_length(curve_length)
+Vertex::Vertex(double position, double inclination, double azimuth, AngleUnit angle_unit)
+    : m_position(position)
     , m_inclination(inclination)
     , m_azimuth(azimuth)
 {
@@ -14,14 +14,14 @@ Vertex::Vertex(double curve_length, double inclination, double azimuth, AngleUni
     }
 }
 
-double Vertex::curve_length() const
+double Vertex::position() const
 {
-    return m_curve_length;
+    return m_position;
 }
 
-void Vertex::set_curve_length(double curve_length)
+void Vertex::set_position(double position)
 {
-    m_curve_length = curve_length;
+    m_position = position;
 }
 
 double Vertex::inclination(AngleUnit angle_unit) const
@@ -46,9 +46,9 @@ void Vertex::set_azimuth(double azimuth)
 
 void Vertex::calculate_tangent(const Vertex &vt, Point &point) const
 {
-    point.x = vt.m_curve_length * sin(vt.m_inclination) * cos(vt.m_azimuth);
-    point.y = vt.m_curve_length * sin(vt.m_inclination) * sin(vt.m_azimuth);
-    point.z = vt.m_curve_length * cos(vt.m_inclination);
+    point.x = vt.m_position * sin(vt.m_inclination) * cos(vt.m_azimuth);
+    point.y = vt.m_position * sin(vt.m_inclination) * sin(vt.m_azimuth);
+    point.z = vt.m_position * cos(vt.m_inclination);
 }
 
 double Vertex::euclidean_distance(const Point &point_1, const Point &point_2) const

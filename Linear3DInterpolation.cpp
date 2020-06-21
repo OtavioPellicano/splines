@@ -2,36 +2,36 @@
 
 namespace i3d {
 
-double Linear3DInterpolation::inclination_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double Linear3DInterpolation::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
-    return this->angle_at_position(curve_length, adjacent_vertices, AngleType::inclination);
+    return this->angle_at_position(position, adjacent_vertices, AngleType::inclination);
 }
 
-double Linear3DInterpolation::azimuth_at_position(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double Linear3DInterpolation::azimuth_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
-    return this->angle_at_position(curve_length, adjacent_vertices, AngleType::azimuth);
+    return this->angle_at_position(position, adjacent_vertices, AngleType::azimuth);
 }
 
-double Linear3DInterpolation::calculate_delta_x_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double Linear3DInterpolation::calculate_delta_x_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
-    auto delta_s = curve_length - v_1.curve_length();
+    auto delta_s = position - v_1.position();
 
     return delta_s * sin(v_2.inclination()) * cos(v_2.azimuth());
 }
 
-double Linear3DInterpolation::calculate_delta_y_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double Linear3DInterpolation::calculate_delta_y_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
-    auto delta_s = curve_length - v_1.curve_length();
+    auto delta_s = position - v_1.position();
 
     return delta_s * sin(v_2.inclination()) * sin(v_2.azimuth());
 }
 
-double Linear3DInterpolation::calculate_delta_z_projection(double curve_length, const AdjacentVertices &adjacent_vertices) const
+double Linear3DInterpolation::calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
-    auto delta_s = curve_length - v_1.curve_length();
+    auto delta_s = position - v_1.position();
 
     return delta_s * cos(v_2.inclination());
 }
@@ -42,7 +42,7 @@ double Linear3DInterpolation::calculate_linear_spline(double x_1, double y_1, do
     return delta_x < std::numeric_limits<double>::epsilon() ? y_2 : (y_1 * (x_2 - x_star) + y_2 * (x_star - x_1)) / delta_x;
 }
 
-double Linear3DInterpolation::angle_at_position(double curve_length, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const
+double Linear3DInterpolation::angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const
 {
     auto const& [v_1, v_2] = adjacent_vertices;
     auto angle_1 = v_1.inclination();
@@ -79,11 +79,11 @@ double Linear3DInterpolation::angle_at_position(double curve_length, const Adjac
     }
 
     auto res = this->calculate_linear_spline(
-        v_1.curve_length(),
+        v_1.position(),
         angle_1,
-        v_2.curve_length(),
+        v_2.position(),
         angle_2,
-        curve_length);
+        position);
 
     res = std::fmod(res, M_PI * 2);
     return res < 0 ? (res + M_PI * 2) : res;

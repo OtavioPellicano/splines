@@ -12,13 +12,13 @@ std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
 {
     using namespace std;
 
-    return "{" + to_string(v_1.curve_length()) + ", " + to_string(v_1.inclination()) + ", " + to_string(v_1.azimuth()) + "} != "
-           "{" + to_string(v_2.curve_length()) + ", " + to_string(v_2.inclination()) + ", " + to_string(v_2.azimuth()) + "}";
+    return "{" + to_string(v_1.position()) + ", " + to_string(v_1.inclination()) + ", " + to_string(v_1.azimuth()) + "} != "
+           "{" + to_string(v_2.position()) + ", " + to_string(v_2.inclination()) + ", " + to_string(v_2.azimuth()) + "}";
 }
 
 namespace Trajectory {
 
-//The vertices choise were based on paper SPE 84246, pg. 16
+//The vertices choise were based on SPE 84246 paper, pg. 16
 const Vertices SPE84246 =
     {
         {214.13724, 0.095993095, 0.785398049999999},
@@ -201,9 +201,9 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position_minimum_curvature , * utf::tol
 
     for(auto& item: samples_expected)
     {
-        auto x = interpolator.x_at_position(item.second.curve_length());
-        auto y = interpolator.y_at_position(item.second.curve_length());
-        auto z = interpolator.z_at_position(item.second.curve_length());
+        auto x = interpolator.x_at_position(item.second.position());
+        auto y = interpolator.y_at_position(item.second.position());
+        auto z = interpolator.z_at_position(item.second.position());
 
         BOOST_TEST(x == item.first[0]);
         BOOST_TEST(y == item.first[1]);
@@ -237,9 +237,9 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position_linear , * utf::tolerance(1E-6
 
     for(auto& item: samples_expected)
     {
-        auto x = interpolator.x_at_position(item.second.curve_length());
-        auto y = interpolator.y_at_position(item.second.curve_length());
-        auto z = interpolator.z_at_position(item.second.curve_length());
+        auto x = interpolator.x_at_position(item.second.position());
+        auto y = interpolator.y_at_position(item.second.position());
+        auto z = interpolator.z_at_position(item.second.position());
 
         BOOST_TEST(x == item.first[0]);
         BOOST_TEST(y == item.first[1]);

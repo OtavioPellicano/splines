@@ -90,7 +90,7 @@ double Base3DInterpolation::z_at_position(double position) const
     return this->projection_at_position(&Base3DInterpolation::calculate_delta_z_projection , position);
 }
 
-double Base3DInterpolation::projection_at_position(double (Base3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double position) const
+double Base3DInterpolation::projection_at_position(DeltaCalculator delta_calculator, double position) const
 {
 
     auto sum_delta = 0.0;

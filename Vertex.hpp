@@ -13,6 +13,10 @@ struct Point
     double z = 0.0;
 };
 
+/**
+ * @brief The AngleUnit enum
+ * The angle selector for inclination and azimuth
+ */
 enum class AngleUnit
 {
     rad,
@@ -24,6 +28,14 @@ class Vertex;
 typedef std::pair<Vertex, Vertex> AdjacentVertices;
 typedef std::set<Vertex> Vertices;
 
+/**
+ * @brief The Vertex class
+ * represents the vertex abstraction composed of:
+ *
+ * -> position (curve length with the first trajectory vertex as reference)
+ * -> inclination: angle from Z to Y axis
+ * -> azimuth: angle from X to Y
+ */
 class Vertex
 {
 public:
@@ -68,8 +80,38 @@ private:
 
     double deg_from_rad(double rad) const;
 
+    /**
+     * @brief angle_in
+     * convert the given angle to radian
+     *
+     * @param angle
+     * the angle (inclination or azimuth)
+     *
+     * @param angle_unit
+     * the unit angle
+     *
+     * @see AngleUnit
+     *
+     * @return
+     * the angle [radian]
+     *
+     */
     double angle_in(double angle, AngleUnit angle_unit) const;
 
+    /**
+     * @brief angle_out
+     * convert a radian angle to a specific angle defined in angle_unit variable
+     *
+     * @param angle
+     * the angle (inclination or azimuth)
+     *
+     * @param angle_unit
+     * the unit angle
+     *
+     * @return
+     * the angle [AngleUnit]
+     *
+     */
     double angle_out(double angle, AngleUnit angle_unit) const;
 
 private:

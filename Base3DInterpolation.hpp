@@ -6,6 +6,10 @@
 
 namespace i3d {
 
+/**
+ * @brief The Base3DInterpolation class
+ * The following class computes the common parts which will be used by specific interpolation types
+ */
 class Base3DInterpolation : public I3DInterpolation
 {
 public:
@@ -21,7 +25,7 @@ public:
 
     AdjacentVertices calculate_adjacent_vertices(double position) const final;
 
-    Vertex vertex_at_position(double position) const override;
+    Vertex vertex_at_position(double position) const final;
 
     double inclination_at_position(double position) const final;
     double azimuth_at_position(double position) const final;
@@ -35,21 +39,123 @@ public:
 
 private:
 
-    double projection_at_position(double (Base3DInterpolation::* delta_calculator)(double, const AdjacentVertices&) const, double position) const;
+    typedef double (Base3DInterpolation::*DeltaCalculator )(double, const AdjacentVertices&) const;
+
+    /**
+     * @brief projection_at_position
+     * The main accumulator for any projection variation types (calls here DeltaCalculator), e.g. calculate_delta_x_projection
+     *
+     * @param delta_calculator
+     * A Function Pointer for DeltaCalculator method
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @return
+     * the projection given a DeltaCalculator and position
+     */
+    double projection_at_position(DeltaCalculator delta_calculator, double position) const;
 
 protected:
+
+    /**
+     * @brief calculate_delta_x_projection
+     * Computes the projection X variation given a position and the adjacent vertices
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @param adjacent_vertices
+     * The adjacent vertices
+     *
+     * @return
+     * The projection X variation
+     */
     virtual double calculate_delta_x_projection(double position, const AdjacentVertices& adjacent_vertices) const = 0;
+
+    /**
+     * @brief calculate_delta_y_projection
+     * Computes the projection X variation given a position and the adjacent vertices
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @param adjacent_vertices
+     * The adjacent vertices
+     *
+     * @return
+     * The projection Y variation
+     */
     virtual double calculate_delta_y_projection(double position, const AdjacentVertices& adjacent_vertices) const = 0;
+
+    /**
+     * @brief calculate_delta_z_projection
+     * Computes the projection Z variation given a position and the adjacent vertices
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @param adjacent_vertices
+     * The adjacent vertices
+     *
+     * @return
+     * The projection Z variation
+     */
     virtual double calculate_delta_z_projection(double position, const AdjacentVertices& adjacent_vertices) const = 0;
 
+    /**
+     * @brief inclination_at_position
+     * The same of @see I3DInterpolation::inclination_at_position, but with adjacent vertices as argument for performance propouse
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @param adjacent_vertices
+     * The adjacent vertices
+     *
+     * @return
+     * inclination interpolated
+     */
     virtual double inclination_at_position(double position, const AdjacentVertices& adjacent_vertices) const = 0;
+
+    /**
+     * @brief azimuth_at_position
+     * The same of @see I3DInterpolation::azimuth_at_position, but with adjacent vertices as argument for performance propouse
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @param adjacent_vertices
+     * The adjacent vertices
+     *
+     * @return
+     * azimuth interpolated
+     */
     virtual double azimuth_at_position(double position,  const AdjacentVertices& adjacent_vertices) const = 0;
+
 
     enum class AngleType
     {
         inclination,
         azimuth
     };
+    /**
+     * @brief angle_at_position
+     * There is some parts in common when you computes inclination and azimuth interpolation (basically boundary conditions)
+     * This method agroup them
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @param adjacent_vertices
+     * The adjacent vertices
+     *
+     * @param angle_type
+     * The angle type: inclination or azimuth
+     *
+     * @return
+     * the angle interpolated
+     */
     virtual double angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const = 0;
 
 private:

@@ -23,8 +23,6 @@ public:
     const Vertices & vertices() const;
     void set_vertices(const Vertices &vertices);
 
-    AdjacentVertices calculate_adjacent_vertices(double position) const final;
-
     Vertex vertex_at_position(double position) const final;
 
     double inclination_at_position(double position) const final;
@@ -55,6 +53,18 @@ private:
      * the projection given a DeltaCalculator and position
      */
     double projection_at_position(DeltaCalculator delta_calculator, double position) const;
+
+    /**
+     * @brief calculate_adjacent_vertices
+     * This method returns the vertices between the position
+     *
+     * @param position
+     * The position represents the curve length with the first vertex as reference
+     *
+     * @return
+     * The adjacent vertices
+     */
+    AdjacentVertices calculate_adjacent_vertices(double position) const;
 
 protected:
 

@@ -29,36 +29,6 @@ const Vertices SPE84246 =
 
 };
 
-BOOST_AUTO_TEST_CASE( test_calculate_adjacent_vertices )
-{
-
-    Vertices trajectory_points =
-    {
-        {2.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0},
-        {1.0, 0.0, 0.0},
-    };
-
-    MinimumCurvature3DInterpolation interpolator{trajectory_points};
-
-    std::map<double, AdjacentVertices> expected =
-    {
-        {0.0, { {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0} } },
-        {0.5, { {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0} } },
-        {1.0, { {1.0, 0.0, 0.0}, {2.0, 0.0, 0.0} } },
-        {1.5, { {1.0, 0.0, 0.0}, {2.0, 0.0, 0.0} } },
-        {2.0, { {2.0, 0.0, 0.0}, {2.0, 0.0, 0.0} } },
-    };
-
-    for(auto&& item : expected)
-    {
-        auto adjacent_vertices = interpolator.calculate_adjacent_vertices(item.first);
-        BOOST_TEST(adjacent_vertices.first.approx_equal(item.second.first), message_error_vertices_compare(adjacent_vertices.first, item.second.first));
-        BOOST_TEST(adjacent_vertices.second.approx_equal(item.second.second), message_error_vertices_compare(adjacent_vertices.second, item.second.second));
-    }
-
-}
-
 BOOST_AUTO_TEST_CASE( test_angle_conversion , * utf::tolerance(1E-6))
 {
 

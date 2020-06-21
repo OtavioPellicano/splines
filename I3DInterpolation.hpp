@@ -38,18 +38,6 @@ public:
     virtual Vertex vertex_at_position(double position) const = 0;
 
     /**
-     * @brief calculate_adjacent_vertices
-     * This method returns the vertices between the position
-     *
-     * @param position
-     * The position represents the curve length with the first vertex as reference
-     *
-     * @return
-     * The adjacent vertices
-     */
-    virtual AdjacentVertices calculate_adjacent_vertices(double position) const = 0;
-
-    /**
      * @brief inclination_at_position
      * The inclination at position with a specific interpolation.
      *

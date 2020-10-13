@@ -1,18 +1,18 @@
 #ifndef LINEAR3DINTERPOLATION_HPP
 #define LINEAR3DINTERPOLATION_HPP
 
-#include "Base3DInterpolation.hpp"
+#include "BaseInterpolator.hpp"
 
 namespace i3d {
 
 /**
- * @brief The Linear3DInterpolation class
+ * @brief The LinearInterpolator class
  * The following class represents the linear spline interpolation
  */
-class Linear3DInterpolation : public Base3DInterpolation
+class LinearInterpolator : public BaseInterpolator
 {
 public:
-    using Base3DInterpolation::Base3DInterpolation;
+    using BaseInterpolator::BaseInterpolator;
 
 private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

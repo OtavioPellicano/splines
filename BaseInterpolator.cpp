@@ -1,24 +1,24 @@
-#include "Base3DInterpolation.hpp"
+#include "BaseInterpolator.hpp"
 
 namespace i3d {
 
-Base3DInterpolation::Base3DInterpolation(const Vertices &vertices)
+BaseInterpolator::BaseInterpolator(const Vertices &vertices)
     : m_vertices(vertices)
 {
 
 }
 
-const Vertices &Base3DInterpolation::vertices() const
+const Vertices &BaseInterpolator::vertices() const
 {
     return m_vertices;
 }
 
-void Base3DInterpolation::set_vertices(const Vertices &vertices)
+void BaseInterpolator::set_vertices(const Vertices &vertices)
 {
     m_vertices = vertices;
 }
 
-AdjacentVertices Base3DInterpolation::calculate_adjacent_vertices(double position) const
+AdjacentVertices BaseInterpolator::calculate_adjacent_vertices(double position) const
 {
     auto upper_vertex = m_vertices.upper_bound(position);
 
@@ -29,7 +29,7 @@ AdjacentVertices Base3DInterpolation::calculate_adjacent_vertices(double positio
     }
 }
 
-Vertex Base3DInterpolation::vertex_at_position(double position) const
+Vertex BaseInterpolator::vertex_at_position(double position) const
 {
     if (position < m_vertices.begin()->position()
         || std::fabs(position - m_vertices.begin()->position()) < std::numeric_limits<double>::epsilon()) {
@@ -53,44 +53,44 @@ Vertex Base3DInterpolation::vertex_at_position(double position) const
     }
 }
 
-double Base3DInterpolation::inclination_at_position(double position) const
+double BaseInterpolator::inclination_at_position(double position) const
 {
     return this->inclination_at_position(position, this->calculate_adjacent_vertices(position));
 }
 
-double Base3DInterpolation::azimuth_at_position(double position) const
+double BaseInterpolator::azimuth_at_position(double position) const
 {
     return this->azimuth_at_position(position, this->calculate_adjacent_vertices(position));
 }
 
-void Base3DInterpolation::add_n_drop(const Vertex &vertex)
+void BaseInterpolator::add_n_drop(const Vertex &vertex)
 {
     m_vertices.emplace(vertex);
     m_vertices.erase(*m_vertices.rbegin());
 }
 
-void Base3DInterpolation::drop_n_add(const Vertex &vertex)
+void BaseInterpolator::drop_n_add(const Vertex &vertex)
 {
     m_vertices.erase(*m_vertices.begin());
     m_vertices.emplace(vertex);
 }
 
-double Base3DInterpolation::x_at_position(double position) const
+double BaseInterpolator::x_at_position(double position) const
 {
-    return this->projection_at_position(&Base3DInterpolation::calculate_delta_x_projection, position);
+    return this->projection_at_position(&BaseInterpolator::calculate_delta_x_projection, position);
 }
 
-double Base3DInterpolation::y_at_position(double position) const
+double BaseInterpolator::y_at_position(double position) const
 {
-    return this->projection_at_position(&Base3DInterpolation::calculate_delta_y_projection, position);
+    return this->projection_at_position(&BaseInterpolator::calculate_delta_y_projection, position);
 }
 
-double Base3DInterpolation::z_at_position(double position) const
+double BaseInterpolator::z_at_position(double position) const
 {
-    return this->projection_at_position(&Base3DInterpolation::calculate_delta_z_projection , position);
+    return this->projection_at_position(&BaseInterpolator::calculate_delta_z_projection , position);
 }
 
-double Base3DInterpolation::projection_at_position(DeltaCalculator delta_calculator, double position) const
+double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator, double position) const
 {
 
     auto sum_delta = 0.0;

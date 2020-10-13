@@ -3,13 +3,13 @@
 
 #include <memory>
 
-#include "MinimumCurvature3DInterpolation.hpp"
-#include "Linear3DInterpolation.hpp"
+#include "MinimumCurvatureInterpolator.hpp"
+#include "LinearInterpolator.hpp"
 
 namespace i3d {
 
 /**
- * @brief build_trajectory
+ * @brief build_interpolator
  * This function represents the builder for interpolation type
  *
  * @param vertices
@@ -21,7 +21,7 @@ namespace i3d {
  * @return
  * A smart_ptr with the interpolation object
  */
-std::unique_ptr<Base3DInterpolation> build_trajectory(const Vertices& vertices, InterpolationType interpolation_type);
+std::unique_ptr<BaseInterpolator> build_interpolator(const Vertices& vertices, InterpolationType interpolation_type);
 
 }
 

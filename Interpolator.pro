@@ -13,17 +13,17 @@ isEmpty(BOOST_INCLUDE_DIR): {
 }
 
 SOURCES += \
-        Base3DInterpolation.cpp \
-        Linear3DInterpolation.cpp \
-        MinimumCurvature3DInterpolation.cpp \
-        TrajectoryBuilder.cpp \
+        BaseInterpolator.cpp \
+        InterpolatorBuilder.cpp \
+        LinearInterpolator.cpp \
+        MinimumCurvatureInterpolator.cpp \
         Vertex.cpp \
         _tests/test_3d_interpolation.cpp
 
 HEADERS += \
-    Base3DInterpolation.hpp \
-    I3DInterpolation.hpp \
-    Linear3DInterpolation.hpp \
-    MinimumCurvature3DInterpolation.hpp \
-    TrajectoryBuilder.hpp \
+    BaseInterpolator.hpp \
+    IInterpolator.hpp \
+    InterpolatorBuilder.hpp \
+    LinearInterpolator.hpp \
+    MinimumCurvatureInterpolator.hpp \
     Vertex.hpp

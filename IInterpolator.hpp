@@ -16,14 +16,14 @@ enum class InterpolationType
 };
 
 /**
- * @brief The I3DInterpolation class
+ * @brief The IInterpolator class
  * This class represents the Interpolation Interface.
  * In this class there are methods which will be exposed to the user.
  */
-class I3DInterpolation
+class IInterpolator
 {
 public:
-    virtual ~I3DInterpolation() = default;
+    virtual ~IInterpolator() = default;
 
     /**
      * @brief vertex_at_position

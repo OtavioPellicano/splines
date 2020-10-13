@@ -1,24 +1,24 @@
 #ifndef BASE3DINTERPOLATION_HPP
 #define BASE3DINTERPOLATION_HPP
 
-#include "I3DInterpolation.hpp"
+#include "IInterpolator.hpp"
 #include <algorithm>
 
 namespace i3d {
 
 /**
- * @brief The Base3DInterpolation class
+ * @brief The BaseInterpolator class
  * The following class computes the common parts which will be used by specific interpolation types
  */
-class Base3DInterpolation : public I3DInterpolation
+class BaseInterpolator : public IInterpolator
 {
 public:
-    using I3DInterpolation::inclination_at_position;
-    using I3DInterpolation::azimuth_at_position;
+    using IInterpolator::inclination_at_position;
+    using IInterpolator::azimuth_at_position;
 
-    virtual ~Base3DInterpolation() = default;
+    virtual ~BaseInterpolator() = default;
 
-    Base3DInterpolation(const Vertices& vertices);
+    BaseInterpolator(const Vertices& vertices);
 
     const Vertices & vertices() const;
     void set_vertices(const Vertices &vertices);
@@ -37,7 +37,7 @@ public:
 
 private:
 
-    typedef double (Base3DInterpolation::*DeltaCalculator )(double, const AdjacentVertices&) const;
+    typedef double (BaseInterpolator::*DeltaCalculator )(double, const AdjacentVertices&) const;
 
     /**
      * @brief projection_at_position

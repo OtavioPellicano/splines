@@ -4,7 +4,7 @@ namespace utf = boost::unit_test;
 
 #include <map>
 
-#include "TrajectoryBuilder.hpp"
+#include "InterpolatorBuilder.hpp"
 
 using namespace i3d;
 
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_minimum_curvature_interpolation)
 
     Vertices trajectory = Trajectory::SPE84246;
 
-    MinimumCurvature3DInterpolation interpolator{trajectory};
+    MinimumCurvatureInterpolator interpolator{trajectory};
 
     std::map<double, Vertex> samples_expected =
     {
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE( test_vertex_at_position_linear_interpolation)
 
     Vertices trajectory = Trajectory::SPE84246;
 
-    Linear3DInterpolation interpolator{trajectory};
+    LinearInterpolator interpolator{trajectory};
 
     std::map<double, Vertex> samples_expected =
     {
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE( test_add_and_drop )
 
     Vertices trajectory = Trajectory::SPE84246;
 
-    MinimumCurvature3DInterpolation interpolator{trajectory};
+    MinimumCurvatureInterpolator interpolator{trajectory};
 
     Vertices samples =
     {
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position_minimum_curvature , * utf::tol
 {
     Vertices trajectory = Trajectory::SPE84246;
 
-    MinimumCurvature3DInterpolation interpolator{trajectory};
+    MinimumCurvatureInterpolator interpolator{trajectory};
 
     // the std::array<double, 3> represents the x, y, z expected values
     std::map<std::array<double, 3>, Vertex> samples_expected =
@@ -187,7 +187,7 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position_linear , * utf::tolerance(1E-6
 {
     Vertices trajectory = Trajectory::SPE84246;
 
-    Linear3DInterpolation interpolator{trajectory};
+    LinearInterpolator interpolator{trajectory};
 
     // the std::array<double, 3> represents the x, y, z expected values
     std::map<std::array<double, 3>, Vertex> samples_expected =
@@ -222,8 +222,8 @@ BOOST_AUTO_TEST_CASE( test_projection_at_position_linear , * utf::tolerance(1E-6
 BOOST_AUTO_TEST_CASE( test_builder )
 {
 
-    auto linear_trajectory = build_trajectory(Trajectory::SPE84246, InterpolationType::linear);
-    auto minimum_curvature_trajectory = build_trajectory(Trajectory::SPE84246, InterpolationType::minimum_curvature);
+    auto linear_trajectory = build_interpolator(Trajectory::SPE84246, InterpolationType::linear);
+    auto minimum_curvature_trajectory = build_interpolator(Trajectory::SPE84246, InterpolationType::minimum_curvature);
 
     BOOST_CHECK(linear_trajectory->interpolation_type() == InterpolationType::linear);
     BOOST_CHECK(minimum_curvature_trajectory->interpolation_type() == InterpolationType::minimum_curvature);

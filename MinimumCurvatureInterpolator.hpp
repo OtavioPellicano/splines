@@ -1,19 +1,19 @@
 #ifndef MINIMUMCURVATURE3DINTERPOLATION_HPP
 #define MINIMUMCURVATURE3DINTERPOLATION_HPP
 
-#include "Base3DInterpolation.hpp"
+#include "BaseInterpolator.hpp"
 
 namespace i3d {
 
 /**
- * @brief The MinimumCurvature3DInterpolation class
+ * @brief The MinimumCurvatureInterpolator class
  * The following class represents the Minimum Curvature Interpolation based on SPE 84246 paper
  */
-class MinimumCurvature3DInterpolation : public Base3DInterpolation
+class MinimumCurvatureInterpolator : public BaseInterpolator
 {
 public:
 
-    using Base3DInterpolation::Base3DInterpolation;
+    using BaseInterpolator::BaseInterpolator;
 
 private:
     double inclination_at_position(double position, const AdjacentVertices& adjacent_vertices) const final;

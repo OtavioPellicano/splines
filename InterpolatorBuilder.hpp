@@ -5,6 +5,7 @@
 
 #include "MinimumCurvatureInterpolator.hpp"
 #include "LinearInterpolator.hpp"
+#include "CubicInterpolator.hpp"
 
 namespace i3d {
 

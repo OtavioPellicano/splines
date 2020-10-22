@@ -12,7 +12,8 @@ namespace i3d {
 enum class InterpolationType
 {
     linear,
-    minimum_curvature
+    minimum_curvature,
+    cubic
 };
 
 /**

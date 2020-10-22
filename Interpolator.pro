@@ -14,6 +14,7 @@ isEmpty(BOOST_INCLUDE_DIR): {
 
 SOURCES += \
         BaseInterpolator.cpp \
+        CubicInterpolator.cpp \
         InterpolatorBuilder.cpp \
         LinearInterpolator.cpp \
         MinimumCurvatureInterpolator.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     BaseInterpolator.hpp \
+    CubicInterpolator.hpp \
     IInterpolator.hpp \
     InterpolatorBuilder.hpp \
     LinearInterpolator.hpp \

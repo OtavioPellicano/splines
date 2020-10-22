@@ -168,6 +168,18 @@ protected:
      */
     virtual double angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const = 0;
 
+protected:
+
+    /**
+     * @brief calculate_delta_angle
+     * This method computes the smallest path between two angles, considering the sign
+     *
+     * @param angle_1
+     * @param angle_2
+     * @return
+     */
+    double calculate_delta_angle(double angle_1, double angle_2) const;
+
 private:
     Vertices m_vertices;
 

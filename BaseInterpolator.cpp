@@ -29,6 +29,12 @@ AdjacentVertices BaseInterpolator::calculate_adjacent_vertices(double position) 
     }
 }
 
+double BaseInterpolator::calculate_delta_angle(double angle_1, double angle_2) const
+{
+    auto const delta_angle = angle_2 - angle_1;
+    return delta_angle > 0.0 ? acos(cos(delta_angle)) : - acos(cos(delta_angle));
+}
+
 Vertex BaseInterpolator::vertex_at_position(double position) const
 {
     if (position < m_vertices.begin()->position()

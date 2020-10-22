@@ -18,8 +18,8 @@ double MinimumCurvatureInterpolator::calculate_alpha(const AdjacentVertices &adj
     auto const& v_2 = adjacent_vertices.second;
 
     auto const arg =
-            sin(v_1.inclination()) * cos(v_2.azimuth() - v_1.azimuth()) * sin(v_2.inclination()) +
-            cos(v_1.inclination()) * cos(v_2.inclination());
+        sin(v_1.inclination()) * cos(this->calculate_delta_angle(v_1.azimuth(), v_2.azimuth())) * sin(v_2.inclination()) +
+        cos(v_1.inclination()) * cos(v_2.inclination());
 
     if (arg > 1.0) {
         return 0.0;
@@ -51,7 +51,7 @@ double MinimumCurvatureInterpolator::calculate_delta_z_projection(double positio
     auto const& [v_1, v_2] = adjacent_vertices;
     auto const [delta_s, factor_f] = this->calculate_common_delta_projection(position, adjacent_vertices);
 
-            return (delta_s / 2.0) * (cos(v_2.inclination()) + cos(v_1.inclination()) ) * factor_f;
+    return (delta_s / 2.0) * (cos(v_2.inclination()) + cos(v_1.inclination()) ) * factor_f;
 }
 
 InterpolationType MinimumCurvatureInterpolator::interpolation_type() const
@@ -81,21 +81,21 @@ double MinimumCurvatureInterpolator::angle_at_position(double position, const Ad
     auto const& v_1 = adjacent_vertices.first;
     auto const& v_2 = adjacent_vertices.second;
 
-    auto const delta_md = v_2.position() - v_1.position();
-    auto delta_md_star = position - v_1.position();
+    auto const ds = v_2.position() - v_1.position();
+    auto ds_star = position - v_1.position();
 
     // Avoid flaky
-    if (delta_md_star > delta_md) {
-        delta_md_star = delta_md - std::numeric_limits<double>::epsilon();
+    if (ds_star > ds) {
+        ds_star = ds - std::numeric_limits<double>::epsilon();
     }
     // Avoid flaky
-    if (delta_md_star < std::numeric_limits<double>::epsilon()) {
-        delta_md_star = std::numeric_limits<double>::epsilon();
+    if (ds_star < std::numeric_limits<double>::epsilon()) {
+        ds_star = std::numeric_limits<double>::epsilon();
     }
 
     if (angle_type == AngleType::inclination) {
 
-        auto const weight = delta_md_star / delta_md;
+        auto const weight = ds_star / ds;
         auto const comp_weight = 1 - weight;
 
         if (alpha < std::numeric_limits<double>::epsilon()) {
@@ -122,10 +122,10 @@ double MinimumCurvatureInterpolator::angle_at_position(double position, const Ad
                 auto const cos_azm_2 = cos(v_2.azimuth());
 
                 auto azm_star = atan2(
-                 sin_inc_1 * sin_azm_1 * sin((1 - delta_md_star / delta_md) * alpha)
-                     + sin_inc_2 * sin_azm_2 * (sin(delta_md_star * alpha / delta_md)),
-                 sin_inc_1 * cos_azm_1 * sin((1 - delta_md_star / delta_md) * alpha)
-                     + sin_inc_2 * cos_azm_2 * (sin(delta_md_star * alpha / delta_md)));
+                 sin_inc_1 * sin_azm_1 * sin((1 - ds_star / ds) * alpha)
+                     + sin_inc_2 * sin_azm_2 * (sin(ds_star * alpha / ds)),
+                 sin_inc_1 * cos_azm_1 * sin((1 - ds_star / ds) * alpha)
+                     + sin_inc_2 * cos_azm_2 * (sin(ds_star * alpha / ds)));
 
                 return azm_star < 0 ? (azm_star + M_PI * 2) : azm_star;
             }

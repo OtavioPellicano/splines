@@ -32,6 +32,16 @@ private:
     enum class ProjectionType{x, y, z};
     double calculate_delta_projection(double position, const AdjacentVertices& adjacent_vertices, ProjectionType projection_type) const;
 
+    /**
+     * @brief calculate_delta_angle
+     * This method computes the smallest path between two angles, considering the sign
+     *
+     * @param first_angle
+     * @param second_angle
+     * @return
+     */
+    double calculate_delta_angle(double first_angle, double second_angle) const;
+
 private:
     const InterpolationType m_interpolation_type = InterpolationType::cubic;
 

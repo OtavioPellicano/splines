@@ -31,16 +31,17 @@ private:
      *
      * where (x_1, y_1) and (x_2, y_2) are the adjacent points and (x_start, y_star) is the desired interpolated point
      *
-     * @param x_1
-     * @param y_1
-     * @param x_2
-     * @param y_2
-     * @param x_star
+     * @param position_1 (x_1)
+     * @param angle_1 (y_1)
+     * @param position_2 (x_2)
+     * @param angle_2 (y_2)
+     * @param position (x_star)
      * @return
      * The linear spline interpolation
      *
      */
-    double calculate_linear_spline(double x_1, double y_1, double x_2, double y_2, double x_star) const;
+    double calculate_linear_spline(double position_1, double angle_1, double position_2, double angle_2, double position) const;
+
 
 private:
     const InterpolationType m_interpolation_type = InterpolationType::linear;

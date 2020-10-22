@@ -145,7 +145,6 @@ double CubicInterpolator::calculate_delta_projection(double position, const Adja
             auto const cos_inc_2 = cos(v_2.inclination());
 
             auto const dinc_ds = this->calculate_delta_angle(v_1.inclination(), v_2.inclination()) / delta_s;
-//            auto const dinc_ds = (v_2.inclination() - v_1.inclination()) / delta_s;
             auto const dazm_ds = this->calculate_delta_angle(v_1.azimuth(), v_1.azimuth()) / delta_s;
             a2 = (cos_inc_1 * sin_azm_1 * dinc_ds + sin_inc_1 * cos_azm_1 * dazm_ds);
             a4 = (cos_inc_2 * sin_azm_2 * dinc_ds + sin_inc_2 * cos_azm_2 * dazm_ds);
@@ -179,12 +178,6 @@ double CubicInterpolator::calculate_delta_projection(double position, const Adja
 
     return (a1 * f1 + a2 * f2 + a3 * f3 + a4 * f4) * (position - v_1.position());
 
-}
-
-double CubicInterpolator::calculate_delta_angle(double first_angle, double second_angle) const
-{
-    auto const delta_angle = second_angle - first_angle;
-    return delta_angle > 0.0 ? acos(cos(delta_angle)) : - acos(cos(delta_angle));
 }
 
 }

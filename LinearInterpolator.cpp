@@ -36,10 +36,11 @@ double LinearInterpolator::calculate_delta_z_projection(double position, const A
     return delta_s * cos(v_2.inclination());
 }
 
-double LinearInterpolator::calculate_linear_spline(double x_1, double y_1, double x_2, double y_2, double x_star) const
+double LinearInterpolator::calculate_linear_spline(double position_1, double angle_1, double position_2, double angle_2, double position) const
 {
-    auto delta_x = x_2 - x_1;
-    return delta_x < std::numeric_limits<double>::epsilon() ? y_2 : (y_1 * (x_2 - x_star) + y_2 * (x_star - x_1)) / delta_x;
+    auto delta_p = position_2 - position_1;
+
+    return delta_p < std::numeric_limits<double>::epsilon() ? angle_2 : (angle_1 * (position_2 - position) + angle_2 * (position - position_1)) / delta_p;
 }
 
 double LinearInterpolator::angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+c++ -O3 -Wall -shared -std=c++17 -fPIC "src/bindings/_interpolator/_interpolator.cpp" -o "src/python/interpolator/_tests/_interpolator"`python3-config --extension-suffix` -I/usr/include/python3.8 -I/usr/include/pybind11 -I/usr/include/eigen3

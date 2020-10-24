@@ -71,3 +71,5 @@ Thumbs.db
 *.dll
 *.exe
 
+# Pybind11 generated files
+src/python/interpolator/_tests/*.so

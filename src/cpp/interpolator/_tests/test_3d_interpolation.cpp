@@ -4,7 +4,7 @@ namespace utf = boost::unit_test;
 
 #include <map>
 
-#include "InterpolatorBuilder.hpp"
+#include <interpolator/InterpolatorBuilder.hpp>
 
 using namespace i3d;
 

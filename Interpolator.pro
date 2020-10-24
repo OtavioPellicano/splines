@@ -13,8 +13,6 @@ isEmpty(BOOST_INCLUDE_DIR): {
     message("BOOST_INCLUDE_DIR is not set, assuming Boost can be found automatically in your system")
 }
 
-message($${PWD})
-
 
 INCLUDEPATH += /usr/include/python3.8
 
@@ -27,7 +25,6 @@ INCLUDEPATH += src/cpp
 INCLUDEPATH += src/bindings
 
 LIBS += -L/usr/local/python3.8/lib -lpython3.8 -ldl -lutil
-
 
 SOURCES += \
         src/bindings/_interpolator/_interpolator.cpp \

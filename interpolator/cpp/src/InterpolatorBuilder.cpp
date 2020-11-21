@@ -1,4 +1,4 @@
-#include "InterpolatorBuilder.hpp"
+#include "interpolator/InterpolatorBuilder.hpp"
 
 namespace i3d {
 

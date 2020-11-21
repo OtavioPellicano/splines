@@ -1,4 +1,4 @@
-#include "MinimumCurvatureInterpolator.hpp"
+#include "interpolator/MinimumCurvatureInterpolator.hpp"
 
 namespace i3d {
 

@@ -1,4 +1,4 @@
-#include "Vertex.hpp"
+#include "interpolator/Vertex.hpp"
 
 namespace i3d {
 

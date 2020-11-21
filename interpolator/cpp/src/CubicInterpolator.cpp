@@ -1,4 +1,4 @@
-#include "CubicInterpolator.hpp"
+#include "interpolator/CubicInterpolator.hpp"
 
 namespace i3d {
 

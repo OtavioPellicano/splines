@@ -11,7 +11,7 @@ using namespace i3d;
 std::string message_error_vertices_compare(const Vertex& v_1, const Vertex& v_2)
 {
     using namespace std;
-
+    
     return "{" + to_string(v_1.position()) + ", " + to_string(v_1.inclination()) + ", " + to_string(v_1.azimuth()) + "} != "
            "{" + to_string(v_2.position()) + ", " + to_string(v_2.inclination()) + ", " + to_string(v_2.azimuth()) + "}";
 }

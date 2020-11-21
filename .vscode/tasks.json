@@ -1,0 +1,19 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "g++ build active file",
+            "command": "/usr/lib64/ccache/g++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "/usr/lib64/ccache"
+            }
+        }
+    ],
+    "version": "2.0.0"
+}

@@ -55,7 +55,7 @@ def test_3d_interpolation(
         projections_z[i] = interpolator.ZAtPosition(sample)
 
     res = dict()
-    res['measured_depth'] = positions
+    res['position'] = positions
     res['inclination'] = inclinations
     res['azimuth'] = azimuths
     res['projection_x'] = projections_x

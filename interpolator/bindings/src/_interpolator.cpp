@@ -9,11 +9,6 @@
 
 #include <interpolator/InterpolatorBuilder.hpp>
 
-int sum(int a, int b)
-{
-    return a + b;
-}
-
 using namespace i3d;
 namespace py = pybind11;
 
@@ -108,7 +103,6 @@ public:
 
 PYBIND11_MODULE(_interpolator, m)
 {
-    m.def("Sum", &sum);
 
     py::enum_<AngleUnit>(m, "AngleUnit")
         .value("Rad", AngleUnit::rad)
@@ -156,8 +150,10 @@ PYBIND11_MODULE(_interpolator, m)
     py::class_<CubicInterpolator, BaseInterpolator>(m, "CubicInterpolator")
         .def(py::init<const Vertices&>(), py::arg("vertices"));
 
-    m.def("BuildInterpolator", &build_interpolator, py::arg("vertices"), py::arg("interpolation_type"));
 
+    //functions
+    m.def("BuildInterpolator", &build_interpolator, py::arg("vertices"), py::arg("interpolation_type"));
+    
 }
 
 #endif  // HPP_INTERPOLATOR_BINDINGS

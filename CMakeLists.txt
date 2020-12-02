@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(
+    PYTHON_TESTS_DIR
+    ${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/python/_tests
+    )
+
 add_definitions(-fPIC)
 
 add_subdirectory(interpolator/cpp)

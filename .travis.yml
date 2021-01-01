@@ -1,0 +1,5 @@
+language: python
+python:
+- 3.9
+
+script: pytest interpolator/python/_tests/

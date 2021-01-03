@@ -7,6 +7,14 @@ add_library(
     src/LinearInterpolator.cpp
     src/MinimumCurvatureInterpolator.cpp
     src/Vertex.cpp
+
+    include/interpolator/BaseInterpolator.hpp
+    include/interpolator/CubicInterpolator.hpp
+    include/interpolator/InterpolatorBuilder.hpp
+    include/interpolator/LinearInterpolator.hpp
+    include/interpolator/MinimumCurvatureInterpolator.hpp
+    include/interpolator/Vertex.hpp
+    include/interpolator/IInterpolator.hpp
 )
 
 target_include_directories(interpolator PUBLIC

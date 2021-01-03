@@ -10,7 +10,6 @@ pybind11_add_module(
     ${SOURCE_FILES} 
 )
 
-
 target_link_libraries(
     _interpolator
     PRIVATE

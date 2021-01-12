@@ -3,7 +3,8 @@
 
 #include "BaseInterpolator.hpp"
 
-namespace i3d {
+namespace i3d
+{
 
 /**
  * @brief The LinearInterpolator class
@@ -11,16 +12,17 @@ namespace i3d {
  */
 class LinearInterpolator : public BaseInterpolator
 {
-public:
+  public:
     using BaseInterpolator::BaseInterpolator;
 
-private:
+  private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
     double azimuth_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
     double calculate_delta_x_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
     double calculate_delta_y_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
     double calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
-    double angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const final;
+    double angle_at_position(
+        double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const final;
     InterpolationType interpolation_type() const final;
 
     /**
@@ -40,12 +42,12 @@ private:
      * The linear spline interpolation
      *
      */
-    double calculate_linear_spline(double position_1, double angle_1, double position_2, double angle_2, double position) const;
+    double calculate_linear_spline(
+        double position_1, double angle_1, double position_2, double angle_2, double position) const;
 
-
-private:
+  private:
     const InterpolationType m_interpolation_type = InterpolationType::linear;
 };
 
-}
+} // namespace i3d
 #endif // LINEAR3DINTERPOLATION_HPP

@@ -3,7 +3,8 @@
 
 #include "Vertex.hpp"
 
-namespace i3d {
+namespace i3d
+{
 
 /**
  * @brief The InterpolationType enum
@@ -23,7 +24,7 @@ enum class InterpolationType
  */
 class IInterpolator
 {
-public:
+  public:
     virtual ~IInterpolator() = default;
 
     /**
@@ -102,7 +103,7 @@ public:
      * @param vertex
      * @see Vertex
      */
-    virtual void add_n_drop(const Vertex& vertex) = 0;
+    virtual void add_n_drop(const Vertex &vertex) = 0;
 
     /**
      * @brief drop_n_add
@@ -111,7 +112,7 @@ public:
      * @param vertex
      * @see Vertex
      */
-    virtual void drop_n_add(const Vertex& vertex) = 0;
+    virtual void drop_n_add(const Vertex &vertex) = 0;
 
     /**
      * @brief interpolation_type
@@ -121,9 +122,8 @@ public:
      * @see InterpolationType
      */
     virtual InterpolationType interpolation_type() const = 0;
-
 };
 
-}
+} // namespace i3d
 
 #endif // I3DINTERPOLATION_H

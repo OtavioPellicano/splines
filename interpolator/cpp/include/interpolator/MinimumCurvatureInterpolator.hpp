@@ -3,7 +3,8 @@
 
 #include "BaseInterpolator.hpp"
 
-namespace i3d {
+namespace i3d
+{
 
 /**
  * @brief The MinimumCurvatureInterpolator class
@@ -11,17 +12,17 @@ namespace i3d {
  */
 class MinimumCurvatureInterpolator : public BaseInterpolator
 {
-public:
-
+  public:
     using BaseInterpolator::BaseInterpolator;
 
-private:
-    double inclination_at_position(double position, const AdjacentVertices& adjacent_vertices) const final;
-    double azimuth_at_position(double position,  const AdjacentVertices& adjacent_vertices) const final;
-    double angle_at_position(double position, const AdjacentVertices& adjacent_vertices, AngleType angle_type) const final;
-    double calculate_delta_x_projection(double position, const AdjacentVertices& adjacent_vertices) const final;
-    double calculate_delta_y_projection(double position, const AdjacentVertices& adjacent_vertices) const final;
-    double calculate_delta_z_projection(double position, const AdjacentVertices& adjacent_vertices) const final;
+  private:
+    double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
+    double azimuth_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
+    double angle_at_position(
+        double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const final;
+    double calculate_delta_x_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
+    double calculate_delta_y_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
+    double calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
     InterpolationType interpolation_type() const final;
 
     /**
@@ -35,7 +36,7 @@ private:
      * @return
      * the angle between two adjacent Normal vectors (Frenet basis)
      */
-    double calculate_alpha(const AdjacentVertices& adjacent_vertices) const;
+    double calculate_alpha(const AdjacentVertices &adjacent_vertices) const;
 
     /**
      * @brief calculate_common_delta_projection
@@ -48,12 +49,13 @@ private:
      * @return
      * std::pair<double, double>(delta_s, factor_f)
      */
-    std::pair<double, double> calculate_common_delta_projection(double position, const AdjacentVertices& adjacent_vertices) const;
+    std::pair<double, double> calculate_common_delta_projection(
+        double position, const AdjacentVertices &adjacent_vertices) const;
 
-private:
+  private:
     const InterpolationType m_interpolation_type = InterpolationType::minimum_curvature;
 };
 
-}
+} // namespace i3d
 
 #endif // MINIMUMCURVATURE3DINTERPOLATION_HPP

@@ -1,11 +1,11 @@
 #include "interpolator/BaseInterpolator.hpp"
 
-namespace i3d {
+namespace i3d
+{
 
 BaseInterpolator::BaseInterpolator(const Vertices &vertices)
     : m_vertices(vertices)
 {
-
 }
 
 const Vertices &BaseInterpolator::vertices() const
@@ -22,40 +22,49 @@ AdjacentVertices BaseInterpolator::calculate_adjacent_vertices(double position) 
 {
     auto upper_vertex = m_vertices.upper_bound(position);
 
-    if (std::fabs(upper_vertex->position()) > std::numeric_limits<double>::epsilon()) {
-        return { *std::prev(upper_vertex), *upper_vertex };
-    } else {
-        return { *std::prev(upper_vertex), *std::prev(upper_vertex) };
+    if (std::fabs(upper_vertex->position()) > std::numeric_limits<double>::epsilon())
+    {
+        return {*std::prev(upper_vertex), *upper_vertex};
+    }
+    else
+    {
+        return {*std::prev(upper_vertex), *std::prev(upper_vertex)};
     }
 }
 
 double BaseInterpolator::calculate_delta_angle(double angle_1, double angle_2) const
 {
     auto const delta_angle = angle_2 - angle_1;
-    return delta_angle > 0.0 ? acos(cos(delta_angle)) : - acos(cos(delta_angle));
+    return delta_angle > 0.0 ? acos(cos(delta_angle)) : -acos(cos(delta_angle));
 }
 
 Vertex BaseInterpolator::vertex_at_position(double position) const
 {
-    if (position < m_vertices.begin()->position()
-        || std::fabs(position - m_vertices.begin()->position()) < std::numeric_limits<double>::epsilon()) {
+    if (position < m_vertices.begin()->position() ||
+        std::fabs(position - m_vertices.begin()->position()) < std::numeric_limits<double>::epsilon())
+    {
         return *m_vertices.begin();
-    } else if (
-        position > m_vertices.rbegin()->position()
-        || std::fabs(m_vertices.rbegin()->position() - position) < std::numeric_limits<double>::epsilon()) {
+    }
+    else if (
+        position > m_vertices.rbegin()->position() ||
+        std::fabs(m_vertices.rbegin()->position() - position) < std::numeric_limits<double>::epsilon())
+    {
         return *m_vertices.rbegin();
-    } else {
+    }
+    else
+    {
 
-        auto const& adjacent_vertices = this->calculate_adjacent_vertices(position);
+        auto const &adjacent_vertices = this->calculate_adjacent_vertices(position);
 
-        if (adjacent_vertices.first.approx_equal(adjacent_vertices.second)) {
-            return { adjacent_vertices.first };
+        if (adjacent_vertices.first.approx_equal(adjacent_vertices.second))
+        {
+            return {adjacent_vertices.first};
         }
 
         auto inclination_interpolated = this->inclination_at_position(position, adjacent_vertices);
         auto azimuth_interpolated = this->azimuth_at_position(position, adjacent_vertices);
 
-        return { position, inclination_interpolated, azimuth_interpolated };
+        return {position, inclination_interpolated, azimuth_interpolated};
     }
 }
 
@@ -93,41 +102,32 @@ double BaseInterpolator::y_at_position(double position) const
 
 double BaseInterpolator::z_at_position(double position) const
 {
-    return this->projection_at_position(&BaseInterpolator::calculate_delta_z_projection , position);
+    return this->projection_at_position(&BaseInterpolator::calculate_delta_z_projection, position);
 }
 
 double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator, double position) const
 {
 
     auto sum_delta = 0.0;
-    for(auto it_v = m_vertices.begin(); it_v != m_vertices.end(); ++it_v)
+    for (auto it_v = m_vertices.begin(); it_v != m_vertices.end(); ++it_v)
     {
-        if(it_v->position() > position || fabs(position - it_v->position()) < std::numeric_limits<double>::epsilon())
+        if (it_v->position() > position || fabs(position - it_v->position()) < std::numeric_limits<double>::epsilon())
         {
-            const AdjacentVertices& adjacent_vertices = {
+            const AdjacentVertices &adjacent_vertices = {
                 it_v != m_vertices.begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0},
                 this->vertex_at_position(position)};
 
-            sum_delta += std::invoke(
-                        delta_calculator,
-                        *this,
-                        adjacent_vertices.second.position(),
-                        adjacent_vertices);
+            sum_delta += std::invoke(delta_calculator, *this, adjacent_vertices.second.position(), adjacent_vertices);
 
             break;
         }
 
-        const AdjacentVertices& adjacent_vertices = {it_v != m_vertices.begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0}, *it_v};
-        sum_delta += std::invoke(
-                    delta_calculator,
-                    *this,
-                    it_v->position(),
-                    adjacent_vertices);
+        const AdjacentVertices &adjacent_vertices = {
+            it_v != m_vertices.begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0}, *it_v};
+        sum_delta += std::invoke(delta_calculator, *this, it_v->position(), adjacent_vertices);
     }
-
 
     return sum_delta;
 }
 
-
-}
+} // namespace i3d

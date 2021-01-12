@@ -1,13 +1,14 @@
 #include "interpolator/Vertex.hpp"
 
-namespace i3d {
+namespace i3d
+{
 
 Vertex::Vertex(double position, double inclination, double azimuth, AngleUnit angle_unit)
     : m_position(position)
     , m_inclination(inclination)
     , m_azimuth(azimuth)
 {
-    if(angle_unit != AngleUnit::rad)
+    if (angle_unit != AngleUnit::rad)
     {
         m_inclination = this->angle_in(inclination, angle_unit);
         m_azimuth = this->angle_in(azimuth, angle_unit);
@@ -53,9 +54,9 @@ void Vertex::calculate_tangent(const Vertex &vt, Point &point) const
 
 double Vertex::euclidean_distance(const Point &point_1, const Point &point_2) const
 {
-    return sqrt((point_1.x - point_2.x) * (point_1.x - point_2.x) +
-                (point_1.y - point_2.y) * (point_1.y - point_2.y) +
-                (point_1.z - point_2.z) * (point_1.z - point_2.z));
+    return sqrt(
+        (point_1.x - point_2.x) * (point_1.x - point_2.x) + (point_1.y - point_2.y) * (point_1.y - point_2.y) +
+        (point_1.z - point_2.z) * (point_1.z - point_2.z));
 }
 
 double Vertex::rad_from_deg(double deg) const
@@ -90,4 +91,4 @@ double Vertex::angle_out(double angle, AngleUnit angle_unit) const
     }
 }
 
-}
+} // namespace i3d

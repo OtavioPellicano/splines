@@ -1,5 +1,5 @@
-from _interpolator import(AngleUnit, BuildInterpolator,
-                          InterpolationType, Vertex)
+from _interpolator import (AngleUnit, BuildInterpolator,
+                           InterpolationType, Vertex)
 import pytest
 import numpy as np
 
@@ -33,8 +33,7 @@ def test_3d_interpolation(
         interpolation_samples_SPE84246,
         angle_unit,
         interpolation_type
-    ):
-
+):
     vertices = trajectory_SPE84246
     interpolator = BuildInterpolator(vertices, interpolation_type)
 
@@ -49,7 +48,7 @@ def test_3d_interpolation(
         positions[i] = interpolator.VertexAtPosition(sample).Position()
         inclinations[i] = interpolator.VertexAtPosition(sample).Inclination(angle_unit)
         azimuths[i] = interpolator.VertexAtPosition(sample).Azimuth(angle_unit)
-        
+
         projections_x[i] = interpolator.XAtPosition(sample)
         projections_y[i] = interpolator.YAtPosition(sample)
         projections_z[i] = interpolator.ZAtPosition(sample)

@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 class PyIInterpolator : public IInterpolator
 {
-public:
+  public:
     using IInterpolator::IInterpolator;
 
     Vertex vertex_at_position(double position) const override
@@ -29,7 +29,7 @@ public:
 
     double azimuth_at_position(double position) const override
     {
-       PYBIND11_OVERLOAD_PURE(double, IInterpolator, azimuth_at_position, position);
+        PYBIND11_OVERLOAD_PURE(double, IInterpolator, azimuth_at_position, position);
     }
 
     double x_at_position(double position) const override
@@ -47,12 +47,12 @@ public:
         PYBIND11_OVERLOAD_PURE(double, IInterpolator, z_at_position, position);
     }
 
-    void add_n_drop(const Vertex& vertex) override
+    void add_n_drop(const Vertex &vertex) override
     {
         PYBIND11_OVERLOAD_PURE(void, IInterpolator, add_n_drop, vertex);
     }
 
-    void drop_n_add(const Vertex& vertex) override
+    void drop_n_add(const Vertex &vertex) override
     {
         PYBIND11_OVERLOAD_PURE(void, IInterpolator, drop_n_add, vertex);
     }
@@ -61,60 +61,54 @@ public:
     {
         PYBIND11_OVERLOAD_PURE(InterpolationType, IInterpolator, interpolation_type);
     }
-
 };
 
-class PyBaseInterpolator: public BaseInterpolator
+class PyBaseInterpolator : public BaseInterpolator
 {
-public:
+  public:
     using BaseInterpolator::BaseInterpolator;
 
-    double calculate_delta_x_projection(double position, const AdjacentVertices& adjacent_vertices) const override
+    double calculate_delta_x_projection(double position, const AdjacentVertices &adjacent_vertices) const override
     {
         PYBIND11_OVERLOAD_PURE(double, BaseInterpolator, calculate_delta_x_projection, position, adjacent_vertices);
     }
 
-    double calculate_delta_y_projection(double position, const AdjacentVertices& adjacent_vertices) const override
+    double calculate_delta_y_projection(double position, const AdjacentVertices &adjacent_vertices) const override
     {
         PYBIND11_OVERLOAD_PURE(double, BaseInterpolator, calculate_delta_y_projection, position, adjacent_vertices);
     }
 
-    double calculate_delta_z_projection(double position, const AdjacentVertices& adjacent_vertices) const override
+    double calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const override
     {
         PYBIND11_OVERLOAD_PURE(double, BaseInterpolator, calculate_delta_z_projection, position, adjacent_vertices);
     }
 
-    double inclination_at_position(double position, const AdjacentVertices& adjacent_vertices) const override
+    double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const override
     {
         PYBIND11_OVERLOAD_PURE(double, BaseInterpolator, inclination_at_position, position, adjacent_vertices);
     }
 
-    double azimuth_at_position(double position,  const AdjacentVertices& adjacent_vertices) const override
+    double azimuth_at_position(double position, const AdjacentVertices &adjacent_vertices) const override
     {
         PYBIND11_OVERLOAD_PURE(double, BaseInterpolator, azimuth_at_position, position, adjacent_vertices);
     }
 
-    double angle_at_position(double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const override
+    double angle_at_position(
+        double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const override
     {
         PYBIND11_OVERLOAD_PURE(double, BaseInterpolator, angle_at_position, position, adjacent_vertices, angle_type);
     }
-
 };
 
 PYBIND11_MODULE(_interpolator, m)
 {
 
-    py::enum_<AngleUnit>(m, "AngleUnit")
-        .value("Rad", AngleUnit::rad)
-        .value("Deg", AngleUnit::deg);
+    py::enum_<AngleUnit>(m, "AngleUnit").value("Rad", AngleUnit::rad).value("Deg", AngleUnit::deg);
 
     py::class_<Vertex>(m, "Vertex")
         .def(
-            py::init<double, double, double, AngleUnit>(),
-            py::arg("position") = 0.0,
-            py::arg("inclination") = 0.0,
-            py::arg("azimuth") = 0.0,
-            py::arg("angle_unit") = AngleUnit::rad)
+            py::init<double, double, double, AngleUnit>(), py::arg("position") = 0.0, py::arg("inclination") = 0.0,
+            py::arg("azimuth") = 0.0, py::arg("angle_unit") = AngleUnit::rad)
         .def("Position", &Vertex::position)
         .def("SetPosition", &Vertex::set_position, py::arg("position"))
         .def("Inclination", &Vertex::inclination)
@@ -144,16 +138,14 @@ PYBIND11_MODULE(_interpolator, m)
         .def("SetVertices", &BaseInterpolator::set_vertices);
 
     py::class_<LinearInterpolator, BaseInterpolator>(m, "LinearInterpolator")
-        .def(py::init<const Vertices&>(), py::arg("vertices"));
+        .def(py::init<const Vertices &>(), py::arg("vertices"));
     py::class_<MinimumCurvatureInterpolator, BaseInterpolator>(m, "MinimumCurvatureInterpolator")
-        .def(py::init<const Vertices&>(), py::arg("vertices"));
+        .def(py::init<const Vertices &>(), py::arg("vertices"));
     py::class_<CubicInterpolator, BaseInterpolator>(m, "CubicInterpolator")
-        .def(py::init<const Vertices&>(), py::arg("vertices"));
+        .def(py::init<const Vertices &>(), py::arg("vertices"));
 
-
-    //functions
+    // functions
     m.def("BuildInterpolator", &build_interpolator, py::arg("vertices"), py::arg("interpolation_type"));
-    
 }
 
-#endif  // HPP_INTERPOLATOR_BINDINGS
+#endif // HPP_INTERPOLATOR_BINDINGS

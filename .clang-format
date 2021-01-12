@@ -1,0 +1,8 @@
+---
+BasedOnStyle: Microsoft
+BreakBeforeInheritanceComma: 'true'
+BreakConstructorInitializers: BeforeComma
+AlignAfterOpenBracket: AlwaysBreak
+AllowShortFunctionsOnASingleLine: None
+...
+

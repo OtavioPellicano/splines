@@ -44,4 +44,6 @@ script:
   - make
   - ./test_boost
   - coverage run -m pytest ../interpolator/python/_tests
+
+after_success:
   - coverage report

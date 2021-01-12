@@ -33,6 +33,7 @@ before_install:
   - conda activate test-environment
   - conda config --add channels conda-forge
   - conda install pytest-regressions
+  - conda install coverage
 
 before_script:
   - mkdir build
@@ -42,4 +43,5 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make
   - ./test_boost
-  - pytest ../interpolator/python/_tests
+  - coverage run -m pytest ../interpolator/python/_tests
+  - coverage report

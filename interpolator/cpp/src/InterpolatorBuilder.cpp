@@ -1,6 +1,6 @@
 #include "interpolator/InterpolatorBuilder.hpp"
 
-namespace i3d
+namespace splines
 {
 
 std::unique_ptr<BaseInterpolator> build_interpolator(const Vertices &vertices, InterpolationType interpolation_type)
@@ -24,4 +24,4 @@ std::unique_ptr<BaseInterpolator> build_interpolator(const Vertices &vertices, I
     return interp_ptr;
 }
 
-} // namespace i3d
+} // namespace splines

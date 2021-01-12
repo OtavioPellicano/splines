@@ -9,7 +9,7 @@
 
 #include <interpolator/InterpolatorBuilder.hpp>
 
-using namespace i3d;
+using namespace splines;
 namespace py = pybind11;
 
 class PyIInterpolator : public IInterpolator

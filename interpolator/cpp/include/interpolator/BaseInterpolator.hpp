@@ -4,7 +4,7 @@
 #include "IInterpolator.hpp"
 #include <algorithm>
 
-namespace i3d
+namespace splines
 {
 
 /**
@@ -185,5 +185,5 @@ class BaseInterpolator : public IInterpolator
     Vertices m_vertices;
 };
 
-} // namespace i3d
+} // namespace splines
 #endif // BASE3DINTERPOLATION_HPP

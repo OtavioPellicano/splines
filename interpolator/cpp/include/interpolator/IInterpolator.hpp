@@ -3,7 +3,7 @@
 
 #include "Vertex.hpp"
 
-namespace i3d
+namespace splines
 {
 
 /**
@@ -124,6 +124,6 @@ class IInterpolator
     virtual InterpolationType interpolation_type() const = 0;
 };
 
-} // namespace i3d
+} // namespace splines
 
 #endif // I3DINTERPOLATION_H

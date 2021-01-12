@@ -6,7 +6,7 @@ namespace utf = boost::unit_test;
 
 #include <interpolator/InterpolatorBuilder.hpp>
 
-using namespace i3d;
+using namespace splines;
 
 std::string message_error_vertices_compare(const Vertex &v_1, const Vertex &v_2)
 {

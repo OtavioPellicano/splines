@@ -1,6 +1,6 @@
 #include "interpolator/MinimumCurvatureInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 double MinimumCurvatureInterpolator::inclination_at_position(
@@ -161,4 +161,4 @@ double MinimumCurvatureInterpolator::angle_at_position(
     }
 }
 
-} // namespace i3d
+} // namespace splines

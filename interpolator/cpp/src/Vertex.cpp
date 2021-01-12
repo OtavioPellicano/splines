@@ -1,6 +1,6 @@
 #include "interpolator/Vertex.hpp"
 
-namespace i3d
+namespace splines
 {
 
 Vertex::Vertex(double position, double inclination, double azimuth, AngleUnit angle_unit)
@@ -91,4 +91,4 @@ double Vertex::angle_out(double angle, AngleUnit angle_unit) const
     }
 }
 
-} // namespace i3d
+} // namespace splines

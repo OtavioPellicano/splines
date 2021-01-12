@@ -4,7 +4,7 @@
 #include <cmath>
 #include <set>
 
-namespace i3d
+namespace splines
 {
 
 struct Point
@@ -122,6 +122,6 @@ class Vertex
     friend bool approx_equal(const Vertices &vertices_1, const Vertices &vertices_2);
 };
 
-} // namespace i3d
+} // namespace splines
 
 #endif // VERTICESDEFINITION_HPP

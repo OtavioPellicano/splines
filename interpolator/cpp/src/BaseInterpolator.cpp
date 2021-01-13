@@ -1,6 +1,6 @@
 #include "interpolator/BaseInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 BaseInterpolator::BaseInterpolator(const Vertices &vertices)
@@ -130,4 +130,4 @@ double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator
     return sum_delta;
 }
 
-} // namespace i3d
+} // namespace splines

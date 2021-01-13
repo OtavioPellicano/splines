@@ -7,7 +7,7 @@
 #include "LinearInterpolator.hpp"
 #include "MinimumCurvatureInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 /**
@@ -25,6 +25,6 @@ namespace i3d
  */
 std::unique_ptr<BaseInterpolator> build_interpolator(const Vertices &vertices, InterpolationType interpolation_type);
 
-} // namespace i3d
+} // namespace splines
 
 #endif // TRAJECTORYBUILDER_HPP

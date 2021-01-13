@@ -1,6 +1,6 @@
 #include "interpolator/CubicInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 double CubicInterpolator::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
@@ -186,4 +186,4 @@ double CubicInterpolator::calculate_delta_projection(
     return (a1 * f1 + a2 * f2 + a3 * f3 + a4 * f4) * (position - v_1.position());
 }
 
-} // namespace i3d
+} // namespace splines

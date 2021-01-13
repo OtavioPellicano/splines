@@ -3,7 +3,7 @@
 
 #include "BaseInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 /**
@@ -49,5 +49,5 @@ class LinearInterpolator : public BaseInterpolator
     const InterpolationType m_interpolation_type = InterpolationType::linear;
 };
 
-} // namespace i3d
+} // namespace splines
 #endif // LINEAR3DINTERPOLATION_HPP

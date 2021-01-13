@@ -1,6 +1,6 @@
 #include "interpolator/LinearInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 double LinearInterpolator::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
@@ -100,4 +100,4 @@ InterpolationType LinearInterpolator::interpolation_type() const
     return m_interpolation_type;
 }
 
-} // namespace i3d
+} // namespace splines

@@ -3,7 +3,7 @@
 
 #include "BaseInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 /**
@@ -56,6 +56,6 @@ class MinimumCurvatureInterpolator : public BaseInterpolator
     const InterpolationType m_interpolation_type = InterpolationType::minimum_curvature;
 };
 
-} // namespace i3d
+} // namespace splines
 
 #endif // MINIMUMCURVATURE3DINTERPOLATION_HPP

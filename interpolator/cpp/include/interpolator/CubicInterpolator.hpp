@@ -3,7 +3,7 @@
 
 #include "BaseInterpolator.hpp"
 
-namespace i3d
+namespace splines
 {
 
 /**
@@ -44,5 +44,5 @@ class CubicInterpolator : public BaseInterpolator
     const InterpolationType m_interpolation_type = InterpolationType::cubic;
 };
 
-} // namespace i3d
+} // namespace splines
 #endif // CUBICINTERPOLATOR_HPP

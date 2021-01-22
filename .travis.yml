@@ -29,11 +29,8 @@ before_install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  - conda create -q -n test-environment python=$PY_VER pybind11 pytest numpy pandas
-  - conda activate test-environment
-  - conda config --add channels conda-forge
-  - conda install pytest-regressions
-  - conda install coverage
+  - conda env create -f environment.yml
+  - conda activate splines
 
 before_script:
   - mkdir build
@@ -43,7 +40,7 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make
   - ./test_boost
-  - coverage run -m pytest ../interpolator/python/_tests
+  - coverage run -m pytest ../
 
 after_success:
   - coverage report

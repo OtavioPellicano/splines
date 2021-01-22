@@ -39,7 +39,7 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make
   - ./test_boost
-  - coverage run -m pytest ../interpolator/python/_tests
+  - coverage run -m pytest ../
 
 after_success:
   - coverage report

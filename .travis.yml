@@ -30,6 +30,7 @@ before_install:
   - conda info -a
 
   - conda env create -f environment.yml
+  - conda activate splines
 
 before_script:
   - mkdir build

@@ -20,24 +20,24 @@ target_include_directories(
     _interpolator
     PRIVATE
         /usr/include/eigen3
-    )
+)
 
 set_target_properties(
     _interpolator
     PROPERTIES
-            OUTPUT_NAME _interpolator
-            PREFIX ""
-            SUFFIX ".so" #Linux
+        OUTPUT_NAME _interpolator
+        PREFIX ""
+        SUFFIX ".so" #Linux
 )
 
 add_custom_command(
     TARGET _interpolator
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_interpolator> ${ARTIFACTS_DIR_PYTHON}
-    )
+)
 
 add_custom_command(
     TARGET _interpolator
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_interpolator> ${PYTHON_TESTS_DIR}
-    )
+)

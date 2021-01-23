@@ -9,22 +9,22 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(
     PYTHON_TESTS_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/python/_tests
-    )
+)
 
 set(
     BUILD_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/build
-    )
+)
 
 set(
     ARTIFACTS_DIR_CPP
     ${BUILD_DIR}/artifacts/cpp
-    )
+)
 
 set(
     ARTIFACTS_DIR_PYTHON
     ${BUILD_DIR}/artifacts/python
-    )
+)
 
 add_definitions(-fPIC)
 
@@ -41,4 +41,4 @@ add_custom_command(
     TARGET test_boost
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:test_boost> ${ARTIFACTS_DIR_CPP}
-    )
+)

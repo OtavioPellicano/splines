@@ -20,26 +20,24 @@ target_include_directories(
     _interpolator
     PRIVATE
         /usr/include/eigen3
-    )
-
-set(
-    LIB_PYTHON_NAME
-    _interpolator.cpython-39-x86_64-linux-gnu.so
 )
 
-set(
-    LIB_PYTHON_ORG
-    ${CMAKE_CURRENT_BINARY_DIR}/${LIB_PYTHON_NAME}
-)
-
-set(
-    LIB_PYTHON_DST
-    ${PYTHON_TESTS_DIR}/${LIB_PYTHON_NAME}
+set_target_properties(
+    _interpolator
+    PROPERTIES
+        OUTPUT_NAME _interpolator
+        PREFIX ""
+        SUFFIX ".so" #Linux
 )
 
 add_custom_command(
     TARGET _interpolator
     POST_BUILD
-    COMMAND cp ${LIB_PYTHON_ORG} ${LIB_PYTHON_DST}
-    VERBATIM
-    )
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_interpolator> ${ARTIFACTS_DIR_PYTHON}
+)
+
+add_custom_command(
+    TARGET _interpolator
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:_interpolator> ${PYTHON_TESTS_DIR}
+)

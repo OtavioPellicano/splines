@@ -102,7 +102,7 @@ Example in Python 3
         print(f"\{ {x} , {y}, {z} \}")
 
 
-Get Started
+Getting Started
 ===========
 
 The easiest way to run the Splines library is using `Miniconda <https://conda.io/miniconda.html>`_ (pick the 64-bit installer with the latest Python version). For do so, run ``conda env create -f environment.yml`` to create a new environment based on environment.yml file. Doing that, you will create the splines environment with all required dependencies. Now you just need to activate the splines environment (``conda activate splines``) and have fun.

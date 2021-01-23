@@ -39,8 +39,7 @@ before_script:
 script:
   - cmake -DCMAKE_BUILD_TYPE=Release ..
   - make
-  - ./test_boost
-  - coverage run -m pytest ../
+  - coverage run -m pytest artifacts/
 
 after_success:
   - coverage report

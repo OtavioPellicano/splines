@@ -91,4 +91,14 @@ double Vertex::angle_out(double angle, AngleUnit angle_unit) const
     }
 }
 
+std::string Vertex::delimiter() const
+{
+    return m_delimiter;
+}
+
+void Vertex::set_delimiter(const std::string &delimiter)
+{
+    m_delimiter = delimiter;
+}
+
 } // namespace splines

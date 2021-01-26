@@ -3,6 +3,7 @@
 namespace utf = boost::unit_test;
 
 #include <map>
+#include <sstream>
 
 #include <interpolator/InterpolatorBuilder.hpp>
 
@@ -273,4 +274,42 @@ BOOST_AUTO_TEST_CASE(test_builder)
     BOOST_CHECK(linear_trajectory->interpolation_type() == InterpolationType::linear);
     BOOST_CHECK(minimum_curvature_trajectory->interpolation_type() == InterpolationType::minimum_curvature);
     BOOST_CHECK(cubic_trajectory->interpolation_type() == InterpolationType::cubic);
+}
+
+BOOST_AUTO_TEST_CASE(test_operator_ostream)
+{
+
+    auto stream_v = [](std::stringstream &ss, Vertex &vt, const std::string &delimiter) -> std::stringstream & {
+        ss << vt.position() << delimiter << vt.inclination() << delimiter << vt.azimuth();
+        return ss;
+    };
+
+    auto stream_o = [](std::stringstream &ss, Vertex &vt, const std::string &delimiter) -> std::stringstream & {
+        vt.set_delimiter(delimiter); // default delimiter = ","
+        BOOST_TEST(
+            vt.delimiter() == delimiter, "expected delimiter vs got delimiter: " + delimiter + " vs " + vt.delimiter());
+        ss << vt;
+        return ss;
+    };
+
+    auto stream_out = [](Vertices &vts, const std::string &delimiter,
+                         std::stringstream &(*st)(
+                             std::stringstream & ss, Vertex & vt, const std::string &delimiter)) -> std::stringstream {
+        std::stringstream ss;
+        for (auto vt : vts)
+        {
+            st(ss, vt, delimiter);
+        }
+        return ss;
+    };
+
+    auto vertices = Trajectory::SPE84246;
+    std::vector<std::string> delimiters = {",", ";", "|"};
+    for (auto &delimiter : delimiters)
+    {
+        std::string str_vertices = stream_out(vertices, delimiter, stream_v).str().c_str();
+        std::string str_operator = stream_out(vertices, delimiter, stream_o).str().c_str();
+
+        BOOST_TEST(str_vertices == str_operator, "expected delimiter: " + delimiter);
+    }
 }

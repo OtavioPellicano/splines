@@ -2,6 +2,7 @@
 #define VERTICESDEFINITION_HPP
 
 #include <cmath>
+#include <ostream>
 #include <set>
 
 namespace splines
@@ -53,6 +54,20 @@ class Vertex
         return !(*this < vt);
     }
 
+    /**
+     * @brief operator <<
+     * @param os
+     * @param vt
+     * @return
+     * std::ostream with the Vertex value separeted by a specific delimiter (default: ',')
+     * position, inclination, azimuth [-, rad, rad]
+     */
+    friend std::ostream &operator<<(std::ostream &os, const Vertex &vt)
+    {
+        os << vt.m_position << vt.m_delimiter << vt.m_inclination << vt.m_delimiter << vt.m_azimuth;
+        return os;
+    }
+
     bool approx_equal(const Vertex &vt, double tol_radius = 1E-6) const
     {
         static Point point_1, point_2;
@@ -70,6 +85,9 @@ class Vertex
 
     double azimuth(AngleUnit angle_unit = AngleUnit::rad) const;
     void set_azimuth(double azimuth);
+
+    std::string delimiter() const;
+    void set_delimiter(const std::string &delimiter);
 
   private:
     void calculate_tangent(const Vertex &vt, Point &point) const;
@@ -119,7 +137,7 @@ class Vertex
     double m_inclination; // angle from z axis
     double m_azimuth;     // angle from x axis
 
-    friend bool approx_equal(const Vertices &vertices_1, const Vertices &vertices_2);
+    std::string m_delimiter = ","; // ostream delimiter
 };
 
 } // namespace splines

@@ -114,7 +114,16 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Inclination", &Vertex::inclination)
         .def("SetInclination", &Vertex::set_inclination, py::arg("inclination"))
         .def("Azimuth", &Vertex::azimuth)
-        .def("SetAzimuth", &Vertex::set_azimuth, py::arg("azimuth"));
+        .def("SetAzimuth", &Vertex::set_azimuth, py::arg("azimuth"))
+        .def(
+            "__str__",
+            [](const Vertex &vt) {
+                std::stringstream ss;
+                ss << vt;
+                return ss.str();
+            })
+        .def("SetDelimiter", &Vertex::set_delimiter, py::arg("delimiter"))
+        .def("Delimiter", &Vertex::delimiter);
 
     py::enum_<InterpolationType>(m, "InterpolationType")
         .value("Linear", InterpolationType::linear)

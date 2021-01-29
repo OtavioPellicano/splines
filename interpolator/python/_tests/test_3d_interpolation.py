@@ -62,3 +62,19 @@ def test_3d_interpolation(
     res['projection_z'] = projections_z
 
     num_regression.check(res)
+
+
+@pytest.mark.parametrize(
+    'delimiter',
+    [',', ';', '|', '-'],
+    ids=['default(comma)', 'semicolon', 'pipe', 'dash'])
+def test_vertex_repr_operator(delimiter):
+    vertex = Vertex(1.1, 2.2, 3.3)
+
+    # Default delimiter: comma
+    if delimiter != ',':
+        vertex.SetDelimiter(delimiter)
+
+    assert delimiter == vertex.Delimiter()
+    assert str(vertex) == delimiter.join([str(vertex.Position()), str(vertex.Inclination()), str(vertex.Azimuth())])
+

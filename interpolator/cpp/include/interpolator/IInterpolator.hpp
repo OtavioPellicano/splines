@@ -1,7 +1,7 @@
 #ifndef I3DINTERPOLATION_H
 #define I3DINTERPOLATION_H
 
-#include "Vertex.hpp"
+#include "Vertices.hpp"
 
 namespace splines
 {

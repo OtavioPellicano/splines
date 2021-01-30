@@ -1,12 +1,12 @@
 from _interpolator import (AngleUnit, BuildInterpolator,
-                           InterpolationType, Vertex)
+                           InterpolationType, Vertex, Vertices)
 import pytest
 import numpy as np
 
 
 @pytest.fixture
 def trajectory_SPE84246():
-    return set([Vertex(214.13724, 0.095993095, 0.785398049999999),
+    return Vertices([Vertex(214.13724, 0.095993095, 0.785398049999999),
                 Vertex(598.800936, 0.519235377499999, 1.3447759945),
                 Vertex(1550.31948, 0.519235377499999, 1.3447759945),
                 Vertex(3018.032064, 2.09439479999999, 4.97418765)])

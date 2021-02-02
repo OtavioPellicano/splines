@@ -2,6 +2,7 @@
 #include <boost/test/included/unit_test.hpp>
 namespace utf = boost::unit_test;
 
+#include <algorithm>
 #include <map>
 #include <sstream>
 
@@ -147,12 +148,14 @@ BOOST_AUTO_TEST_CASE(test_add_and_drop)
     interpolator.drop_n_add(*samples.vertices().rbegin());
     BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
 
-    Vertices expected = {
-        {214.13724, 5.5, 45.0, AngleUnit::deg},
-        {598.800936, 29.75, 77.05, AngleUnit::deg},
-        {1550.31948, 29.75, 77.05, AngleUnit::deg},
-        {1600.0, 29.75, 77.05, AngleUnit::deg},
-    };
+    auto expected = Vertices(
+        {
+            {214.13724, 5.5, 45.0},
+            {598.800936, 29.75, 77.05},
+            {1550.31948, 29.75, 77.05},
+            {1600.0, 29.75, 77.05},
+        },
+        AngleUnit::deg);
 
     auto const &vertices = interpolator.vertices();
 
@@ -312,4 +315,39 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
 
         BOOST_TEST(str_vertices == str_operator, "expected delimiter: " + delimiter);
     }
+}
+
+BOOST_AUTO_TEST_CASE(test_vertices_class, *utf::tolerance(1E-6))
+{
+
+    auto compare_vertices = [](const Vertices &t_1, const Vertices &t_2) {
+        BOOST_TEST(t_1.size() == t_2.size());
+
+        for (auto vt_1 = t_1.vertices().begin(), vt_2 = t_2.vertices().begin(); vt_1 != t_1.vertices().end();
+             ++vt_1, ++vt_2)
+        {
+            BOOST_TEST(vt_1->position() == vt_2->position());
+            BOOST_TEST(vt_1->inclination() == vt_2->inclination());
+            BOOST_TEST(vt_1->azimuth() == vt_2->azimuth());
+            BOOST_TEST(vt_1->inclination(AngleUnit::deg) == vt_2->inclination(AngleUnit::deg));
+            BOOST_TEST(vt_1->azimuth(AngleUnit::deg) == vt_2->azimuth(AngleUnit::deg));
+        }
+    };
+
+    auto trajectory = Trajectory::SPE84246;
+
+    BOOST_TEST(trajectory.size() == 4);
+
+    auto trajectory_set = Vertices({});
+
+    trajectory_set.set_vertices(trajectory.vertices() /*,AngleUnit::rad*/);
+
+    auto trajectory_deg = trajectory;
+
+    std::for_each(trajectory_deg.vertices().begin(), trajectory_deg.vertices().end(), [](const Vertex &vt) {
+        return Vertex(vt.position(), vt.inclination(AngleUnit::deg), vt.azimuth(AngleUnit::deg), AngleUnit::deg);
+    });
+
+    compare_vertices(trajectory, trajectory_deg);
+    compare_vertices(trajectory, trajectory_set);
 }

@@ -3,12 +3,17 @@
 namespace splines
 {
 
-Vertices::Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
+Vertices::Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-Vertices::Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit)
+Vertices::Vertices(const VerticesType &vertices, AngleUnit angle_unit)
+{
+    set_vertices(vertices, angle_unit);
+}
+
+Vertices::Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
@@ -18,7 +23,7 @@ const VerticesType &Vertices::vertices() const
     return m_vertices;
 }
 
-void Vertices::set_vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
+template <typename VerticesList> void Vertices::set_vertices(const VerticesList &vertices, AngleUnit angle_unit)
 {
     for (auto &vertex : vertices)
     {

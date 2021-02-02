@@ -14,12 +14,15 @@ typedef std::set<Vertex> VerticesType;
 class Vertices
 {
   public:
-    // Add this constructor just because of pybind11. pybind11 does not support initializer_list
-    Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Vertices() = default;
     Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Vertices(const VerticesType &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
 
     const VerticesType &vertices() const;
-    void set_vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+
+    template <typename VerticesList>
+    void set_vertices(const VerticesList &vertices, AngleUnit angle_unit = AngleUnit::rad);
 
     void add_n_drop(const Vertex &vertex);
     void drop_n_add(const Vertex &vertex);

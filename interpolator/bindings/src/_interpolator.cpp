@@ -126,11 +126,14 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Delimiter", &Vertex::delimiter);
 
     py::class_<Vertices>(m, "Vertices")
+        .def(py::init<>())
         .def(
             py::init<const std::vector<Vertex> &, AngleUnit>(), py::arg("vertex"),
             py::arg("angle_unit") = AngleUnit::rad)
         .def("Vertices", &Vertices::vertices)
-        .def("SetVertices", &Vertices::set_vertices, py::arg("vertices"), py::arg("angle_unit") = AngleUnit::rad)
+        .def(
+            "SetVertices", &Vertices::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
+            py::arg("angle_unit") = AngleUnit::rad)
         .def("AddNDrop", &Vertices::add_n_drop, py::arg("vertex"))
         .def("DropNAdd", &Vertices::drop_n_add, py::arg("vertex"))
         .def("Size", &Vertices::size);

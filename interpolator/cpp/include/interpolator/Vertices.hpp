@@ -21,8 +21,8 @@ class Vertices
 
     const VerticesType &vertices() const;
 
-    template <typename VerticesList>
-    void set_vertices(const VerticesList &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    template <typename VerticesContainer>
+    void set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit = AngleUnit::rad);
 
     void add_n_drop(const Vertex &vertex);
     void drop_n_add(const Vertex &vertex);

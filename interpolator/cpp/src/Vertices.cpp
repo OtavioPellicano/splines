@@ -23,7 +23,8 @@ const VerticesType &Vertices::vertices() const
     return m_vertices;
 }
 
-template <typename VerticesList> void Vertices::set_vertices(const VerticesList &vertices, AngleUnit angle_unit)
+template <typename VerticesContainer>
+void Vertices::set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit)
 {
     for (auto &vertex : vertices)
     {

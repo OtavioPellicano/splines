@@ -131,6 +131,8 @@ PYBIND11_MODULE(_interpolator, m)
             py::init<const std::vector<Vertex> &, AngleUnit>(), py::arg("vertex"),
             py::arg("angle_unit") = AngleUnit::rad)
         .def("Vertices", &Vertices::vertices)
+        // For some reason Travis CI is not supporting template bindings
+        // TODO: SPL-67 should resolve this problem
         //        .def(
         //            "SetVertices", &Vertices::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
         //            py::arg("angle_unit") = AngleUnit::rad)

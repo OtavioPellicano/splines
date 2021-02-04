@@ -6,19 +6,18 @@ Splines
     :scale: 100%
     :target: https://travis-ci.com/github/OtavioPellicano/splines
 
-Splines is a library for 3D curves interpolation in spherical coordinates. This kind of interpolation is massively used in Oil & Gas field in
-applications such as following the string position or in efforts calculation. The library is fully implemented in C++, but there is a Python 3
+Splines is a library for 3D curves interpolation in spherical coordinates. The library is fully implemented in modern C++ (-std=c++17), but there is a Python 3
 interface for a more convenient and simpler use.
 
 Interpolations Currently Supported
-=================================
+==================================
 
 - Linear
 - Cubic
 - Minimum Curvature
 
 Example in C++
-==============
+===============
 
 .. code-block:: cpp
 
@@ -60,7 +59,7 @@ Example in C++
     }
     
 Example in Python 3
-==============
+====================
 
 .. code-block:: python
 
@@ -96,6 +95,12 @@ Example in Python 3
 
 
 Getting Started
-===========
-
+================
 The easiest way to run the Splines library is using `Miniconda <https://conda.io/miniconda.html>`_ (pick the 64-bit installer with the latest Python version). For do so, run ``conda env create -f environment.yml`` to create a new environment based on environment.yml file. Doing that, you will create the splines environment with all required dependencies. Now you just need to activate the splines environment (``conda activate splines``) and have fun.
+
+
+Dependencies
+============
+
+- boost.test
+- eigen3

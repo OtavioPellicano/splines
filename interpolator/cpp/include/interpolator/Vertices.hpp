@@ -21,6 +21,9 @@ class Vertices
 
     const VerticesType &vertices() const;
 
+    // this method was created to keep vertices sorted in python side
+    std::vector<Vertex> vertices_python() const;
+
     template <typename VerticesContainer>
     void set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit = AngleUnit::rad);
 

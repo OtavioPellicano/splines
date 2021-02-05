@@ -23,6 +23,13 @@ const VerticesType &Vertices::vertices() const
     return m_vertices;
 }
 
+std::vector<Vertex> Vertices::vertices_python() const
+{
+    std::vector<Vertex> vertices_p(m_vertices.size());
+    std::copy(m_vertices.begin(), m_vertices.end(), vertices_p.begin());
+    return vertices_p;
+}
+
 template <typename VerticesContainer>
 void Vertices::set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit)
 {

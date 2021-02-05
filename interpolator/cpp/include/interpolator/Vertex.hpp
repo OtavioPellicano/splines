@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include <ostream>
-#include <set>
 
 namespace splines
 {
@@ -28,7 +27,6 @@ enum class AngleUnit
 class Vertex;
 
 typedef std::pair<Vertex, Vertex> AdjacentVertices;
-typedef std::set<Vertex> Vertices;
 
 /**
  * @brief The Vertex class

@@ -2,6 +2,7 @@
 #include <boost/test/included/unit_test.hpp>
 namespace utf = boost::unit_test;
 
+#include <algorithm>
 #include <map>
 #include <sstream>
 
@@ -36,14 +37,14 @@ BOOST_AUTO_TEST_CASE(test_angle_conversion, *utf::tolerance(1E-6))
 
     Vertices vertices = {{0.5, M_PI / 2, M_PI, AngleUnit::rad}, {1.0, 45.0, 30.0, AngleUnit::deg}};
 
-    BOOST_TEST(vertices.begin()->inclination() == M_PI / 2);
-    BOOST_TEST(vertices.begin()->azimuth() == M_PI);
+    BOOST_TEST(vertices.vertices().begin()->inclination() == M_PI / 2);
+    BOOST_TEST(vertices.vertices().begin()->azimuth() == M_PI);
 
-    BOOST_TEST(vertices.begin()->inclination(AngleUnit::deg) == 90.0);
-    BOOST_TEST(vertices.begin()->azimuth(AngleUnit::deg) == 180.0);
+    BOOST_TEST(vertices.vertices().begin()->inclination(AngleUnit::deg) == 90.0);
+    BOOST_TEST(vertices.vertices().begin()->azimuth(AngleUnit::deg) == 180.0);
 
-    BOOST_TEST(vertices.rbegin()->inclination() == M_PI / 4);
-    BOOST_TEST(vertices.rbegin()->azimuth() == M_PI / 6);
+    BOOST_TEST(vertices.vertices().rbegin()->inclination() == M_PI / 4);
+    BOOST_TEST(vertices.vertices().rbegin()->azimuth() == M_PI / 6);
 }
 
 BOOST_AUTO_TEST_CASE(test_vertex_at_position_minimum_curvature_interpolation)
@@ -138,25 +139,27 @@ BOOST_AUTO_TEST_CASE(test_add_and_drop)
         {1600.0, 29.75, 77.05, AngleUnit::deg},
     };
 
-    interpolator.add_n_drop(*samples.begin());
+    interpolator.add_n_drop(*samples.vertices().begin());
     BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
-    interpolator.add_n_drop(*samples.rbegin());
+    interpolator.add_n_drop(*samples.vertices().rbegin());
     BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
-    interpolator.drop_n_add(*samples.begin());
+    interpolator.drop_n_add(*samples.vertices().begin());
     BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
-    interpolator.drop_n_add(*samples.rbegin());
+    interpolator.drop_n_add(*samples.vertices().rbegin());
     BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
 
-    Vertices expected = {
-        {214.13724, 5.5, 45.0, AngleUnit::deg},
-        {598.800936, 29.75, 77.05, AngleUnit::deg},
-        {1550.31948, 29.75, 77.05, AngleUnit::deg},
-        {1600.0, 29.75, 77.05, AngleUnit::deg},
-    };
+    auto expected = Vertices(
+        {
+            {214.13724, 5.5, 45.0},
+            {598.800936, 29.75, 77.05},
+            {1550.31948, 29.75, 77.05},
+            {1600.0, 29.75, 77.05},
+        },
+        AngleUnit::deg);
 
     auto const &vertices = interpolator.vertices();
 
-    for (Vertices::const_iterator it_1 = vertices.begin(), it_2 = expected.begin(); it_1 != vertices.end();
+    for (auto it_1 = vertices.vertices().begin(), it_2 = expected.vertices().begin(); it_1 != vertices.vertices().end();
          ++it_1, ++it_2)
     {
         BOOST_TEST(it_1->approx_equal(*it_2, 1E-3), message_error_vertices_compare(*it_1, *it_2));
@@ -296,7 +299,7 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
                          std::stringstream &(*st)(
                              std::stringstream & ss, Vertex & vt, const std::string &delimiter)) -> std::stringstream {
         std::stringstream ss;
-        for (auto vt : vts)
+        for (auto vt : vts.vertices())
         {
             st(ss, vt, delimiter);
         }
@@ -312,4 +315,39 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
 
         BOOST_TEST(str_vertices == str_operator, "expected delimiter: " + delimiter);
     }
+}
+
+BOOST_AUTO_TEST_CASE(test_vertices_class, *utf::tolerance(1E-6))
+{
+
+    auto compare_vertices = [](const Vertices &t_1, const Vertices &t_2) {
+        BOOST_TEST(t_1.size() == t_2.size());
+
+        for (auto vt_1 = t_1.vertices().begin(), vt_2 = t_2.vertices().begin(); vt_1 != t_1.vertices().end();
+             ++vt_1, ++vt_2)
+        {
+            BOOST_TEST(vt_1->position() == vt_2->position());
+            BOOST_TEST(vt_1->inclination() == vt_2->inclination());
+            BOOST_TEST(vt_1->azimuth() == vt_2->azimuth());
+            BOOST_TEST(vt_1->inclination(AngleUnit::deg) == vt_2->inclination(AngleUnit::deg));
+            BOOST_TEST(vt_1->azimuth(AngleUnit::deg) == vt_2->azimuth(AngleUnit::deg));
+        }
+    };
+
+    auto trajectory = Trajectory::SPE84246;
+
+    BOOST_TEST(trajectory.size() == 4);
+
+    auto trajectory_set = Vertices({});
+
+    trajectory_set.set_vertices(trajectory.vertices() /*,AngleUnit::rad*/);
+
+    auto trajectory_deg = trajectory;
+
+    std::for_each(trajectory_deg.vertices().begin(), trajectory_deg.vertices().end(), [](const Vertex &vt) {
+        return Vertex(vt.position(), vt.inclination(AngleUnit::deg), vt.azimuth(AngleUnit::deg), AngleUnit::deg);
+    });
+
+    compare_vertices(trajectory, trajectory_deg);
+    compare_vertices(trajectory, trajectory_set);
 }

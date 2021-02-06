@@ -17,6 +17,19 @@ class PyIInterpolator : public IInterpolator
   public:
     using IInterpolator::IInterpolator;
 
+    //    virtual const Trajectory &trajectory() const = 0;
+    //    virtual void set_trajectory(const Trajectory &trajectory) = 0;
+
+    const Trajectory &trajectory() const override
+    {
+        PYBIND11_OVERLOAD_PURE(const Trajectory &, IInterpolator, trajectory);
+    }
+
+    void set_trajectory(const Trajectory &trajectory) override
+    {
+        PYBIND11_OVERLOAD_PURE(void, IInterpolator, set_trajectory, trajectory);
+    }
+
     Vertex vertex_at_position(double position) const override
     {
         PYBIND11_OVERLOAD_PURE(Vertex, IInterpolator, vertex_at_position, position);
@@ -125,21 +138,21 @@ PYBIND11_MODULE(_interpolator, m)
         .def("SetDelimiter", &Vertex::set_delimiter, py::arg("delimiter"))
         .def("Delimiter", &Vertex::delimiter);
 
-    py::class_<Vertices>(m, "Vertices")
+    py::class_<Trajectory>(m, "Trajectory")
         .def(py::init<>())
         .def(
             py::init<const std::vector<Vertex> &, AngleUnit>(), py::arg("vertex"),
             py::arg("angle_unit") = AngleUnit::rad)
-        .def("Vertices", &Vertices::vertices)
-        .def("VerticesSorted", &Vertices::vertices_python)
+        .def("Vertices", &Trajectory::vertices)
+        .def("VerticesSorted", &Trajectory::vertices_python)
         // For some reason Travis CI is not supporting template bindings
         // TODO: SPL-67 should resolve this problem
         //        .def(
         //            "SetVertices", &Vertices::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
         //            py::arg("angle_unit") = AngleUnit::rad)
-        .def("AddNDrop", &Vertices::add_n_drop, py::arg("vertex"))
-        .def("DropNAdd", &Vertices::drop_n_add, py::arg("vertex"))
-        .def("Size", &Vertices::size);
+        .def("AddNDrop", &Trajectory::add_n_drop, py::arg("vertex"))
+        .def("DropNAdd", &Trajectory::drop_n_add, py::arg("vertex"))
+        .def("Size", &Trajectory::size);
 
     py::enum_<InterpolationType>(m, "InterpolationType")
         .value("Linear", InterpolationType::linear)
@@ -159,18 +172,18 @@ PYBIND11_MODULE(_interpolator, m)
         .def("InterpolationType", &IInterpolator::interpolation_type);
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")
-        .def("Vertices", &BaseInterpolator::vertices)
-        .def("SetVertices", &BaseInterpolator::set_vertices);
+        .def("Trajectory", &BaseInterpolator::trajectory)
+        .def("SetTrajectory", &BaseInterpolator::set_trajectory, py::arg("trajectory"));
 
     py::class_<LinearInterpolator, BaseInterpolator>(m, "LinearInterpolator")
-        .def(py::init<const Vertices &>(), py::arg("vertices"));
+        .def(py::init<const Trajectory &>(), py::arg("trajectory"));
     py::class_<MinimumCurvatureInterpolator, BaseInterpolator>(m, "MinimumCurvatureInterpolator")
-        .def(py::init<const Vertices &>(), py::arg("vertices"));
+        .def(py::init<const Trajectory &>(), py::arg("trajectory"));
     py::class_<CubicInterpolator, BaseInterpolator>(m, "CubicInterpolator")
-        .def(py::init<const Vertices &>(), py::arg("vertices"));
+        .def(py::init<const Trajectory &>(), py::arg("trajectory"));
 
     // functions
-    m.def("BuildInterpolator", &build_interpolator, py::arg("vertices"), py::arg("interpolation_type"));
+    m.def("BuildInterpolator", &build_interpolator, py::arg("trajectory"), py::arg("interpolation_type"));
 }
 
 #endif // HPP_INTERPOLATOR_BINDINGS

@@ -1,29 +1,29 @@
-#include "interpolator/Vertices.hpp"
+#include "interpolator/Trajectory.hpp"
 
 namespace splines
 {
 
-Vertices::Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit)
+Trajectory::Trajectory(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-Vertices::Vertices(const VerticesType &vertices, AngleUnit angle_unit)
+Trajectory::Trajectory(const VerticesType &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-Vertices::Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
+Trajectory::Trajectory(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-const VerticesType &Vertices::vertices() const
+const VerticesType &Trajectory::vertices() const
 {
     return m_vertices;
 }
 
-std::vector<Vertex> Vertices::vertices_python() const
+std::vector<Vertex> Trajectory::vertices_python() const
 {
     std::vector<Vertex> vertices_p(m_vertices.size());
     std::copy(m_vertices.begin(), m_vertices.end(), vertices_p.begin());
@@ -31,7 +31,7 @@ std::vector<Vertex> Vertices::vertices_python() const
 }
 
 template <typename VerticesContainer>
-void Vertices::set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit)
+void Trajectory::set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit)
 {
     for (auto &vertex : vertices)
     {
@@ -39,19 +39,19 @@ void Vertices::set_vertices(const VerticesContainer &vertices, AngleUnit angle_u
     }
 }
 
-void Vertices::add_n_drop(const Vertex &vertex)
+void Trajectory::add_n_drop(const Vertex &vertex)
 {
     m_vertices.emplace(vertex);
     m_vertices.erase(*m_vertices.rbegin());
 }
 
-void Vertices::drop_n_add(const Vertex &vertex)
+void Trajectory::drop_n_add(const Vertex &vertex)
 {
     m_vertices.erase(*m_vertices.begin());
     m_vertices.emplace(vertex);
 }
 
-size_t Vertices::size() const
+size_t Trajectory::size() const
 {
     return m_vertices.size();
 }

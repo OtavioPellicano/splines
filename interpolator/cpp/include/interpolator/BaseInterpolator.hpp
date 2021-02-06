@@ -19,10 +19,10 @@ class BaseInterpolator : public IInterpolator
 
     virtual ~BaseInterpolator() = default;
 
-    BaseInterpolator(const Vertices &vertices);
+    BaseInterpolator(const Trajectory &trajectory);
 
-    const Vertices &vertices() const;
-    void set_vertices(const Vertices &vertices);
+    const Trajectory &trajectory() const final;
+    void set_trajectory(const Trajectory &trajectory) final;
 
     Vertex vertex_at_position(double position) const final;
 
@@ -182,7 +182,7 @@ class BaseInterpolator : public IInterpolator
     double calculate_delta_angle(double angle_1, double angle_2) const;
 
   private:
-    Vertices m_vertices;
+    Trajectory m_trajectory;
 };
 
 } // namespace splines

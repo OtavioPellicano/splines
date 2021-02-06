@@ -20,37 +20,37 @@ std::string message_error_vertices_compare(const Vertex &v_1, const Vertex &v_2)
            to_string(v_2.position()) + ", " + to_string(v_2.inclination()) + ", " + to_string(v_2.azimuth()) + "}";
 }
 
-namespace Trajectory
+namespace TrajectorySample
 {
 
 // The vertices choise were based on SPE 84246 paper, pg. 16
-const Vertices SPE84246 = {
+const Trajectory SPE84246 = {
     {214.13724, 0.095993095, 0.785398049999999},
     {598.800936, 0.519235377499999, 1.3447759945},
     {1550.31948, 0.519235377499999, 1.3447759945},
     {3018.032064, 2.09439479999999, 4.97418765}};
 
-}; // namespace Trajectory
+}; // namespace TrajectorySample
 
 BOOST_AUTO_TEST_CASE(test_angle_conversion, *utf::tolerance(1E-6))
 {
 
-    Vertices vertices = {{0.5, M_PI / 2, M_PI, AngleUnit::rad}, {1.0, 45.0, 30.0, AngleUnit::deg}};
+    Trajectory trajectory = {{0.5, M_PI / 2, M_PI, AngleUnit::rad}, {1.0, 45.0, 30.0, AngleUnit::deg}};
 
-    BOOST_TEST(vertices.vertices().begin()->inclination() == M_PI / 2);
-    BOOST_TEST(vertices.vertices().begin()->azimuth() == M_PI);
+    BOOST_TEST(trajectory.vertices().begin()->inclination() == M_PI / 2);
+    BOOST_TEST(trajectory.vertices().begin()->azimuth() == M_PI);
 
-    BOOST_TEST(vertices.vertices().begin()->inclination(AngleUnit::deg) == 90.0);
-    BOOST_TEST(vertices.vertices().begin()->azimuth(AngleUnit::deg) == 180.0);
+    BOOST_TEST(trajectory.vertices().begin()->inclination(AngleUnit::deg) == 90.0);
+    BOOST_TEST(trajectory.vertices().begin()->azimuth(AngleUnit::deg) == 180.0);
 
-    BOOST_TEST(vertices.vertices().rbegin()->inclination() == M_PI / 4);
-    BOOST_TEST(vertices.vertices().rbegin()->azimuth() == M_PI / 6);
+    BOOST_TEST(trajectory.vertices().rbegin()->inclination() == M_PI / 4);
+    BOOST_TEST(trajectory.vertices().rbegin()->azimuth() == M_PI / 6);
 }
 
 BOOST_AUTO_TEST_CASE(test_vertex_at_position_minimum_curvature_interpolation)
 {
 
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory = TrajectorySample::SPE84246;
 
     MinimumCurvatureInterpolator interpolator{trajectory};
 
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(test_vertex_at_position_minimum_curvature_interpolation)
 BOOST_AUTO_TEST_CASE(test_vertex_at_position_linear_interpolation)
 {
 
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory = TrajectorySample::SPE84246;
 
     LinearInterpolator interpolator{trajectory};
 
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(test_vertex_at_position_linear_interpolation)
 BOOST_AUTO_TEST_CASE(test_vertex_at_position_cubic_interpolation)
 {
 
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory = TrajectorySample::SPE84246;
 
     CubicInterpolator interpolator{trajectory};
 
@@ -130,25 +130,25 @@ BOOST_AUTO_TEST_CASE(test_vertex_at_position_cubic_interpolation)
 BOOST_AUTO_TEST_CASE(test_add_and_drop)
 {
 
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory_sample = TrajectorySample::SPE84246;
 
-    MinimumCurvatureInterpolator interpolator{trajectory};
+    MinimumCurvatureInterpolator interpolator{trajectory_sample};
 
-    Vertices samples = {
+    Trajectory samples = {
         {10.0, 5.5, 45.0, AngleUnit::deg},
         {1600.0, 29.75, 77.05, AngleUnit::deg},
     };
 
     interpolator.add_n_drop(*samples.vertices().begin());
-    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    BOOST_TEST(interpolator.trajectory().size() == trajectory_sample.size(), "different size");
     interpolator.add_n_drop(*samples.vertices().rbegin());
-    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    BOOST_TEST(interpolator.trajectory().size() == trajectory_sample.size(), "different size");
     interpolator.drop_n_add(*samples.vertices().begin());
-    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    BOOST_TEST(interpolator.trajectory().size() == trajectory_sample.size(), "different size");
     interpolator.drop_n_add(*samples.vertices().rbegin());
-    BOOST_TEST(interpolator.vertices().size() == trajectory.size(), "different size");
+    BOOST_TEST(interpolator.trajectory().size() == trajectory_sample.size(), "different size");
 
-    auto expected = Vertices(
+    auto expected = Trajectory(
         {
             {214.13724, 5.5, 45.0},
             {598.800936, 29.75, 77.05},
@@ -157,10 +157,10 @@ BOOST_AUTO_TEST_CASE(test_add_and_drop)
         },
         AngleUnit::deg);
 
-    auto const &vertices = interpolator.vertices();
+    auto const &trajectory = interpolator.trajectory();
 
-    for (auto it_1 = vertices.vertices().begin(), it_2 = expected.vertices().begin(); it_1 != vertices.vertices().end();
-         ++it_1, ++it_2)
+    for (auto it_1 = trajectory.vertices().begin(), it_2 = expected.vertices().begin();
+         it_1 != trajectory.vertices().end(); ++it_1, ++it_2)
     {
         BOOST_TEST(it_1->approx_equal(*it_2, 1E-3), message_error_vertices_compare(*it_1, *it_2));
     }
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(test_add_and_drop)
 
 BOOST_AUTO_TEST_CASE(test_projection_at_position_minimum_curvature, *utf::tolerance(1E-6))
 {
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory = TrajectorySample::SPE84246;
 
     MinimumCurvatureInterpolator interpolator{trajectory};
 
@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_CASE(test_projection_at_position_minimum_curvature, *utf::tolera
 
 BOOST_AUTO_TEST_CASE(test_projection_at_position_linear, *utf::tolerance(1E-6))
 {
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory = TrajectorySample::SPE84246;
 
     LinearInterpolator interpolator{trajectory};
 
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE(test_projection_at_position_linear, *utf::tolerance(1E-6))
 
 BOOST_AUTO_TEST_CASE(test_projection_at_position_cubic, *utf::tolerance(1E-6))
 {
-    Vertices trajectory = Trajectory::SPE84246;
+    Trajectory trajectory = TrajectorySample::SPE84246;
 
     CubicInterpolator interpolator{trajectory};
 
@@ -270,9 +270,10 @@ BOOST_AUTO_TEST_CASE(test_projection_at_position_cubic, *utf::tolerance(1E-6))
 BOOST_AUTO_TEST_CASE(test_builder)
 {
 
-    auto linear_trajectory = build_interpolator(Trajectory::SPE84246, InterpolationType::linear);
-    auto minimum_curvature_trajectory = build_interpolator(Trajectory::SPE84246, InterpolationType::minimum_curvature);
-    auto cubic_trajectory = build_interpolator(Trajectory::SPE84246, InterpolationType::cubic);
+    auto linear_trajectory = build_interpolator(TrajectorySample::SPE84246, InterpolationType::linear);
+    auto minimum_curvature_trajectory =
+        build_interpolator(TrajectorySample::SPE84246, InterpolationType::minimum_curvature);
+    auto cubic_trajectory = build_interpolator(TrajectorySample::SPE84246, InterpolationType::cubic);
 
     BOOST_CHECK(linear_trajectory->interpolation_type() == InterpolationType::linear);
     BOOST_CHECK(minimum_curvature_trajectory->interpolation_type() == InterpolationType::minimum_curvature);
@@ -295,7 +296,7 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
         return ss;
     };
 
-    auto stream_out = [](Vertices &vts, const std::string &delimiter,
+    auto stream_out = [](Trajectory &vts, const std::string &delimiter,
                          std::stringstream &(*st)(
                              std::stringstream & ss, Vertex & vt, const std::string &delimiter)) -> std::stringstream {
         std::stringstream ss;
@@ -306,7 +307,7 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
         return ss;
     };
 
-    auto vertices = Trajectory::SPE84246;
+    auto vertices = TrajectorySample::SPE84246;
     std::vector<std::string> delimiters = {",", ";", "|"};
     for (auto &delimiter : delimiters)
     {
@@ -317,10 +318,10 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
     }
 }
 
-BOOST_AUTO_TEST_CASE(test_vertices_class, *utf::tolerance(1E-6))
+BOOST_AUTO_TEST_CASE(test_trajectory_class, *utf::tolerance(1E-6))
 {
 
-    auto compare_vertices = [](const Vertices &t_1, const Vertices &t_2) {
+    auto compare_trajectory = [](const Trajectory &t_1, const Trajectory &t_2) {
         BOOST_TEST(t_1.size() == t_2.size());
 
         for (auto vt_1 = t_1.vertices().begin(), vt_2 = t_2.vertices().begin(); vt_1 != t_1.vertices().end();
@@ -334,11 +335,11 @@ BOOST_AUTO_TEST_CASE(test_vertices_class, *utf::tolerance(1E-6))
         }
     };
 
-    auto trajectory = Trajectory::SPE84246;
+    auto trajectory = TrajectorySample::SPE84246;
 
     BOOST_TEST(trajectory.size() == 4);
 
-    auto trajectory_set = Vertices({});
+    auto trajectory_set = Trajectory({});
 
     trajectory_set.set_vertices(trajectory.vertices() /*,AngleUnit::rad*/);
 
@@ -348,6 +349,6 @@ BOOST_AUTO_TEST_CASE(test_vertices_class, *utf::tolerance(1E-6))
         return Vertex(vt.position(), vt.inclination(AngleUnit::deg), vt.azimuth(AngleUnit::deg), AngleUnit::deg);
     });
 
-    compare_vertices(trajectory, trajectory_deg);
-    compare_vertices(trajectory, trajectory_set);
+    compare_trajectory(trajectory, trajectory_deg);
+    compare_trajectory(trajectory, trajectory_set);
 }

@@ -11,13 +11,17 @@ namespace splines
 
 typedef std::set<Vertex> VerticesType;
 
-class Vertices
+/**
+ * @brief The Trajectory class
+ * The Trajectory class is a vertices wrapper
+ */
+class Trajectory
 {
   public:
-    Vertices() = default;
-    Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
-    Vertices(const VerticesType &vertices, AngleUnit angle_unit = AngleUnit::rad);
-    Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Trajectory() = default;
+    Trajectory(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Trajectory(const VerticesType &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Trajectory(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
 
     const VerticesType &vertices() const;
 

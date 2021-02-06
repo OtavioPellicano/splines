@@ -1,7 +1,7 @@
 #ifndef I3DINTERPOLATION_H
 #define I3DINTERPOLATION_H
 
-#include "Vertices.hpp"
+#include "Trajectory.hpp"
 
 namespace splines
 {
@@ -26,6 +26,9 @@ class IInterpolator
 {
   public:
     virtual ~IInterpolator() = default;
+
+    virtual const Trajectory &trajectory() const = 0;
+    virtual void set_trajectory(const Trajectory &trajectory) = 0;
 
     /**
      * @brief vertex_at_position

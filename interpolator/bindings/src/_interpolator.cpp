@@ -17,9 +17,6 @@ class PyIInterpolator : public IInterpolator
   public:
     using IInterpolator::IInterpolator;
 
-    //    virtual const Trajectory &trajectory() const = 0;
-    //    virtual void set_trajectory(const Trajectory &trajectory) = 0;
-
     const Trajectory &trajectory() const override
     {
         PYBIND11_OVERLOAD_PURE(const Trajectory &, IInterpolator, trajectory);

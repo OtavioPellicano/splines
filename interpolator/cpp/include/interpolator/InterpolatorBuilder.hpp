@@ -14,7 +14,7 @@ namespace splines
  * @brief build_interpolator
  * This function represents the builder for interpolation type
  *
- * @param vertices
+ * @param trajectory
  * All trajectory vertices available to build the curve
  *
  * @param interpolation_type

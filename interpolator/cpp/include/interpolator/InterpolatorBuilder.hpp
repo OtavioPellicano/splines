@@ -14,7 +14,7 @@ namespace splines
  * @brief build_interpolator
  * This function represents the builder for interpolation type
  *
- * @param vertices
+ * @param trajectory
  * All trajectory vertices available to build the curve
  *
  * @param interpolation_type
@@ -23,7 +23,8 @@ namespace splines
  * @return
  * A smart_ptr with the interpolation object
  */
-std::unique_ptr<BaseInterpolator> build_interpolator(const Vertices &vertices, InterpolationType interpolation_type);
+std::unique_ptr<BaseInterpolator> build_interpolator(
+    const Trajectory &trajectory, InterpolationType interpolation_type);
 
 } // namespace splines
 

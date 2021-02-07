@@ -27,12 +27,13 @@ Example in C++
 
     int main()
     {
-    
+
+        // Trajectory is a vertices wrapper
         // Vertex is basically a struct where you store position, inclination and azimuth as follow:
         // Vertex{position, inclination, azimuth}
         // inclination: angle from z to y axis
         // azimuth: angle from x to y axis
-        auto vertices = splines::Vertices(
+        auto vertices = splines::Trajectory(
             {{214.13724, 0.095993095, 0.785398049999999},
              {598.800936, 0.519235377499999, 1.3447759945},
              {1550.31948, 0.519235377499999, 1.3447759945},
@@ -63,20 +64,21 @@ Example in Python 3
 
 .. code-block:: python
 
-    from _interpolator import (AngleUnit, BuildInterpolator, InterpolationType, Vertex)
+    from _interpolator import (AngleUnit, BuildInterpolator, InterpolationType, Vertex, Trajectory)
 
     def main():
 
+        # Trajectory is a vertices wrapper
         # Vertex is basically a struct where you store position, inclination and azimuth as follow:
         # Vertex{position, inclination, azimuth}
         # inclination: angle from z to y axis
         # azimuth: angle from x to y axis
-        vertices = Vertices([Vertex(214.13724, 0.095993095, 0.785398049999999), # default angle unti: radian
+        trajectory = Trajectory([Vertex(214.13724, 0.095993095, 0.785398049999999), # default angle unti: radian
                         Vertex(598.800936, 0.519235377499999, 1.3447759945),
                         Vertex(1550.31948, 0.519235377499999, 1.3447759945),
                         Vertex(3018.032064, 2.09439479999999, 4.97418765)])
 
-        linear_interpolator = BuildInterpolator(vertices, InterpolationType.Linear)
+        linear_interpolator = BuildInterpolator(trajectory, InterpolationType.Linear)
 
         position_desired = 2690.786592
 

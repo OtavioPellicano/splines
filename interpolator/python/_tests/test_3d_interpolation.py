@@ -1,12 +1,12 @@
 from _interpolator import (AngleUnit, BuildInterpolator,
-                           InterpolationType, Vertex, Vertices)
+                           InterpolationType, Vertex, Trajectory)
 import pytest
 import numpy as np
 
 
 @pytest.fixture
 def trajectory_SPE84246():
-    return Vertices([Vertex(214.13724, 0.095993095, 0.785398049999999),
+    return Trajectory([Vertex(214.13724, 0.095993095, 0.785398049999999),
                 Vertex(598.800936, 0.519235377499999, 1.3447759945),
                 Vertex(1550.31948, 0.519235377499999, 1.3447759945),
                 Vertex(3018.032064, 2.09439479999999, 4.97418765)])
@@ -34,8 +34,8 @@ def test_3d_interpolation(
         angle_unit,
         interpolation_type
 ):
-    vertices = trajectory_SPE84246
-    interpolator = BuildInterpolator(vertices, interpolation_type)
+    trajectory = trajectory_SPE84246
+    interpolator = BuildInterpolator(trajectory, interpolation_type)
 
     positions = np.zeros_like(interpolation_samples_SPE84246)
     inclinations = np.zeros_like(interpolation_samples_SPE84246)
@@ -80,7 +80,7 @@ def test_vertex_repr_operator(delimiter):
 
 
 # TODO: SPL-67 add SetVertices test
-def test_vertices_class(trajectory_SPE84246):
+def test_trajectory_class(trajectory_SPE84246):
     assert trajectory_SPE84246.Size() == 4
 
     trajectory_deg = list()
@@ -93,7 +93,7 @@ def test_vertices_class(trajectory_SPE84246):
                    AngleUnit.Deg)
         )
 
-    def compare_vertices(t_1, t_2):
+    def compare_trajectory(t_1, t_2):
         assert t_1.Size() == t_2.Size()
 
         for (vt_1, vt_2) in zip(t_1.VerticesSorted(), t_2.VerticesSorted()):
@@ -103,5 +103,5 @@ def test_vertices_class(trajectory_SPE84246):
             assert pytest.approx(vt_1.Inclination(AngleUnit.Deg), vt_2.Inclination(AngleUnit.Deg))
             assert pytest.approx(vt_1.Azimuth(AngleUnit.Deg), vt_2.Azimuth(AngleUnit.Deg))
 
-    trajectory_deg = Vertices(trajectory_deg)
-    compare_vertices(trajectory_SPE84246, trajectory_deg)
+    trajectory_deg = Trajectory(trajectory_deg)
+    compare_trajectory(trajectory_SPE84246, trajectory_deg)

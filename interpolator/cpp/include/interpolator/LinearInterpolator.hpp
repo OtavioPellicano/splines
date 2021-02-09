@@ -13,7 +13,10 @@ namespace splines
 class LinearInterpolator : public BaseInterpolator
 {
   public:
-    using BaseInterpolator::BaseInterpolator;
+    LinearInterpolator(const Trajectory &trajectory)
+        : BaseInterpolator(trajectory, InterpolationType::linear)
+    {
+    }
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
@@ -44,9 +47,6 @@ class LinearInterpolator : public BaseInterpolator
      */
     double calculate_linear_spline(
         double position_1, double angle_1, double position_2, double angle_2, double position) const;
-
-  private:
-    const InterpolationType m_interpolation_type = InterpolationType::linear;
 };
 
 } // namespace splines

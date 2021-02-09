@@ -13,7 +13,10 @@ namespace splines
 class MinimumCurvatureInterpolator : public BaseInterpolator
 {
   public:
-    using BaseInterpolator::BaseInterpolator;
+    MinimumCurvatureInterpolator(const Trajectory &trajectory)
+        : BaseInterpolator(trajectory, InterpolationType::minimum_curvature)
+    {
+    }
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
@@ -51,9 +54,6 @@ class MinimumCurvatureInterpolator : public BaseInterpolator
      */
     std::pair<double, double> calculate_common_delta_projection(
         double position, const AdjacentVertices &adjacent_vertices) const;
-
-  private:
-    const InterpolationType m_interpolation_type = InterpolationType::minimum_curvature;
 };
 
 } // namespace splines

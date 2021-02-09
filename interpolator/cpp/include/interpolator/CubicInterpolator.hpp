@@ -13,7 +13,10 @@ namespace splines
 class CubicInterpolator : public BaseInterpolator
 {
   public:
-    using BaseInterpolator::BaseInterpolator;
+    CubicInterpolator(const Trajectory &trajectory)
+        : BaseInterpolator(trajectory, InterpolationType::cubic)
+    {
+    }
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;
@@ -39,9 +42,6 @@ class CubicInterpolator : public BaseInterpolator
     };
     double calculate_delta_projection(
         double position, const AdjacentVertices &adjacent_vertices, ProjectionType projection_type) const;
-
-  private:
-    const InterpolationType m_interpolation_type = InterpolationType::cubic;
 };
 
 } // namespace splines

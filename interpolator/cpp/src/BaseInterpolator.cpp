@@ -3,8 +3,9 @@
 namespace splines
 {
 
-BaseInterpolator::BaseInterpolator(const Trajectory &trajectory)
+BaseInterpolator::BaseInterpolator(const Trajectory &trajectory, const InterpolationType &interpolation_type)
     : m_trajectory(trajectory)
+    , m_interpolation_type(interpolation_type)
 {
 }
 

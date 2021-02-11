@@ -33,13 +33,13 @@ Example in C++
         // Vertex{position, inclination, azimuth}
         // inclination: angle from z to y axis
         // azimuth: angle from x to y axis
-        auto vertices = splines::Trajectory(
+        auto trajectory = splines::Trajectory(
             {{214.13724, 0.095993095, 0.785398049999999},
              {598.800936, 0.519235377499999, 1.3447759945},
              {1550.31948, 0.519235377499999, 1.3447759945},
              {3018.032064, 2.09439479999999, 4.97418765}} /*,AngleUnit::rad*/);
 
-        auto linear_interpolator = build_interpolator(vertices, splines::InterpolationType::linear);
+        auto linear_interpolator = build_interpolator(trajectory, splines::InterpolationType::linear);
 
         auto const position_desired = 2690.786592;
 

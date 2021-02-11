@@ -19,7 +19,7 @@ class BaseInterpolator : public IInterpolator
 
     virtual ~BaseInterpolator() = default;
 
-    BaseInterpolator(const Trajectory &trajectory);
+    BaseInterpolator(const Trajectory &trajectory, const InterpolationType &interpolation_type);
 
     const Trajectory &trajectory() const final;
     void set_trajectory(const Trajectory &trajectory) final;
@@ -183,6 +183,9 @@ class BaseInterpolator : public IInterpolator
 
   private:
     Trajectory m_trajectory;
+
+  protected:
+    const InterpolationType m_interpolation_type;
 };
 
 } // namespace splines

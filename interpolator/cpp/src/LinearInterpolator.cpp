@@ -95,9 +95,4 @@ double LinearInterpolator::angle_at_position(
     return res < 0 ? (res + M_PI * 2) : res;
 }
 
-InterpolationType LinearInterpolator::interpolation_type() const
-{
-    return m_interpolation_type;
-}
-
 } // namespace splines

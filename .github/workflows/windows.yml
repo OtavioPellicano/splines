@@ -24,9 +24,8 @@ jobs:
         with:
           activate-environment: splines
           environment-file: environment.yml
+      - uses: microsoft/setup-msbuild@v1.0.2
       - name: build
-        env:
-          CXX: g++-9
         run: |
           mkdir build
           cd build

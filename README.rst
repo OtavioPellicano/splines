@@ -98,11 +98,31 @@ Example in Python 3
 
 Getting Started
 ================
+
 The easiest way to run the Splines library is using `Miniconda <https://conda.io/miniconda.html>`_ (pick the 64-bit installer with the latest Python version). For do so, run ``conda env create -f environment.yml`` to create a new environment based on environment.yml file. Doing that, you will create the splines environment with all required dependencies. Now you just need to activate the splines environment (``conda activate splines``) and have fun.
+
+.. code-block:: bash
+
+    ~/splines:~$ conda env create -f environment.yml
+    ~/splines:~$ conda activate splines
+
+
+Building
+=========
+
+In the project root run the following commands
+
+.. code-block:: bash
+
+    ~/splines:~$ mkdir build && cd build
+    ~/splines:~$ cmake -DCMAKE_BUILD_TYPE=Release ..
+    ~/splines:~$ make
+
+
+If you want ot compile in Debug mode, change ``cmake -DCMAKE_BUILD_TYPE=Release ..`` to ``cmake -DCMAKE_BUILD_TYPE=Debug ..``
 
 
 Dependencies
 ============
 
-- boost.test
-- eigen3
+All dependencies were included in `environment.yml <https://github.com/OtavioPellicano/splines/blob/master/environment.yml>`_. You just need to build using a compiler which support C++ 17 or higher.

@@ -3,6 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
+  - eigen
   - python=3.9
   - pybind11
   - pytest
@@ -11,3 +12,4 @@ dependencies:
   - pytest-regressions
   - coverage
   - pytest-cpp
+  - boost-cpp

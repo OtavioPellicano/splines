@@ -1,10 +1,10 @@
 name: splines
 channels:
-  - defaults
   - conda-forge
+  - defaults
 dependencies:
   - eigen
-  - python=3.9
+  - python
   - pybind11
   - pytest
   - numpy

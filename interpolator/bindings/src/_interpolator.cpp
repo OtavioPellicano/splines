@@ -148,9 +148,9 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Vertices", &Trajectory::vertices)
         .def("VerticesSorted", &Trajectory::vertices_python)
         // For some reason Travis CI is not supporting template bindings
-        // TODO: SPL-67 should resolve this problem
+        // TODO: SPL-77
         //        .def(
-        //            "SetVertices", &Vertices::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
+        //            "SetVertices", &Trajectory::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
         //            py::arg("angle_unit") = AngleUnit::rad)
         .def("AddNDrop", &Trajectory::add_n_drop, py::arg("vertex"))
         .def("DropNAdd", &Trajectory::drop_n_add, py::arg("vertex"))

@@ -95,7 +95,7 @@ def test_vertex_repr_operator(delimiter):
     assert str(vertex) == delimiter.join([str(vertex.Position()), str(vertex.Inclination()), str(vertex.Azimuth())])
 
 
-# TODO: SPL-67 add SetVertices test
+# TODO: SPL-77 add SetVertices test
 def test_trajectory_class(trajectory_SPE84246):
     assert trajectory_SPE84246.Size() == 4
 

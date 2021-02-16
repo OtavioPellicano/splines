@@ -4,7 +4,7 @@ on: push
 
 jobs:
   ubuntu:
-    name: Ubuntu
+    name: Ubuntu Release
     runs-on: "ubuntu-latest"
     defaults:
       run:

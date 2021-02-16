@@ -17,18 +17,6 @@ def interpolation_samples_SPE84246():
     return sorted([214.13724, 598.800936, 1550.31948, 3018.032064, 1295.4, 2592.052728, 2690.786592, 2789.520456])
 
 
-def _CompareInterpolationTypeStr(interpolator):
-
-    if interpolator.InterpolationType() == InterpolationType.Linear:
-        assert "linear" == interpolator.InterpolationTypeStr()
-    elif interpolator.InterpolationType() == InterpolationType.MinimumCurvature:
-        assert "minimum_curvature" == interpolator.InterpolationTypeStr()
-    elif interpolator.InterpolationType() == InterpolationType.Cubic:
-        assert "cubic" == interpolator.InterpolationTypeStr()
-    else:
-        assert False
-
-
 @pytest.mark.parametrize(
     'angle_unit',
     [AngleUnit.Deg, AngleUnit.Rad],
@@ -46,12 +34,8 @@ def test_3d_interpolation(
         angle_unit,
         interpolation_type
 ):
-
     trajectory = trajectory_SPE84246
     interpolator = BuildInterpolator(trajectory, interpolation_type)
-
-    # Compare InterpolationType with InterpolationTypeStr
-    _CompareInterpolationTypeStr(interpolator)
 
     positions = np.zeros_like(interpolation_samples_SPE84246)
     inclinations = np.zeros_like(interpolation_samples_SPE84246)

@@ -58,6 +58,11 @@ double CubicInterpolator::calculate_delta_z_projection(double position, const Ad
     return this->calculate_delta_projection(position, adjacent_vertices, ProjectionType::z);
 }
 
+InterpolationType CubicInterpolator::interpolation_type() const
+{
+    return m_interpolation_type;
+}
+
 double CubicInterpolator::calculate_ep(double position, const AdjacentVertices &adjacent_vertices) const
 {
     auto const delta_s = adjacent_vertices.second.position() - adjacent_vertices.first.position();

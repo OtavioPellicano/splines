@@ -67,6 +67,11 @@ double MinimumCurvatureInterpolator::calculate_delta_z_projection(
     return (delta_s / 2.0) * (cos(v_2.inclination()) + cos(v_1.inclination())) * factor_f;
 }
 
+InterpolationType MinimumCurvatureInterpolator::interpolation_type() const
+{
+    return m_interpolation_type;
+}
+
 std::pair<double, double> MinimumCurvatureInterpolator::calculate_common_delta_projection(
     double position, const AdjacentVertices &adjacent_vertices) const
 {

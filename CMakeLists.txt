@@ -6,6 +6,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(Boost COMPONENTS REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+
 set(
     PYTHON_TESTS_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/python/_tests
@@ -27,6 +33,9 @@ set(
 )
 
 add_definitions(-fPIC)
+# Workaround to use boost-test from conda environment.
+# @see https://github.com/conda-forge/boost-cpp-feedstock/issues/48
+add_definitions(-DBoost_NO_BOOST_CMAKE=ON)
 
 add_subdirectory(interpolator/cpp)
 add_subdirectory(interpolator/bindings)

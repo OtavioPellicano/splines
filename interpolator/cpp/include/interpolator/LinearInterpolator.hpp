@@ -26,6 +26,7 @@ class LinearInterpolator : public BaseInterpolator
     double calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
     double angle_at_position(
         double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const final;
+    InterpolationType interpolation_type() const final;
 
     /**
      * @brief calculate_linear_spline

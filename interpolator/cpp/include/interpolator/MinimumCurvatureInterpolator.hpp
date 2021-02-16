@@ -26,6 +26,7 @@ class MinimumCurvatureInterpolator : public BaseInterpolator
     double calculate_delta_x_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
     double calculate_delta_y_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
     double calculate_delta_z_projection(double position, const AdjacentVertices &adjacent_vertices) const final;
+    InterpolationType interpolation_type() const final;
 
     /**
      * @brief calculate_alpha

@@ -35,8 +35,6 @@ class BaseInterpolator : public IInterpolator
     double x_at_position(double position) const final;
     double y_at_position(double position) const final;
     double z_at_position(double position) const final;
-    InterpolationType interpolation_type() const final;
-    std::string interpolation_type_str() const final;
 
   private:
     typedef double (BaseInterpolator::*DeltaCalculator)(double, const AdjacentVertices &) const;

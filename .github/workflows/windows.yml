@@ -16,7 +16,7 @@ jobs:
     runs-on: "windows-latest"
     defaults:
       run:
-        shell: cmd
+        shell: cmake -P {0}
     steps:
       - uses: actions/checkout@v2
 

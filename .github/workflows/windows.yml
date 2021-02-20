@@ -27,12 +27,12 @@ jobs:
       - uses: microsoft/setup-msbuild@v1.0.2
       - name: build
         run: |
-          mkdir build
-          cd build
-          cmake -DCMAKE_BUILD_TYPE=Release ..
-          make
+          call mkdir build
+          call cd build
+          call cmake -DCMAKE_BUILD_TYPE=Release ..
+          call make
       - name: tests
         run: |
-          coverage run -m pytest build/artifacts/
-          coverage report
+          call coverage run -m pytest build/artifacts/
+          call coverage report
           

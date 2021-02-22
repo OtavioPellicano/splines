@@ -119,5 +119,11 @@ def test_trajectory_class(trajectory_SPE84246):
             assert pytest.approx(vt_1.Inclination(AngleUnit.Deg), vt_2.Inclination(AngleUnit.Deg))
             assert pytest.approx(vt_1.Azimuth(AngleUnit.Deg), vt_2.Azimuth(AngleUnit.Deg))
 
+    trajectory_set_sorted = Trajectory()
+    trajectory_set = Trajectory()
+    trajectory_set_sorted.SetVertices(trajectory_SPE84246.VerticesSorted())
+    trajectory_set.SetVertices(trajectory_SPE84246.Vertices())
+
     trajectory_deg = Trajectory(trajectory_deg)
     compare_trajectory(trajectory_SPE84246, trajectory_deg)
+    compare_trajectory(trajectory_set_sorted, trajectory_set)

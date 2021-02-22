@@ -71,6 +71,11 @@ class PyIInterpolator : public IInterpolator
     {
         PYBIND11_OVERLOAD_PURE(InterpolationType, IInterpolator, interpolation_type);
     }
+
+    std::string interpolation_type_str() const override
+    {
+        PYBIND11_OVERLOAD_PURE(std::string, IInterpolator, interpolation_type_str);
+    }
 };
 
 class PyBaseInterpolator : public BaseInterpolator
@@ -143,9 +148,9 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Vertices", &Trajectory::vertices)
         .def("VerticesSorted", &Trajectory::vertices_python)
         // For some reason Travis CI is not supporting template bindings
-        // TODO: SPL-67 should resolve this problem
+        // TODO: SPL-77
         //        .def(
-        //            "SetVertices", &Vertices::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
+        //            "SetVertices", &Trajectory::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
         //            py::arg("angle_unit") = AngleUnit::rad)
         .def("AddNDrop", &Trajectory::add_n_drop, py::arg("vertex"))
         .def("DropNAdd", &Trajectory::drop_n_add, py::arg("vertex"))
@@ -166,7 +171,8 @@ PYBIND11_MODULE(_interpolator, m)
         .def("ZAtPosition", &IInterpolator::z_at_position, py::arg("position"))
         .def("AddNDrop", &IInterpolator::add_n_drop, py::arg("vertex"))
         .def("DropNAdd", &IInterpolator::drop_n_add, py::arg("vertex"))
-        .def("InterpolationType", &IInterpolator::interpolation_type);
+        .def("InterpolationType", &IInterpolator::interpolation_type)
+        .def("InterpolationTypeStr", &IInterpolator::interpolation_type_str);
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")
         .def("Trajectory", &BaseInterpolator::trajectory)

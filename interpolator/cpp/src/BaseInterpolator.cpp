@@ -104,6 +104,26 @@ double BaseInterpolator::z_at_position(double position) const
     return this->projection_at_position(&BaseInterpolator::calculate_delta_z_projection, position);
 }
 
+InterpolationType BaseInterpolator::interpolation_type() const
+{
+    return m_interpolation_type;
+}
+
+std::string BaseInterpolator::interpolation_type_str() const
+{
+    switch (m_interpolation_type)
+    {
+    case InterpolationType::linear:
+        return "linear";
+    case InterpolationType::minimum_curvature:
+        return "minimum_curvature";
+    case InterpolationType::cubic:
+        return "cubic";
+    default:
+        return "not_defined";
+    }
+}
+
 double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator, double position) const
 {
 

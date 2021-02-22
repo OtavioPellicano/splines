@@ -125,6 +125,15 @@ class IInterpolator
      * @see InterpolationType
      */
     virtual InterpolationType interpolation_type() const = 0;
+
+    /**
+     * @brief interpolation_type
+     * This method retuns the interpolation type as std::string
+     *
+     * @return
+     * @see InterpolationType
+     */
+    virtual std::string interpolation_type_str() const = 0;
 };
 
 } // namespace splines

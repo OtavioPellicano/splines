@@ -1,7 +1,10 @@
 #define BOOST_TEST_MODULE test_3d_interpolation
+
+// The unit_test.hpp must be the first include (it is crashing in Travis CI)
+#include <boost/test/included/unit_test.hpp>
+
 #include <boost/test/data/monomorphic.hpp>
 #include <boost/test/data/test_case.hpp>
-#include <boost/test/included/unit_test.hpp>
 
 namespace utf = boost::unit_test;
 namespace data = boost::unit_test::data;

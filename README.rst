@@ -125,4 +125,4 @@ If you want ot compile in Debug mode, change ``cmake -DCMAKE_BUILD_TYPE=Release 
 Dependencies
 ============
 
-All dependencies were included in `environment.yml <https://github.com/OtavioPellicano/splines/blob/master/environment.yml>`_. You just need to build using a compiler which support C++ 17 or higher.
+All dependencies were included in `environment.yml <https://github.com/OtavioPellicano/splines/blob/master/environment.yml>`_. You just need to build using a compiler which support C++ 17 or higher (suggestion g++-10).

@@ -22,14 +22,14 @@ jobs:
       - name: dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install g++-9
+          sudo apt-get install g++-10
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: splines
           environment-file: environment.yml
       - name: build
         env:
-          CXX: g++-9
+          CXX: g++-10
         run: |
           mkdir build
           cd build

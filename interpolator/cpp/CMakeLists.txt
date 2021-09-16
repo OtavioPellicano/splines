@@ -27,11 +27,12 @@ install(
     FILES 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/BaseInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/CubicInterpolator.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/IInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/InterpolatorBuilder.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/LinearInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/MinimumCurvatureInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/Vertex.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/IInterpolator.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/Trajectory.hpp
     DESTINATION
     ${CMAKE_INSTALL_PREFIX}/include/interpolator
      )

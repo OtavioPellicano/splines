@@ -13,3 +13,4 @@ dependencies:
   - coverage
   - pytest-cpp
   - boost-cpp
+  - black

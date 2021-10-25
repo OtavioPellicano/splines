@@ -44,7 +44,7 @@ class Vertex
 
     bool operator<(const Vertex &vt) const
     {
-        return this->m_position < vt.m_position;
+        return this->_position < vt._position;
     }
 
     bool operator>(const Vertex &vt) const
@@ -62,7 +62,7 @@ class Vertex
      */
     friend std::ostream &operator<<(std::ostream &os, const Vertex &vt)
     {
-        os << vt.m_position << vt.m_delimiter << vt.m_inclination << vt.m_delimiter << vt.m_azimuth;
+        os << vt._position << vt._delimiter << vt._inclination << vt._delimiter << vt._azimuth;
         return os;
     }
 
@@ -131,11 +131,11 @@ class Vertex
     double angle_out(double angle, AngleUnit angle_unit) const;
 
   private:
-    double m_position;
-    double m_inclination; // angle from z axis
-    double m_azimuth;     // angle from x axis
+    double _position;
+    double _inclination; // angle from z axis
+    double _azimuth;     // angle from x axis
 
-    std::string m_delimiter = ","; // ostream delimiter
+    std::string _delimiter = ","; // ostream delimiter
 };
 
 } // namespace splines

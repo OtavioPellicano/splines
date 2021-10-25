@@ -43,7 +43,7 @@ double LinearInterpolator::calculate_delta_z_projection(
 double LinearInterpolator::calculate_linear_spline(
     double position_1, double angle_1, double position_2, double angle_2, double position) const
 {
-    auto delta_p = position_2 - position_1;
+    auto const delta_p = position_2 - position_1;
 
     return delta_p < std::numeric_limits<double>::epsilon()
                ? angle_2
@@ -91,8 +91,8 @@ double LinearInterpolator::angle_at_position(
 
     auto res = this->calculate_linear_spline(v_1.position(), angle_1, v_2.position(), angle_2, position);
 
-    res = std::fmod(res, M_PI * 2);
-    return res < 0 ? (res + M_PI * 2) : res;
+    res = std::fmod(res, M_PI * 2.0);
+    return res < 0.0 ? (res + M_PI * 2.0) : res;
 }
 
 } // namespace splines

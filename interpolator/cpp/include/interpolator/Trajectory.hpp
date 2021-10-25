@@ -37,7 +37,7 @@ class Trajectory
     size_t size() const;
 
   private:
-    VerticesType m_vertices;
+    VerticesType _vertices;
 };
 
 } // namespace splines

@@ -184,10 +184,10 @@ class BaseInterpolator : public IInterpolator
     double calculate_delta_angle(double angle_1, double angle_2) const;
 
   private:
-    Trajectory m_trajectory;
+    Trajectory _trajectory;
 
   protected:
-    const InterpolationType m_interpolation_type;
+    const InterpolationType _interpolation_type;
 };
 
 } // namespace splines

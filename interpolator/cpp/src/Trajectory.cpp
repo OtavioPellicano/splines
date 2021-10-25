@@ -20,13 +20,13 @@ Trajectory::Trajectory(const std::vector<Vertex> &vertices, AngleUnit angle_unit
 
 const VerticesType &Trajectory::vertices() const
 {
-    return m_vertices;
+    return this->_vertices;
 }
 
 std::vector<Vertex> Trajectory::vertices_python() const
 {
-    std::vector<Vertex> vertices_p(m_vertices.size());
-    std::copy(m_vertices.begin(), m_vertices.end(), vertices_p.begin());
+    std::vector<Vertex> vertices_p(this->_vertices.size());
+    std::copy(this->_vertices.begin(), this->_vertices.end(), vertices_p.begin());
     return vertices_p;
 }
 
@@ -35,25 +35,25 @@ void Trajectory::set_vertices(const VerticesContainer &vertices, AngleUnit angle
 {
     for (auto &vertex : vertices)
     {
-        m_vertices.emplace(Vertex(vertex.position(), vertex.inclination(), vertex.azimuth(), angle_unit));
+        this->_vertices.emplace(Vertex(vertex.position(), vertex.inclination(), vertex.azimuth(), angle_unit));
     }
 }
 
 void Trajectory::add_n_drop(const Vertex &vertex)
 {
-    m_vertices.emplace(vertex);
-    m_vertices.erase(*m_vertices.rbegin());
+    this->_vertices.emplace(vertex);
+    this->_vertices.erase(*this->_vertices.rbegin());
 }
 
 void Trajectory::drop_n_add(const Vertex &vertex)
 {
-    m_vertices.erase(*m_vertices.begin());
-    m_vertices.emplace(vertex);
+    this->_vertices.erase(*this->_vertices.begin());
+    this->_vertices.emplace(vertex);
 }
 
 size_t Trajectory::size() const
 {
-    return m_vertices.size();
+    return this->_vertices.size();
 }
 
 } // namespace splines

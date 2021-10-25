@@ -4,52 +4,52 @@ namespace splines
 {
 
 Vertex::Vertex(double position, double inclination, double azimuth, AngleUnit angle_unit)
-    : m_position(position)
-    , m_inclination(inclination)
-    , m_azimuth(azimuth)
+    : _position(position)
+    , _inclination(inclination)
+    , _azimuth(azimuth)
 {
     if (angle_unit != AngleUnit::rad)
     {
-        m_inclination = this->angle_in(inclination, angle_unit);
-        m_azimuth = this->angle_in(azimuth, angle_unit);
+        this->_inclination = this->angle_in(inclination, angle_unit);
+        this->_azimuth = this->angle_in(azimuth, angle_unit);
     }
 }
 
 double Vertex::position() const
 {
-    return m_position;
+    return this->_position;
 }
 
 void Vertex::set_position(double position)
 {
-    m_position = position;
+    this->_position = position;
 }
 
 double Vertex::inclination(AngleUnit angle_unit) const
 {
-    return angle_out(m_inclination, angle_unit);
+    return angle_out(this->_inclination, angle_unit);
 }
 
 void Vertex::set_inclination(double inclination)
 {
-    m_inclination = inclination;
+    this->_inclination = inclination;
 }
 
 double Vertex::azimuth(AngleUnit angle_unit) const
 {
-    return angle_out(m_azimuth, angle_unit);
+    return angle_out(this->_azimuth, angle_unit);
 }
 
 void Vertex::set_azimuth(double azimuth)
 {
-    m_azimuth = azimuth;
+    this->_azimuth = azimuth;
 }
 
 void Vertex::calculate_tangent(const Vertex &vt, Point &point) const
 {
-    point.x = vt.m_position * sin(vt.m_inclination) * cos(vt.m_azimuth);
-    point.y = vt.m_position * sin(vt.m_inclination) * sin(vt.m_azimuth);
-    point.z = vt.m_position * cos(vt.m_inclination);
+    point.x = vt._position * sin(vt._inclination) * cos(vt._azimuth);
+    point.y = vt._position * sin(vt._inclination) * sin(vt._azimuth);
+    point.z = vt._position * cos(vt._inclination);
 }
 
 double Vertex::euclidean_distance(const Point &point_1, const Point &point_2) const
@@ -93,12 +93,12 @@ double Vertex::angle_out(double angle, AngleUnit angle_unit) const
 
 std::string Vertex::delimiter() const
 {
-    return m_delimiter;
+    return this->_delimiter;
 }
 
 void Vertex::set_delimiter(const std::string &delimiter)
 {
-    m_delimiter = delimiter;
+    this->_delimiter = delimiter;
 }
 
 } // namespace splines

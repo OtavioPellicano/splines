@@ -25,7 +25,7 @@ const VerticesType &Trajectory::vertices() const
 
 std::vector<Vertex> Trajectory::vertices_python() const
 {
-    std::vector<Vertex> vertices_p(this->_vertices.size());
+    auto vertices_p = std::vector<Vertex>(this->_vertices.size());
     std::copy(this->_vertices.begin(), this->_vertices.end(), vertices_p.begin());
     return vertices_p;
 }

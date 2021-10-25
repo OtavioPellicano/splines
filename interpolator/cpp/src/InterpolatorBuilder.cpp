@@ -5,7 +5,7 @@ namespace splines
 
 std::unique_ptr<BaseInterpolator> build_interpolator(const Trajectory &trajectory, InterpolationType interpolation_type)
 {
-    std::unique_ptr<BaseInterpolator> interp_ptr = nullptr;
+    auto interp_ptr = std::unique_ptr<BaseInterpolator>(nullptr);
     switch (interpolation_type)
     {
     case InterpolationType::linear:

@@ -133,7 +133,7 @@ double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator
     {
         if (it_v->position() > position || fabs(position - it_v->position()) < std::numeric_limits<double>::epsilon())
         {
-            const AdjacentVertices &adjacent_vertices = {
+            auto const &adjacent_vertices = AdjacentVertices{
                 it_v != this->_trajectory.vertices().begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0},
                 this->vertex_at_position(position)};
 
@@ -142,7 +142,7 @@ double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator
             break;
         }
 
-        const AdjacentVertices &adjacent_vertices = {
+        auto const &adjacent_vertices = AdjacentVertices{
             it_v != this->_trajectory.vertices().begin() ? *std::prev(it_v) : Vertex{0.0, 0.0, 0.0}, *it_v};
         sum_delta += std::invoke(delta_calculator, *this, it_v->position(), adjacent_vertices);
     }

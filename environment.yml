@@ -14,3 +14,4 @@ dependencies:
   - pytest-cpp
   - boost-cpp
   - black
+  - clang-format

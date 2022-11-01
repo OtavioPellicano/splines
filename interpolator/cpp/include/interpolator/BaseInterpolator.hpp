@@ -3,6 +3,7 @@
 
 #include "IInterpolator.hpp"
 #include <algorithm>
+#include <functional>
 
 namespace splines
 {

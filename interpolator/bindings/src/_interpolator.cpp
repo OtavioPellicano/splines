@@ -187,8 +187,7 @@ PYBIND11_MODULE(_interpolator, m)
         .def(py::init<const Trajectory &>(), py::arg("trajectory"));
 
     py::class_<InterpolatorFactory>(m, "InterpolatorFactory")
-        .def_static(
-            "make_interpolator", &InterpolatorFactory::make, py::arg("trajectory"), py::arg("interpolation_type"));
+        .def_static("make", &InterpolatorFactory::make, py::arg("trajectory"), py::arg("interpolation_type"));
 }
 
 #endif // HPP_INTERPOLATOR_BINDINGS

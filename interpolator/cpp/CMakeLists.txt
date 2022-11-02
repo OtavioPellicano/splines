@@ -3,7 +3,7 @@ add_library(
     
     src/BaseInterpolator.cpp
     src/CubicInterpolator.cpp
-    src/InterpolatorBuilder.cpp
+    src/InterpolatorFactory.cpp
     src/LinearInterpolator.cpp
     src/MinimumCurvatureInterpolator.cpp
     src/Vertex.cpp
@@ -11,7 +11,7 @@ add_library(
 
     include/interpolator/BaseInterpolator.hpp
     include/interpolator/CubicInterpolator.hpp
-    include/interpolator/InterpolatorBuilder.hpp
+    include/interpolator/InterpolatorFactory.hpp
     include/interpolator/LinearInterpolator.hpp
     include/interpolator/MinimumCurvatureInterpolator.hpp
     include/interpolator/Vertex.hpp
@@ -27,7 +27,7 @@ install(
     FILES 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/BaseInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/CubicInterpolator.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/InterpolatorBuilder.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/InterpolatorFactory.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/LinearInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/MinimumCurvatureInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/Vertex.hpp

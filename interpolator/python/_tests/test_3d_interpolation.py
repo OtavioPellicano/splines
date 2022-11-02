@@ -1,6 +1,6 @@
 from _interpolator import (
     AngleUnit,
-    BuildInterpolator,
+    InterpolatorFactory,
     InterpolationType,
     Vertex,
     Trajectory,
@@ -45,9 +45,7 @@ def _CompareInterpolationTypeStr(interpolator):
         assert "minimum_curvature" == interpolator.InterpolationTypeStr()
     elif interpolator.InterpolationType() == InterpolationType.Cubic:
         assert "cubic" == interpolator.InterpolationTypeStr()
-    else:
-        assert False
-
+        
 
 @pytest.mark.parametrize(
     "angle_unit", [AngleUnit.Deg, AngleUnit.Rad], ids=["deg", "rad"]
@@ -70,7 +68,7 @@ def test_3d_interpolation(
 ):
 
     trajectory = trajectory_SPE84246
-    interpolator = BuildInterpolator(trajectory, interpolation_type)
+    interpolator = InterpolatorFactory.make(trajectory, interpolation_type)
 
     # Compare InterpolationType with InterpolationTypeStr
     _CompareInterpolationTypeStr(interpolator)
@@ -140,14 +138,14 @@ def test_trajectory_class(trajectory_SPE84246):
         assert t_1.Size() == t_2.Size()
 
         for (vt_1, vt_2) in zip(t_1.VerticesSorted(), t_2.VerticesSorted()):
-            assert pytest.approx(vt_1.Position(), vt_2.Position())
-            assert pytest.approx(vt_1.Inclination(), vt_2.Inclination())
-            assert pytest.approx(vt_1.Azimuth(), vt_2.Azimuth())
-            assert pytest.approx(
-                vt_1.Inclination(AngleUnit.Deg), vt_2.Inclination(AngleUnit.Deg)
+            assert pytest.approx(vt_1.Position()) == vt_2.Position()
+            assert pytest.approx(vt_1.Inclination()) == vt_2.Inclination()
+            assert pytest.approx(vt_1.Azimuth()) == vt_2.Azimuth()
+            assert pytest.approx(vt_1.Inclination(AngleUnit.Deg)) == vt_2.Inclination(
+                AngleUnit.Deg
             )
-            assert pytest.approx(
-                vt_1.Azimuth(AngleUnit.Deg), vt_2.Azimuth(AngleUnit.Deg)
+            assert pytest.approx(vt_1.Azimuth(AngleUnit.Deg)) == vt_2.Azimuth(
+                AngleUnit.Deg
             )
 
     trajectory_set_sorted = Trajectory()

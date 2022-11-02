@@ -1,6 +1,11 @@
 Splines
 ========
 
+.. image:: https://github.com/OtavioPellicano/splines/actions/workflows/linux.yml/badge.svg
+    :alt: GitHub Actions Status
+    :scale: 100%
+    :target: https://github.com/OtavioPellicano/splines/actions/workflows/linux.yml
+
 .. image:: https://travis-ci.com/OtavioPellicano/splines.svg?branch=master
     :alt: Travis Status
     :scale: 100%
@@ -39,7 +44,7 @@ Example in C++
              {1550.31948, 0.519235377499999, 1.3447759945},
              {3018.032064, 2.09439479999999, 4.97418765}} /*,AngleUnit::rad*/);
 
-        auto linear_interpolator = build_interpolator(trajectory, splines::InterpolationType::linear);
+        auto linear_interpolator = splines::InterpolatorFactory::make(trajectory, splines::InterpolationType::linear);
 
         auto const position_desired = 2690.786592;
 
@@ -64,7 +69,7 @@ Example in Python 3
 
 .. code-block:: python
 
-    from _interpolator import (AngleUnit, BuildInterpolator, InterpolationType, Vertex, Trajectory)
+    from _interpolator import (AngleUnit, InterpolatorFactory, InterpolationType, Vertex, Trajectory)
 
     def main():
 
@@ -78,7 +83,7 @@ Example in Python 3
                         Vertex(1550.31948, 0.519235377499999, 1.3447759945),
                         Vertex(3018.032064, 2.09439479999999, 4.97418765)])
 
-        linear_interpolator = BuildInterpolator(trajectory, InterpolationType.Linear)
+        linear_interpolator = InterpolatorFactory.make(trajectory, InterpolationType.Linear)
 
         position_desired = 2690.786592
 

@@ -38,5 +38,5 @@ jobs:
       - name: tests
         run: |
           coverage run -m pytest build/artifacts/
-          coverage report
+          coverage report -m
           

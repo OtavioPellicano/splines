@@ -45,9 +45,7 @@ def _CompareInterpolationTypeStr(interpolator):
         assert "minimum_curvature" == interpolator.InterpolationTypeStr()
     elif interpolator.InterpolationType() == InterpolationType.Cubic:
         assert "cubic" == interpolator.InterpolationTypeStr()
-    else:
-        assert False
-
+        
 
 @pytest.mark.parametrize(
     "angle_unit", [AngleUnit.Deg, AngleUnit.Rad], ids=["deg", "rad"]

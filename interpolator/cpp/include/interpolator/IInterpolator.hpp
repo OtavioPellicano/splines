@@ -14,7 +14,7 @@ enum class InterpolationType
 {
     linear,
     minimum_curvature,
-    cubic
+    cubic,
 };
 
 /**

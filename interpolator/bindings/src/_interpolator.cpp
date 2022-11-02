@@ -7,7 +7,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
 
-#include <interpolator/InterpolatorBuilder.hpp>
+#include <interpolator/InterpolatorFactory.hpp>
 
 using namespace splines;
 namespace py = pybind11;
@@ -186,8 +186,9 @@ PYBIND11_MODULE(_interpolator, m)
     py::class_<CubicInterpolator, BaseInterpolator>(m, "CubicInterpolator")
         .def(py::init<const Trajectory &>(), py::arg("trajectory"));
 
-    // functions
-    m.def("BuildInterpolator", &build_interpolator, py::arg("trajectory"), py::arg("interpolation_type"));
+    py::class_<InterpolatorFactory>(m, "InterpolatorFactory")
+        .def_static(
+            "make_interpolator", &InterpolatorFactory::make, py::arg("trajectory"), py::arg("interpolation_type"));
 }
 
 #endif // HPP_INTERPOLATOR_BINDINGS

@@ -13,7 +13,7 @@ namespace data = boost::unit_test::data;
 #include <map>
 #include <sstream>
 
-#include <interpolator/InterpolatorBuilder.hpp>
+#include <interpolator/InterpolatorFactory.hpp>
 
 using namespace splines;
 
@@ -153,7 +153,7 @@ BOOST_DATA_TEST_CASE(
     interpolation_type, samples_expected)
 {
 
-    auto interpolator = build_interpolator(Samples::SPE84246, interpolation_type);
+    auto interpolator = InterpolatorFactory::make(Samples::SPE84246, interpolation_type);
 
     for (auto &item : samples_expected)
     {
@@ -213,7 +213,7 @@ BOOST_DATA_TEST_CASE(
 {
 
     auto tol = 1E-4;
-    auto interpolator = build_interpolator(Samples::SPE84246, interpolation_type);
+    auto interpolator = InterpolatorFactory::make(Samples::SPE84246, interpolation_type);
 
     auto error_msg = [&interpolator](double current, double expected) -> std::string {
         return interpolator->interpolation_type_str() + ": current != expected: " + std::to_string(current) +
@@ -232,12 +232,12 @@ BOOST_DATA_TEST_CASE(
     }
 }
 
-BOOST_AUTO_TEST_CASE(test_builder)
+BOOST_AUTO_TEST_CASE(test_factory)
 {
-
-    auto linear_trajectory = build_interpolator(Samples::SPE84246, InterpolationType::linear);
-    auto minimum_curvature_trajectory = build_interpolator(Samples::SPE84246, InterpolationType::minimum_curvature);
-    auto cubic_trajectory = build_interpolator(Samples::SPE84246, InterpolationType::cubic);
+    auto linear_trajectory = InterpolatorFactory::make(Samples::SPE84246, InterpolationType::linear);
+    auto minimum_curvature_trajectory =
+        InterpolatorFactory::make(Samples::SPE84246, InterpolationType::minimum_curvature);
+    auto cubic_trajectory = InterpolatorFactory::make(Samples::SPE84246, InterpolationType::cubic);
 
     BOOST_CHECK(linear_trajectory->interpolation_type() == InterpolationType::linear);
     BOOST_CHECK(minimum_curvature_trajectory->interpolation_type() == InterpolationType::minimum_curvature);

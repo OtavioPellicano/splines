@@ -1,6 +1,6 @@
 from _interpolator import (
     AngleUnit,
-    BuildInterpolator,
+    InterpolatorFactory,
     InterpolationType,
     Vertex,
     Trajectory,
@@ -70,7 +70,7 @@ def test_3d_interpolation(
 ):
 
     trajectory = trajectory_SPE84246
-    interpolator = BuildInterpolator(trajectory, interpolation_type)
+    interpolator = InterpolatorFactory.make_interpolator(trajectory, interpolation_type)
 
     # Compare InterpolationType with InterpolationTypeStr
     _CompareInterpolationTypeStr(interpolator)

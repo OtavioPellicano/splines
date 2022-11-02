@@ -1,6 +1,11 @@
 Splines
 ========
 
+.. image:: https://github.com/OtavioPellicano/splines/actions/workflows/linux.yml/badge.svg
+    :alt: GitHub Actions Status
+    :scale: 100%
+    :target: https://github.com/OtavioPellicano/splines/actions/workflows/linux.yml
+
 .. image:: https://travis-ci.com/OtavioPellicano/splines.svg?branch=master
     :alt: Travis Status
     :scale: 100%

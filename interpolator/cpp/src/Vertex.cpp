@@ -15,6 +15,25 @@ Vertex::Vertex(double position, double inclination, double azimuth, AngleUnit an
     }
 }
 
+bool Vertex::operator<(const Vertex &vt) const
+{
+    return this->_position < vt._position;
+}
+
+bool Vertex::operator>(const Vertex &vt) const
+{
+    return !(*this < vt);
+}
+
+bool Vertex::approx_equal(const Vertex &vt, double tol_radius) const
+{
+    static Point point_1, point_2;
+    this->calculate_tangent(*this, point_1);
+    this->calculate_tangent(vt, point_2);
+
+    return this->euclidean_distance(point_1, point_2) < tol_radius;
+}
+
 double Vertex::position() const
 {
     return this->_position;

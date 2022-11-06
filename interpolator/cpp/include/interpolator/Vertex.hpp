@@ -42,15 +42,8 @@ class Vertex
     Vertex(
         double position = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
 
-    bool operator<(const Vertex &vt) const
-    {
-        return this->_position < vt._position;
-    }
-
-    bool operator>(const Vertex &vt) const
-    {
-        return !(*this < vt);
-    }
+    bool operator<(const Vertex &vt) const;
+    bool operator>(const Vertex &vt) const;
 
     /**
      * @brief operator <<
@@ -66,14 +59,7 @@ class Vertex
         return os;
     }
 
-    bool approx_equal(const Vertex &vt, double tol_radius = 1E-6) const
-    {
-        static Point point_1, point_2;
-        this->calculate_tangent(*this, point_1);
-        this->calculate_tangent(vt, point_2);
-
-        return this->euclidean_distance(point_1, point_2) < tol_radius;
-    }
+    bool approx_equal(const Vertex &vt, double tol_radius = 1E-6) const;
 
     double position() const;
     void set_position(double position);

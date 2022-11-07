@@ -1,6 +1,7 @@
 #ifndef VERTICES_H
 #define VERTICES_H
 
+#include <algorithm>
 #include <set>
 #include <vector>
 
@@ -35,6 +36,10 @@ class Trajectory
     void drop_n_add(const Vertex &vertex);
 
     size_t size() const;
+
+    std::vector<double> positions() const;
+    std::vector<double> inclinations(AngleUnit angle_unit = AngleUnit::rad) const;
+    std::vector<double> azimuths(AngleUnit angle_unit = AngleUnit::rad) const;
 
   private:
     VerticesType _vertices;

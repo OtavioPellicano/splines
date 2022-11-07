@@ -56,4 +56,34 @@ size_t Trajectory::size() const
     return this->_vertices.size();
 }
 
+std::vector<double> Trajectory::positions() const
+{
+    auto res = std::vector<double>(this->_vertices.size());
+    std::transform(this->_vertices.begin(), this->_vertices.end(), res.begin(), [](const Vertex &vt) -> double {
+        return vt.position();
+    });
+
+    return res;
+}
+
+std::vector<double> Trajectory::inclinations(AngleUnit angle_unit) const
+{
+    auto res = std::vector<double>(this->_vertices.size());
+    std::transform(
+        this->_vertices.begin(), this->_vertices.end(), res.begin(),
+        [angle_unit = angle_unit](const Vertex &vt) -> double { return vt.inclination(angle_unit); });
+
+    return res;
+}
+
+std::vector<double> Trajectory::azimuths(AngleUnit angle_unit) const
+{
+    auto res = std::vector<double>(this->_vertices.size());
+    std::transform(
+        this->_vertices.begin(), this->_vertices.end(), res.begin(),
+        [angle_unit = angle_unit](const Vertex &vt) -> double { return vt.azimuth(angle_unit); });
+
+    return res;
+}
+
 } // namespace splines

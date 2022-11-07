@@ -152,7 +152,10 @@ PYBIND11_MODULE(_interpolator, m)
             py::arg("angle_unit") = AngleUnit::rad)
         .def("AddNDrop", &Trajectory::add_n_drop, py::arg("vertex"))
         .def("DropNAdd", &Trajectory::drop_n_add, py::arg("vertex"))
-        .def("Size", &Trajectory::size);
+        .def("Size", &Trajectory::size)
+        .def("Positions", &Trajectory::positions)
+        .def("Inclinations", &Trajectory::inclinations, py::arg("AngleUnit"))
+        .def("Azimuths", &Trajectory::azimuths, py::arg("AngleUnit"));
 
     py::enum_<InterpolationType>(m, "InterpolationType")
         .value("Linear", InterpolationType::linear)

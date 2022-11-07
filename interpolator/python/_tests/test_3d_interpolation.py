@@ -89,6 +89,17 @@ def test_3d_interpolation(
         projections_y[i] = interpolator.YAtPosition(sample)
         projections_z[i] = interpolator.ZAtPosition(sample)
 
+    assert len(trajectory.Vertices()) == len(interpolator.Trajectory().Positions())
+
+    vertices_pos = interpolator.Trajectory().Positions()
+    vertices_inc = interpolator.Trajectory().Inclinations(angle_unit)
+    vertices_azm = interpolator.Trajectory().Azimuths(angle_unit)
+
+    for i, vertex in enumerate(trajectory.VerticesSorted()):
+        assert pytest.approx(vertices_pos[i]) == vertex.Position()
+        assert pytest.approx(vertices_inc[i]) == vertex.Inclination(angle_unit)
+        assert pytest.approx(vertices_azm[i]) == vertex.Azimuth(angle_unit)
+
     res = dict()
     res["position"] = positions
     res["inclination"] = inclinations

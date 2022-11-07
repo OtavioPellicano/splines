@@ -30,7 +30,7 @@ std::string message_error_vertices_compare(const Vertex &v_1, const Vertex &v_2)
 namespace Samples
 {
 
-// The vertices choise were based on SPE 84246 paper, pg. 16
+// The vertices choice were based on SPE 84246 paper, pg. 16
 const Trajectory SPE84246 = {
     {214.13724, 0.095993095, 0.785398049999999},
     {598.800936, 0.519235377499999, 1.3447759945},

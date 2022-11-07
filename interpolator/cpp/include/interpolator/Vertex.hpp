@@ -62,13 +62,8 @@ class Vertex
     bool approx_equal(const Vertex &vt, double tol_radius = 1E-6) const;
 
     double position() const;
-    void set_position(double position);
-
     double inclination(AngleUnit angle_unit = AngleUnit::rad) const;
-    void set_inclination(double inclination);
-
     double azimuth(AngleUnit angle_unit = AngleUnit::rad) const;
-    void set_azimuth(double azimuth);
 
     std::string delimiter() const;
     void set_delimiter(const std::string &delimiter);

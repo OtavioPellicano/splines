@@ -125,11 +125,8 @@ PYBIND11_MODULE(_interpolator, m)
             py::init<double, double, double, AngleUnit>(), py::arg("position") = 0.0, py::arg("inclination") = 0.0,
             py::arg("azimuth") = 0.0, py::arg("angle_unit") = AngleUnit::rad)
         .def("Position", &Vertex::position)
-        .def("SetPosition", &Vertex::set_position, py::arg("position"))
         .def("Inclination", &Vertex::inclination, py::arg("AngleUnit") = AngleUnit::rad)
-        .def("SetInclination", &Vertex::set_inclination, py::arg("inclination"))
         .def("Azimuth", &Vertex::azimuth, py::arg("AngleUnit") = AngleUnit::rad)
-        .def("SetAzimuth", &Vertex::set_azimuth, py::arg("azimuth"))
         .def(
             "__repr__",
             [](const Vertex &vt) {

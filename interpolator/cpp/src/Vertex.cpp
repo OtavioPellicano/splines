@@ -39,29 +39,14 @@ double Vertex::position() const
     return this->_position;
 }
 
-void Vertex::set_position(double position)
-{
-    this->_position = position;
-}
-
 double Vertex::inclination(AngleUnit angle_unit) const
 {
     return angle_out(this->_inclination, angle_unit);
 }
 
-void Vertex::set_inclination(double inclination)
-{
-    this->_inclination = inclination;
-}
-
 double Vertex::azimuth(AngleUnit angle_unit) const
 {
     return angle_out(this->_azimuth, angle_unit);
-}
-
-void Vertex::set_azimuth(double azimuth)
-{
-    this->_azimuth = azimuth;
 }
 
 void Vertex::calculate_tangent(const Vertex &vt, Point &point) const

@@ -176,8 +176,8 @@ PYBIND11_MODULE(_interpolator, m)
         .def("InterpolationTypeStr", &IInterpolator::interpolation_type_str);
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")
-        .def("Vertices", &BaseInterpolator::trajectory)
-        .def("SetVertices", &BaseInterpolator::set_trajectory, py::arg("trajectory"));
+        .def("Trajectory", &BaseInterpolator::trajectory)
+        .def("SetTrajectory", &BaseInterpolator::set_trajectory, py::arg("trajectory"));
 
     py::class_<LinearInterpolator, BaseInterpolator>(m, "LinearInterpolator")
         .def(py::init<const Vertices &>(), py::arg("trajectory"));

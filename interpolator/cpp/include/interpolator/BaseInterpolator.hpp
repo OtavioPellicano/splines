@@ -20,10 +20,10 @@ class BaseInterpolator : public IInterpolator
 
     virtual ~BaseInterpolator() = default;
 
-    BaseInterpolator(const Trajectory &trajectory, const InterpolationType &interpolation_type);
+    BaseInterpolator(const Vertices &trajectory, const InterpolationType &interpolation_type);
 
-    const Trajectory &trajectory() const final;
-    void set_trajectory(const Trajectory &trajectory) final;
+    const Vertices &trajectory() const final;
+    void set_trajectory(const Vertices &trajectory) final;
 
     Vertex vertex_at_position(double position) const final;
 
@@ -185,7 +185,7 @@ class BaseInterpolator : public IInterpolator
     double calculate_delta_angle(double angle_1, double angle_2) const;
 
   private:
-    Trajectory _trajectory;
+    Vertices _trajectory;
 
   protected:
     const InterpolationType _interpolation_type;

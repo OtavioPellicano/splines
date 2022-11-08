@@ -3,7 +3,7 @@ from _interpolator import (
     InterpolatorFactory,
     InterpolationType,
     Vertex,
-    Trajectory,
+    Vertices,
 )
 import pytest
 import numpy as np
@@ -11,7 +11,7 @@ import numpy as np
 
 @pytest.fixture
 def trajectory_SPE84246():
-    return Trajectory(
+    return Vertices(
         [
             Vertex(214.13724, 0.095993095, 0.785398049999999),
             Vertex(598.800936, 0.519235377499999, 1.3447759945),
@@ -89,6 +89,19 @@ def test_3d_interpolation(
         projections_y[i] = interpolator.YAtPosition(sample)
         projections_z[i] = interpolator.ZAtPosition(sample)
 
+    assert len(trajectory.Vertices()) == len(interpolator.Trajectory().Positions())
+
+    assert interpolator.Trajectory().ApproxEqual(trajectory, 0.1)
+
+    vertices_pos = interpolator.Trajectory().Positions()
+    vertices_inc = interpolator.Trajectory().Inclinations(angle_unit)
+    vertices_azm = interpolator.Trajectory().Azimuths(angle_unit)
+
+    for i, vertex in enumerate(trajectory.VerticesSorted()):
+        assert pytest.approx(vertices_pos[i]) == vertex.Position()
+        assert pytest.approx(vertices_inc[i]) == vertex.Inclination(angle_unit)
+        assert pytest.approx(vertices_azm[i]) == vertex.Azimuth(angle_unit)
+
     res = dict()
     res["position"] = positions
     res["inclination"] = inclinations
@@ -100,25 +113,16 @@ def test_3d_interpolation(
     num_regression.check(res)
 
 
-@pytest.mark.parametrize(
-    "delimiter",
-    [",", ";", "|", "-"],
-    ids=["default(comma)", "semicolon", "pipe", "dash"],
-)
-def test_vertex_repr_operator(delimiter):
+def test_vertex_repr_operator():
     vertex = Vertex(1.1, 2.2, 3.3)
 
-    # Default delimiter: comma
-    if delimiter != ",":
-        vertex.SetDelimiter(delimiter)
-
+    delimiter = ","
     assert delimiter == vertex.Delimiter()
     assert str(vertex) == delimiter.join(
         [str(vertex.Position()), str(vertex.Inclination()), str(vertex.Azimuth())]
     )
 
 
-# TODO: SPL-77 add SetVertices test
 def test_trajectory_class(trajectory_SPE84246):
     assert trajectory_SPE84246.Size() == 4
 
@@ -148,11 +152,11 @@ def test_trajectory_class(trajectory_SPE84246):
                 AngleUnit.Deg
             )
 
-    trajectory_set_sorted = Trajectory()
-    trajectory_set = Trajectory()
+    trajectory_set_sorted = Vertices()
+    trajectory_set = Vertices()
     trajectory_set_sorted.SetVertices(trajectory_SPE84246.VerticesSorted())
     trajectory_set.SetVertices(trajectory_SPE84246.Vertices())
 
-    trajectory_deg = Trajectory(trajectory_deg)
+    trajectory_deg = Vertices(trajectory_deg)
     compare_trajectory(trajectory_SPE84246, trajectory_deg)
     compare_trajectory(trajectory_set_sorted, trajectory_set)

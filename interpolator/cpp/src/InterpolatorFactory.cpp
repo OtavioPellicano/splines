@@ -4,7 +4,7 @@ namespace splines
 {
 
 std::unique_ptr<BaseInterpolator> InterpolatorFactory::make(
-    const Trajectory &trajectory, InterpolationType interpolation_type)
+    const Vertices &trajectory, InterpolationType interpolation_type)
 {
     switch (interpolation_type)
     {

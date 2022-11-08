@@ -26,7 +26,7 @@ class InterpolatorFactory
      * @return
      * A smart_ptr with the interpolation object
      */
-    static std::unique_ptr<BaseInterpolator> make(const Trajectory &trajectory, InterpolationType interpolation_type);
+    static std::unique_ptr<BaseInterpolator> make(const Vertices &trajectory, InterpolationType interpolation_type);
 };
 
 } // namespace splines

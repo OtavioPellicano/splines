@@ -3,18 +3,18 @@
 namespace splines
 {
 
-BaseInterpolator::BaseInterpolator(const Trajectory &trajectory, const InterpolationType &interpolation_type)
+BaseInterpolator::BaseInterpolator(const Vertices &trajectory, const InterpolationType &interpolation_type)
     : _trajectory(trajectory)
     , _interpolation_type(interpolation_type)
 {
 }
 
-const Trajectory &BaseInterpolator::trajectory() const
+const Vertices &BaseInterpolator::trajectory() const
 {
     return this->_trajectory;
 }
 
-void BaseInterpolator::set_trajectory(const Trajectory &trajectory)
+void BaseInterpolator::set_trajectory(const Vertices &trajectory)
 {
     this->_trajectory = trajectory;
 }

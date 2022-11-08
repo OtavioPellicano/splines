@@ -13,7 +13,7 @@ namespace splines
 class LinearInterpolator : public BaseInterpolator
 {
   public:
-    LinearInterpolator(const Trajectory &trajectory)
+    LinearInterpolator(const Vertices &trajectory)
         : BaseInterpolator(trajectory, InterpolationType::linear)
     {
     }

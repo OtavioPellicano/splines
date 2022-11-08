@@ -1,29 +1,29 @@
-#include "interpolator/Trajectory.hpp"
+#include "interpolator/Vertices.hpp"
 
 namespace splines
 {
 
-Trajectory::Trajectory(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit)
+Vertices::Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-Trajectory::Trajectory(const VerticesType &vertices, AngleUnit angle_unit)
+Vertices::Vertices(const std::set<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-Trajectory::Trajectory(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
+Vertices::Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit)
 {
     set_vertices(vertices, angle_unit);
 }
 
-const VerticesType &Trajectory::vertices() const
+const std::set<Vertex> &Vertices::vertices() const
 {
     return this->_vertices;
 }
 
-std::vector<Vertex> Trajectory::vertices_python() const
+std::vector<Vertex> Vertices::vertices_python() const
 {
     auto vertices_p = std::vector<Vertex>(this->_vertices.size());
     std::copy(this->_vertices.begin(), this->_vertices.end(), vertices_p.begin());
@@ -31,7 +31,7 @@ std::vector<Vertex> Trajectory::vertices_python() const
 }
 
 template <typename VerticesContainer>
-void Trajectory::set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit)
+void Vertices::set_vertices(const VerticesContainer &vertices, AngleUnit angle_unit)
 {
     for (auto &vertex : vertices)
     {
@@ -39,24 +39,24 @@ void Trajectory::set_vertices(const VerticesContainer &vertices, AngleUnit angle
     }
 }
 
-void Trajectory::add_n_drop(const Vertex &vertex)
+void Vertices::add_n_drop(const Vertex &vertex)
 {
     this->_vertices.emplace(vertex);
     this->_vertices.erase(*this->_vertices.rbegin());
 }
 
-void Trajectory::drop_n_add(const Vertex &vertex)
+void Vertices::drop_n_add(const Vertex &vertex)
 {
     this->_vertices.erase(*this->_vertices.begin());
     this->_vertices.emplace(vertex);
 }
 
-size_t Trajectory::size() const
+size_t Vertices::size() const
 {
     return this->_vertices.size();
 }
 
-std::vector<double> Trajectory::positions() const
+std::vector<double> Vertices::positions() const
 {
     auto res = std::vector<double>(this->_vertices.size());
     std::transform(this->_vertices.begin(), this->_vertices.end(), res.begin(), [](const Vertex &vt) -> double {
@@ -66,7 +66,7 @@ std::vector<double> Trajectory::positions() const
     return res;
 }
 
-std::vector<double> Trajectory::inclinations(AngleUnit angle_unit) const
+std::vector<double> Vertices::inclinations(AngleUnit angle_unit) const
 {
     auto res = std::vector<double>(this->_vertices.size());
     std::transform(
@@ -76,7 +76,7 @@ std::vector<double> Trajectory::inclinations(AngleUnit angle_unit) const
     return res;
 }
 
-std::vector<double> Trajectory::azimuths(AngleUnit angle_unit) const
+std::vector<double> Vertices::azimuths(AngleUnit angle_unit) const
 {
     auto res = std::vector<double>(this->_vertices.size());
     std::transform(
@@ -86,34 +86,34 @@ std::vector<double> Trajectory::azimuths(AngleUnit angle_unit) const
     return res;
 }
 
-bool Trajectory::approx_equal(const Trajectory &other, double tol_radius) const
+bool Vertices::approx_equal(const Vertices &other, double tol_radius) const
 {
     return std::equal(
         this->_vertices.cbegin(), this->_vertices.cend(), other.cbegin(), other.cend(),
         [tol_radius = tol_radius](const Vertex &v1, const Vertex &v2) { return v1.approx_equal(v2, tol_radius); });
 }
 
-std::string Trajectory::delimiter() const
+std::string Vertices::delimiter() const
 {
     return this->_vertices.cbegin()->delimiter();
 }
 
-VerticesType::iterator Trajectory::begin()
+std::set<Vertex>::iterator Vertices::begin()
 {
     return this->_vertices.begin();
 }
 
-VerticesType::iterator Trajectory::end()
+std::set<Vertex>::iterator Vertices::end()
 {
     return this->_vertices.end();
 }
 
-VerticesType::const_iterator Trajectory::cbegin() const
+std::set<Vertex>::const_iterator Vertices::cbegin() const
 {
     return this->_vertices.cbegin();
 }
 
-VerticesType::const_iterator Trajectory::cend() const
+std::set<Vertex>::const_iterator Vertices::cend() const
 {
     return this->_vertices.cend();
 }

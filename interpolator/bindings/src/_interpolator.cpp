@@ -17,12 +17,12 @@ class PyIInterpolator : public IInterpolator
   public:
     using IInterpolator::IInterpolator;
 
-    const Trajectory &trajectory() const override
+    const Vertices &trajectory() const override
     {
-        PYBIND11_OVERLOAD_PURE(const Trajectory &, IInterpolator, trajectory);
+        PYBIND11_OVERLOAD_PURE(const Vertices &, IInterpolator, trajectory);
     }
 
-    void set_trajectory(const Trajectory &trajectory) override
+    void set_trajectory(const Vertices &trajectory) override
     {
         PYBIND11_OVERLOAD_PURE(void, IInterpolator, set_trajectory, trajectory);
     }
@@ -136,26 +136,26 @@ PYBIND11_MODULE(_interpolator, m)
             })
         .def("Delimiter", &Vertex::delimiter);
 
-    py::class_<Trajectory>(m, "Trajectory")
+    py::class_<Vertices>(m, "Vertices")
         .def(py::init<>())
         .def(
             py::init<const std::vector<Vertex> &, AngleUnit>(), py::arg("vertex"),
             py::arg("angle_unit") = AngleUnit::rad)
-        .def("Vertices", &Trajectory::vertices)
-        .def("VerticesSorted", &Trajectory::vertices_python)
+        .def("Vertices", &Vertices::vertices)
+        .def("VerticesSorted", &Vertices::vertices_python)
         .def(
-            "SetVertices", &Trajectory::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
+            "SetVertices", &Vertices::set_vertices<std::vector<Vertex>>, py::arg("vertices"),
             py::arg("angle_unit") = AngleUnit::rad)
         .def(
-            "SetVertices", &Trajectory::set_vertices<VerticesType>, py::arg("vertices"),
+            "SetVertices", &Vertices::set_vertices<std::set<Vertex>>, py::arg("vertices"),
             py::arg("angle_unit") = AngleUnit::rad)
-        .def("AddNDrop", &Trajectory::add_n_drop, py::arg("vertex"))
-        .def("DropNAdd", &Trajectory::drop_n_add, py::arg("vertex"))
-        .def("Size", &Trajectory::size)
-        .def("Positions", &Trajectory::positions)
-        .def("Inclinations", &Trajectory::inclinations, py::arg("AngleUnit"))
-        .def("Azimuths", &Trajectory::azimuths, py::arg("AngleUnit"))
-        .def("ApproxEqual", &Trajectory::approx_equal, py::arg("other"), py::arg("tol_radius"));
+        .def("AddNDrop", &Vertices::add_n_drop, py::arg("vertex"))
+        .def("DropNAdd", &Vertices::drop_n_add, py::arg("vertex"))
+        .def("Size", &Vertices::size)
+        .def("Positions", &Vertices::positions)
+        .def("Inclinations", &Vertices::inclinations, py::arg("AngleUnit"))
+        .def("Azimuths", &Vertices::azimuths, py::arg("AngleUnit"))
+        .def("ApproxEqual", &Vertices::approx_equal, py::arg("other"), py::arg("tol_radius"));
 
     py::enum_<InterpolationType>(m, "InterpolationType")
         .value("Linear", InterpolationType::linear)
@@ -176,15 +176,15 @@ PYBIND11_MODULE(_interpolator, m)
         .def("InterpolationTypeStr", &IInterpolator::interpolation_type_str);
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")
-        .def("Trajectory", &BaseInterpolator::trajectory)
-        .def("SetTrajectory", &BaseInterpolator::set_trajectory, py::arg("trajectory"));
+        .def("Vertices", &BaseInterpolator::trajectory)
+        .def("SetVertices", &BaseInterpolator::set_trajectory, py::arg("trajectory"));
 
     py::class_<LinearInterpolator, BaseInterpolator>(m, "LinearInterpolator")
-        .def(py::init<const Trajectory &>(), py::arg("trajectory"));
+        .def(py::init<const Vertices &>(), py::arg("trajectory"));
     py::class_<MinimumCurvatureInterpolator, BaseInterpolator>(m, "MinimumCurvatureInterpolator")
-        .def(py::init<const Trajectory &>(), py::arg("trajectory"));
+        .def(py::init<const Vertices &>(), py::arg("trajectory"));
     py::class_<CubicInterpolator, BaseInterpolator>(m, "CubicInterpolator")
-        .def(py::init<const Trajectory &>(), py::arg("trajectory"));
+        .def(py::init<const Vertices &>(), py::arg("trajectory"));
 
     py::class_<InterpolatorFactory>(m, "InterpolatorFactory")
         .def_static("make", &InterpolatorFactory::make, py::arg("trajectory"), py::arg("interpolation_type"));

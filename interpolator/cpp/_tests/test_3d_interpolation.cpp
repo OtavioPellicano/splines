@@ -31,7 +31,7 @@ namespace Samples
 {
 
 // The vertices choice were based on SPE 84246 paper, pg. 16
-const Trajectory SPE84246 = {
+const Vertices SPE84246 = {
     {214.13724, 0.095993095, 0.785398049999999},
     {598.800936, 0.519235377499999, 1.3447759945},
     {1550.31948, 0.519235377499999, 1.3447759945},
@@ -129,7 +129,7 @@ std::map<std::array<double, 3>, Vertex> projection_at_position_expected[] = {
 BOOST_AUTO_TEST_CASE(test_angle_conversion, *utf::tolerance(1E-6))
 {
 
-    Trajectory trajectory = {{0.5, M_PI / 2, M_PI, AngleUnit::rad}, {1.0, 45.0, 30.0, AngleUnit::deg}};
+    Vertices trajectory = {{0.5, M_PI / 2, M_PI, AngleUnit::rad}, {1.0, 45.0, 30.0, AngleUnit::deg}};
 
     BOOST_TEST(trajectory.vertices().begin()->inclination() == M_PI / 2);
     BOOST_TEST(trajectory.vertices().begin()->azimuth() == M_PI);
@@ -170,11 +170,11 @@ BOOST_DATA_TEST_CASE(
 BOOST_AUTO_TEST_CASE(test_add_and_drop)
 {
 
-    Trajectory trajectory_sample = Samples::SPE84246;
+    Vertices trajectory_sample = Samples::SPE84246;
 
     MinimumCurvatureInterpolator interpolator{trajectory_sample};
 
-    Trajectory samples = {
+    Vertices samples = {
         {10.0, 5.5, 45.0, AngleUnit::deg},
         {1600.0, 29.75, 77.05, AngleUnit::deg},
     };
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE(test_add_and_drop)
     interpolator.drop_n_add(*samples.vertices().rbegin());
     BOOST_TEST(interpolator.trajectory().size() == trajectory_sample.size(), "different size");
 
-    auto expected = Trajectory(
+    auto expected = Vertices(
         {
             {214.13724, 5.5, 45.0},
             {598.800936, 29.75, 77.05},
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
         return ss;
     };
 
-    auto stream_out = [](Trajectory &vts,
+    auto stream_out = [](Vertices &vts,
                          std::stringstream &(*st)(std::stringstream & ss, Vertex & vt)) -> std::stringstream {
         std::stringstream ss;
         for (auto vt : vts.vertices())
@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
 BOOST_AUTO_TEST_CASE(test_trajectory_class, *utf::tolerance(1E-6))
 {
 
-    auto compare_trajectory = [](const Trajectory &t_1, const Trajectory &t_2) {
+    auto compare_trajectory = [](const Vertices &t_1, const Vertices &t_2) {
         BOOST_TEST(t_1.size() == t_2.size());
 
         for (auto vt_1 = t_1.vertices().begin(), vt_2 = t_2.vertices().begin(); vt_1 != t_1.vertices().end();
@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE(test_trajectory_class, *utf::tolerance(1E-6))
 
     BOOST_TEST(trajectory.size() == 4);
 
-    auto trajectory_set = Trajectory({});
+    auto trajectory_set = Vertices({});
 
     trajectory_set.set_vertices(trajectory.vertices() /*,AngleUnit::rad*/);
 

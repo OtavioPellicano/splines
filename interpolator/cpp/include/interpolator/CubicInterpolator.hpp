@@ -13,7 +13,7 @@ namespace splines
 class CubicInterpolator : public BaseInterpolator
 {
   public:
-    CubicInterpolator(const Trajectory &trajectory)
+    CubicInterpolator(const Vertices &trajectory)
         : BaseInterpolator(trajectory, InterpolationType::cubic)
     {
     }

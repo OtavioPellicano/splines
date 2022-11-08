@@ -7,7 +7,7 @@ add_library(
     src/LinearInterpolator.cpp
     src/MinimumCurvatureInterpolator.cpp
     src/Vertex.cpp
-    src/Trajectory.cpp
+    src/Vertices.cpp
 
     include/interpolator/BaseInterpolator.hpp
     include/interpolator/CubicInterpolator.hpp
@@ -16,7 +16,7 @@ add_library(
     include/interpolator/MinimumCurvatureInterpolator.hpp
     include/interpolator/Vertex.hpp
     include/interpolator/IInterpolator.hpp
-    include/interpolator/Trajectory.hpp
+    include/interpolator/Vertices.hpp
 )
 
 target_include_directories(interpolator PUBLIC
@@ -32,7 +32,7 @@ install(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/MinimumCurvatureInterpolator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/Vertex.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/IInterpolator.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/Trajectory.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/interpolator/Vertices.hpp
     DESTINATION
     ${CMAKE_INSTALL_PREFIX}/include/interpolator
      )

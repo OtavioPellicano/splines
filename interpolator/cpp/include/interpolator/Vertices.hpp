@@ -10,21 +10,19 @@
 namespace splines
 {
 
-typedef std::set<Vertex> VerticesType;
-
 /**
- * @brief The Trajectory class
- * The Trajectory class is a vertices wrapper
+ * @brief The Vertices class
+ * The Vertices class is a vertices wrapper
  */
-class Trajectory
+class Vertices
 {
   public:
-    Trajectory() = default;
-    Trajectory(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
-    Trajectory(const VerticesType &vertices, AngleUnit angle_unit = AngleUnit::rad);
-    Trajectory(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Vertices() = default;
+    Vertices(const std::initializer_list<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Vertices(const std::set<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
+    Vertices(const std::vector<Vertex> &vertices, AngleUnit angle_unit = AngleUnit::rad);
 
-    const VerticesType &vertices() const;
+    const std::set<Vertex> &vertices() const;
 
     // this method was created to keep vertices sorted in python side
     std::vector<Vertex> vertices_python() const;
@@ -41,17 +39,17 @@ class Trajectory
     std::vector<double> positions() const;
     std::vector<double> inclinations(AngleUnit angle_unit = AngleUnit::rad) const;
     std::vector<double> azimuths(AngleUnit angle_unit = AngleUnit::rad) const;
-    bool approx_equal(const Trajectory &other, double tol_radius = 1E-6) const;
+    bool approx_equal(const Vertices &other, double tol_radius = 1E-6) const;
     std::string delimiter() const;
 
     // iterators
-    VerticesType::iterator begin();
-    VerticesType::iterator end();
-    VerticesType::const_iterator cbegin() const;
-    VerticesType::const_iterator cend() const;
+    std::set<Vertex>::iterator begin();
+    std::set<Vertex>::iterator end();
+    std::set<Vertex>::const_iterator cbegin() const;
+    std::set<Vertex>::const_iterator cend() const;
 
   private:
-    VerticesType _vertices;
+    std::set<Vertex> _vertices;
 };
 
 } // namespace splines

@@ -13,7 +13,7 @@ namespace splines
 class MinimumCurvatureInterpolator : public BaseInterpolator
 {
   public:
-    MinimumCurvatureInterpolator(const Trajectory &trajectory)
+    MinimumCurvatureInterpolator(const Vertices &trajectory)
         : BaseInterpolator(trajectory, InterpolationType::minimum_curvature)
     {
     }

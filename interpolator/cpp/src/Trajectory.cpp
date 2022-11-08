@@ -86,4 +86,36 @@ std::vector<double> Trajectory::azimuths(AngleUnit angle_unit) const
     return res;
 }
 
+bool Trajectory::approx_equal(const Trajectory &other, double tol_radius) const
+{
+    return std::equal(
+        this->_vertices.cbegin(), this->_vertices.cend(), other.cbegin(), other.cend(),
+        [tol_radius = tol_radius](const Vertex &v1, const Vertex &v2) { return v1.approx_equal(v2, tol_radius); });
+}
+
+std::string Trajectory::delimiter() const
+{
+    return this->_vertices.cbegin()->delimiter();
+}
+
+VerticesType::iterator Trajectory::begin()
+{
+    return this->_vertices.begin();
+}
+
+VerticesType::iterator Trajectory::end()
+{
+    return this->_vertices.end();
+}
+
+VerticesType::const_iterator Trajectory::cbegin() const
+{
+    return this->_vertices.cbegin();
+}
+
+VerticesType::const_iterator Trajectory::cend() const
+{
+    return this->_vertices.cend();
+}
+
 } // namespace splines

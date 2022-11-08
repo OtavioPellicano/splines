@@ -66,7 +66,6 @@ class Vertex
     double azimuth(AngleUnit angle_unit = AngleUnit::rad) const;
 
     std::string delimiter() const;
-    void set_delimiter(const std::string &delimiter);
 
   private:
     void calculate_tangent(const Vertex &vt, Point &point) const;

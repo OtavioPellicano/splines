@@ -134,7 +134,6 @@ PYBIND11_MODULE(_interpolator, m)
                 ss << vt;
                 return ss.str();
             })
-        .def("SetDelimiter", &Vertex::set_delimiter, py::arg("delimiter"))
         .def("Delimiter", &Vertex::delimiter);
 
     py::class_<Trajectory>(m, "Trajectory")
@@ -155,7 +154,8 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Size", &Trajectory::size)
         .def("Positions", &Trajectory::positions)
         .def("Inclinations", &Trajectory::inclinations, py::arg("AngleUnit"))
-        .def("Azimuths", &Trajectory::azimuths, py::arg("AngleUnit"));
+        .def("Azimuths", &Trajectory::azimuths, py::arg("AngleUnit"))
+        .def("ApproxEqual", &Trajectory::approx_equal, py::arg("other"), py::arg("tol_radius"));
 
     py::enum_<InterpolationType>(m, "InterpolationType")
         .value("Linear", InterpolationType::linear)

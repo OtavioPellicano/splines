@@ -91,6 +91,8 @@ def test_3d_interpolation(
 
     assert len(trajectory.Vertices()) == len(interpolator.Trajectory().Positions())
 
+    assert interpolator.Trajectory().ApproxEqual(trajectory, 0.1)
+
     vertices_pos = interpolator.Trajectory().Positions()
     vertices_inc = interpolator.Trajectory().Inclinations(angle_unit)
     vertices_azm = interpolator.Trajectory().Azimuths(angle_unit)
@@ -111,25 +113,16 @@ def test_3d_interpolation(
     num_regression.check(res)
 
 
-@pytest.mark.parametrize(
-    "delimiter",
-    [",", ";", "|", "-"],
-    ids=["default(comma)", "semicolon", "pipe", "dash"],
-)
-def test_vertex_repr_operator(delimiter):
+def test_vertex_repr_operator():
     vertex = Vertex(1.1, 2.2, 3.3)
 
-    # Default delimiter: comma
-    if delimiter != ",":
-        vertex.SetDelimiter(delimiter)
-
+    delimiter = ","
     assert delimiter == vertex.Delimiter()
     assert str(vertex) == delimiter.join(
         [str(vertex.Position()), str(vertex.Inclination()), str(vertex.Azimuth())]
     )
 
 
-# TODO: SPL-77 add SetVertices test
 def test_trajectory_class(trajectory_SPE84246):
     assert trajectory_SPE84246.Size() == 4
 

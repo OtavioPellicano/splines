@@ -100,9 +100,4 @@ std::string Vertex::delimiter() const
     return this->_delimiter;
 }
 
-void Vertex::set_delimiter(const std::string &delimiter)
-{
-    this->_delimiter = delimiter;
-}
-
 } // namespace splines

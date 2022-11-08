@@ -37,9 +37,18 @@ class Trajectory
 
     size_t size() const;
 
+    // Composite Pattern (@see Vertex)
     std::vector<double> positions() const;
     std::vector<double> inclinations(AngleUnit angle_unit = AngleUnit::rad) const;
     std::vector<double> azimuths(AngleUnit angle_unit = AngleUnit::rad) const;
+    bool approx_equal(const Trajectory &other, double tol_radius = 1E-6) const;
+    std::string delimiter() const;
+
+    // iterators
+    VerticesType::iterator begin();
+    VerticesType::iterator end();
+    VerticesType::const_iterator cbegin() const;
+    VerticesType::const_iterator cend() const;
 
   private:
     VerticesType _vertices;

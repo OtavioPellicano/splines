@@ -155,6 +155,8 @@ BOOST_DATA_TEST_CASE(
 
     auto interpolator = InterpolatorFactory::make(Samples::SPE84246, interpolation_type);
 
+    BOOST_TEST(interpolator->trajectory().approx_equal(Samples::SPE84246));
+
     for (auto &item : samples_expected)
     {
         auto const &v_1 = interpolator->vertex_at_position(item.first);
@@ -247,39 +249,31 @@ BOOST_AUTO_TEST_CASE(test_factory)
 BOOST_AUTO_TEST_CASE(test_operator_ostream)
 {
 
-    auto stream_v = [](std::stringstream &ss, Vertex &vt, const std::string &delimiter) -> std::stringstream & {
-        ss << vt.position() << delimiter << vt.inclination() << delimiter << vt.azimuth();
+    auto stream_v = [](std::stringstream &ss, Vertex &vt) -> std::stringstream & {
+        ss << vt.position() << "," << vt.inclination() << "," << vt.azimuth();
         return ss;
     };
 
-    auto stream_o = [](std::stringstream &ss, Vertex &vt, const std::string &delimiter) -> std::stringstream & {
-        vt.set_delimiter(delimiter); // default delimiter = ","
-        BOOST_TEST(
-            vt.delimiter() == delimiter, "expected delimiter vs got delimiter: " + delimiter + " vs " + vt.delimiter());
+    auto stream_o = [](std::stringstream &ss, Vertex &vt) -> std::stringstream & {
         ss << vt;
         return ss;
     };
 
-    auto stream_out = [](Trajectory &vts, const std::string &delimiter,
-                         std::stringstream &(*st)(
-                             std::stringstream & ss, Vertex & vt, const std::string &delimiter)) -> std::stringstream {
+    auto stream_out = [](Trajectory &vts,
+                         std::stringstream &(*st)(std::stringstream & ss, Vertex & vt)) -> std::stringstream {
         std::stringstream ss;
         for (auto vt : vts.vertices())
         {
-            st(ss, vt, delimiter);
+            st(ss, vt);
         }
         return ss;
     };
 
     auto vertices = Samples::SPE84246;
-    std::vector<std::string> delimiters = {",", ";", "|"};
-    for (auto &delimiter : delimiters)
-    {
-        std::string str_vertices = stream_out(vertices, delimiter, stream_v).str().c_str();
-        std::string str_operator = stream_out(vertices, delimiter, stream_o).str().c_str();
+    std::string str_vertices = stream_out(vertices, stream_v).str().c_str();
+    std::string str_operator = stream_out(vertices, stream_o).str().c_str();
 
-        BOOST_TEST(str_vertices == str_operator, "expected delimiter: " + delimiter);
-    }
+    BOOST_TEST(str_vertices == str_operator);
 }
 
 BOOST_AUTO_TEST_CASE(test_trajectory_class, *utf::tolerance(1E-6))

@@ -187,7 +187,11 @@ PYBIND11_MODULE(_interpolator, m)
         .def(py::init<const Vertices &>(), py::arg("trajectory"));
 
     py::class_<InterpolatorFactory>(m, "InterpolatorFactory")
-        .def_static("make", &InterpolatorFactory::make, py::arg("trajectory"), py::arg("interpolation_type"));
+        .def_static("MakeLinearInterpolator", &InterpolatorFactory::make<LinearInterpolator>, py::arg("trajectory"))
+        .def_static(
+            "MakeMinimumCurvatureInterpolator", &InterpolatorFactory::make<MinimumCurvatureInterpolator>,
+            py::arg("trajectory"))
+        .def_static("MakeCubicInterpolator", &InterpolatorFactory::make<CubicInterpolator>, py::arg("trajectory"));
 }
 
 #endif // HPP_INTERPOLATOR_BINDINGS

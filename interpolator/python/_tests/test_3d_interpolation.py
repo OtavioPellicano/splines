@@ -47,6 +47,15 @@ def _CompareInterpolationTypeStr(interpolator):
         assert "cubic" == interpolator.InterpolationTypeStr()
 
 
+def _make_interpolator(trajectory, interpolation_type):
+    if interpolation_type == InterpolationType.Linear:
+        return InterpolatorFactory.MakeLinearInterpolator(trajectory)
+    elif interpolation_type == InterpolationType.MinimumCurvature:
+        return InterpolatorFactory.MakeMinimumCurvatureInterpolator(trajectory)
+    elif interpolation_type == InterpolationType.Cubic:
+        return InterpolatorFactory.MakeCubicInterpolator(trajectory)
+
+
 @pytest.mark.parametrize(
     "angle_unit", [AngleUnit.Deg, AngleUnit.Rad], ids=["deg", "rad"]
 )
@@ -68,7 +77,7 @@ def test_3d_interpolation(
 ):
 
     trajectory = trajectory_SPE84246
-    interpolator = InterpolatorFactory.make(trajectory, interpolation_type)
+    interpolator = _make_interpolator(trajectory, interpolation_type)
 
     # Compare InterpolationType with InterpolationTypeStr
     _CompareInterpolationTypeStr(interpolator)

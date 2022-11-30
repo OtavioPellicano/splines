@@ -44,9 +44,9 @@ Example in C++
              {1550.31948, 0.519235377499999, 1.3447759945},
              {3018.032064, 2.09439479999999, 4.97418765}} /*,AngleUnit::rad*/);
 
-        auto linear_interpolator = splines::InterpolatorFactory::make(trajectory, splines::InterpolationType::linear);
+        auto linear_interpolator = splines::InterpolatorFactory::make<LinearInterpolator>(trajectory);
 
-        auto const position_desired = 2690.786592;
+        auto position_desired = 2690.786592;
 
         auto vertex = linear_interpolator->vertex_at_position(position_desired);
 
@@ -83,7 +83,7 @@ Example in Python 3
                         Vertex(1550.31948, 0.519235377499999, 1.3447759945),
                         Vertex(3018.032064, 2.09439479999999, 4.97418765)])
 
-        linear_interpolator = InterpolatorFactory.make(trajectory, InterpolationType.Linear)
+        linear_interpolator = InterpolatorFactory.MakeLinearInterpolator(trajectory)
 
         position_desired = 2690.786592
 

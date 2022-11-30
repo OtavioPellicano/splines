@@ -3,7 +3,6 @@ add_library(
     
     src/BaseInterpolator.cpp
     src/CubicInterpolator.cpp
-    src/InterpolatorFactory.cpp
     src/LinearInterpolator.cpp
     src/MinimumCurvatureInterpolator.cpp
     src/Vertex.cpp

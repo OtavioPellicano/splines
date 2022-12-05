@@ -3,6 +3,11 @@
 namespace splines
 {
 
+LinearInterpolator::LinearInterpolator(const Vertices &trajectory)
+    : BaseInterpolator(trajectory)
+{
+}
+
 double LinearInterpolator::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
     return this->angle_at_position(position, adjacent_vertices, AngleType::inclination);

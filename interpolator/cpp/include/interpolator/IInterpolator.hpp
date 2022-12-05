@@ -7,17 +7,6 @@ namespace splines
 {
 
 /**
- * @brief The InterpolationType enum
- * This enum represents all kind of interpolation available
- */
-enum class InterpolationType
-{
-    linear,
-    minimum_curvature,
-    cubic,
-};
-
-/**
  * @brief The IInterpolator class
  * This class represents the Interpolation Interface.
  * In this class there are methods which will be exposed to the user.
@@ -116,24 +105,6 @@ class IInterpolator
      * @see Vertex
      */
     virtual void drop_n_add(const Vertex &vertex) = 0;
-
-    /**
-     * @brief interpolation_type
-     * This method retuns the interpolation type
-     *
-     * @return
-     * @see InterpolationType
-     */
-    virtual InterpolationType interpolation_type() const = 0;
-
-    /**
-     * @brief interpolation_type
-     * This method retuns the interpolation type as std::string
-     *
-     * @return
-     * @see InterpolationType
-     */
-    virtual std::string interpolation_type_str() const = 0;
 };
 
 } // namespace splines

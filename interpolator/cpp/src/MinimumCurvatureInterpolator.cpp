@@ -3,6 +3,11 @@
 namespace splines
 {
 
+MinimumCurvatureInterpolator::MinimumCurvatureInterpolator(const Vertices &trajectory)
+    : BaseInterpolator(trajectory)
+{
+}
+
 double MinimumCurvatureInterpolator::inclination_at_position(
     double position, const AdjacentVertices &adjacent_vertices) const
 {

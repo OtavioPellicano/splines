@@ -66,16 +66,6 @@ class PyIInterpolator : public IInterpolator
     {
         PYBIND11_OVERLOAD_PURE(void, IInterpolator, drop_n_add, vertex);
     }
-
-    InterpolationType interpolation_type() const override
-    {
-        PYBIND11_OVERLOAD_PURE(InterpolationType, IInterpolator, interpolation_type);
-    }
-
-    std::string interpolation_type_str() const override
-    {
-        PYBIND11_OVERLOAD_PURE(std::string, IInterpolator, interpolation_type_str);
-    }
 };
 
 class PyBaseInterpolator : public BaseInterpolator
@@ -157,11 +147,6 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Azimuths", &Vertices::azimuths, py::arg("AngleUnit"))
         .def("ApproxEqual", &Vertices::approx_equal, py::arg("other"), py::arg("tol_radius"));
 
-    py::enum_<InterpolationType>(m, "InterpolationType")
-        .value("Linear", InterpolationType::linear)
-        .value("MinimumCurvature", InterpolationType::minimum_curvature)
-        .value("Cubic", InterpolationType::cubic);
-
     py::class_<IInterpolator, PyIInterpolator>(m, "IInterpolator")
         .def(py::init<>())
         .def("VertexAtPosition", &IInterpolator::vertex_at_position, py::arg("position"))
@@ -171,9 +156,7 @@ PYBIND11_MODULE(_interpolator, m)
         .def("YAtPosition", &IInterpolator::y_at_position, py::arg("position"))
         .def("ZAtPosition", &IInterpolator::z_at_position, py::arg("position"))
         .def("AddNDrop", &IInterpolator::add_n_drop, py::arg("vertex"))
-        .def("DropNAdd", &IInterpolator::drop_n_add, py::arg("vertex"))
-        .def("InterpolationType", &IInterpolator::interpolation_type)
-        .def("InterpolationTypeStr", &IInterpolator::interpolation_type_str);
+        .def("DropNAdd", &IInterpolator::drop_n_add, py::arg("vertex"));
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")
         .def("Trajectory", &BaseInterpolator::trajectory)
@@ -187,7 +170,11 @@ PYBIND11_MODULE(_interpolator, m)
         .def(py::init<const Vertices &>(), py::arg("trajectory"));
 
     py::class_<InterpolatorFactory>(m, "InterpolatorFactory")
-        .def_static("make", &InterpolatorFactory::make, py::arg("trajectory"), py::arg("interpolation_type"));
+        .def_static("MakeLinearInterpolator", &InterpolatorFactory::make<LinearInterpolator>, py::arg("trajectory"))
+        .def_static(
+            "MakeMinimumCurvatureInterpolator", &InterpolatorFactory::make<MinimumCurvatureInterpolator>,
+            py::arg("trajectory"))
+        .def_static("MakeCubicInterpolator", &InterpolatorFactory::make<CubicInterpolator>, py::arg("trajectory"));
 }
 
 #endif // HPP_INTERPOLATOR_BINDINGS

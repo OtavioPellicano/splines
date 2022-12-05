@@ -13,10 +13,7 @@ namespace splines
 class MinimumCurvatureInterpolator : public BaseInterpolator
 {
   public:
-    MinimumCurvatureInterpolator(const Vertices &trajectory)
-        : BaseInterpolator(trajectory)
-    {
-    }
+    MinimumCurvatureInterpolator(const Vertices &trajectory);
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

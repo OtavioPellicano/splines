@@ -13,10 +13,7 @@ namespace splines
 class LinearInterpolator : public BaseInterpolator
 {
   public:
-    LinearInterpolator(const Vertices &trajectory)
-        : BaseInterpolator(trajectory)
-    {
-    }
+    LinearInterpolator(const Vertices &trajectory);
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

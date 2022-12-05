@@ -3,9 +3,8 @@
 namespace splines
 {
 
-BaseInterpolator::BaseInterpolator(const Vertices &trajectory, const InterpolationType &interpolation_type)
+BaseInterpolator::BaseInterpolator(const Vertices &trajectory)
     : _trajectory(trajectory)
-    , _interpolation_type(interpolation_type)
 {
 }
 
@@ -103,26 +102,6 @@ double BaseInterpolator::y_at_position(double position) const
 double BaseInterpolator::z_at_position(double position) const
 {
     return this->projection_at_position(&BaseInterpolator::calculate_delta_z_projection, position);
-}
-
-InterpolationType BaseInterpolator::interpolation_type() const
-{
-    return this->_interpolation_type;
-}
-
-std::string BaseInterpolator::interpolation_type_str() const
-{
-    switch (this->_interpolation_type)
-    {
-    case InterpolationType::linear:
-        return "linear";
-    case InterpolationType::minimum_curvature:
-        return "minimum_curvature";
-    case InterpolationType::cubic:
-        return "cubic";
-    default:
-        return "not_defined";
-    }
 }
 
 double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator, double position) const

@@ -12,6 +12,7 @@ namespace data = boost::unit_test::data;
 #include <algorithm>
 #include <map>
 #include <sstream>
+#include <typeinfo>
 
 #include <interpolator/InterpolatorFactory.hpp>
 
@@ -25,6 +26,33 @@ std::string message_error_vertices_compare(const Vertex &v_1, const Vertex &v_2)
            "} != "
            "{" +
            to_string(v_2.position()) + ", " + to_string(v_2.inclination()) + ", " + to_string(v_2.azimuth()) + "}";
+}
+
+enum class InterpolationType
+{
+    linear,
+    minimum_curvature,
+    cubic,
+};
+
+std::string interpolation_type_str(const BaseInterpolator &interpolator)
+{
+    if (typeid(interpolator) == typeid(LinearInterpolator))
+    {
+        return "linear";
+    }
+    else if (typeid(interpolator) == typeid(MinimumCurvatureInterpolator))
+    {
+        return "minimum_curvature";
+    }
+    else if (typeid(interpolator) == typeid(CubicInterpolator))
+    {
+        return "cubic";
+    }
+    else
+    {
+        return "";
+    }
 }
 
 std::unique_ptr<BaseInterpolator> make_interpolator(const Vertices &trajectory, InterpolationType interpolation_type)
@@ -178,7 +206,7 @@ BOOST_DATA_TEST_CASE(
         auto const &v_2 = item.second;
         BOOST_TEST(
             v_1.approx_equal(v_2, .2),
-            interpolator->interpolation_type_str() + ": " + message_error_vertices_compare(v_1, v_2));
+            interpolation_type_str(*interpolator) + ": " + message_error_vertices_compare(v_1, v_2));
     }
 }
 
@@ -233,7 +261,7 @@ BOOST_DATA_TEST_CASE(
     auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
 
     auto error_msg = [&interpolator](double current, double expected) -> std::string {
-        return interpolator->interpolation_type_str() + ": current != expected: " + std::to_string(current) +
+        return interpolation_type_str(*interpolator) + ": current != expected: " + std::to_string(current) +
                " != " + std::to_string(expected);
     };
 
@@ -255,9 +283,9 @@ BOOST_AUTO_TEST_CASE(test_factory)
     auto minimum_curvature_trajectory = InterpolatorFactory::make<MinimumCurvatureInterpolator>(Samples::SPE84246);
     auto cubic_trajectory = InterpolatorFactory::make<CubicInterpolator>(Samples::SPE84246);
 
-    BOOST_CHECK(linear_trajectory->interpolation_type() == InterpolationType::linear);
-    BOOST_CHECK(minimum_curvature_trajectory->interpolation_type() == InterpolationType::minimum_curvature);
-    BOOST_CHECK(cubic_trajectory->interpolation_type() == InterpolationType::cubic);
+    BOOST_CHECK(typeid(*linear_trajectory) == typeid(LinearInterpolator));
+    BOOST_CHECK(typeid(*minimum_curvature_trajectory) == typeid(MinimumCurvatureInterpolator));
+    BOOST_CHECK(typeid(*cubic_trajectory) == typeid(CubicInterpolator));
 }
 
 BOOST_AUTO_TEST_CASE(test_operator_ostream)

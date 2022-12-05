@@ -14,7 +14,7 @@ class MinimumCurvatureInterpolator : public BaseInterpolator
 {
   public:
     MinimumCurvatureInterpolator(const Vertices &trajectory)
-        : BaseInterpolator(trajectory, InterpolationType::minimum_curvature)
+        : BaseInterpolator(trajectory)
     {
     }
 

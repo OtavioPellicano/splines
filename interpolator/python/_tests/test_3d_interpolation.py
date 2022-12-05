@@ -1,12 +1,18 @@
 from _interpolator import (
     AngleUnit,
     InterpolatorFactory,
-    InterpolationType,
     Vertex,
     Vertices,
 )
+from enum import Enum
 import pytest
 import numpy as np
+
+
+class InterpolationType(Enum):
+    Linear = 1
+    MinimumCurvature = 2
+    Cubic = 3
 
 
 @pytest.fixture
@@ -35,16 +41,6 @@ def interpolation_samples_SPE84246():
             2789.520456,
         ]
     )
-
-
-def _CompareInterpolationTypeStr(interpolator):
-
-    if interpolator.InterpolationType() == InterpolationType.Linear:
-        assert "linear" == interpolator.InterpolationTypeStr()
-    elif interpolator.InterpolationType() == InterpolationType.MinimumCurvature:
-        assert "minimum_curvature" == interpolator.InterpolationTypeStr()
-    elif interpolator.InterpolationType() == InterpolationType.Cubic:
-        assert "cubic" == interpolator.InterpolationTypeStr()
 
 
 def _make_interpolator(trajectory, interpolation_type):
@@ -78,9 +74,6 @@ def test_3d_interpolation(
 
     trajectory = trajectory_SPE84246
     interpolator = _make_interpolator(trajectory, interpolation_type)
-
-    # Compare InterpolationType with InterpolationTypeStr
-    _CompareInterpolationTypeStr(interpolator)
 
     positions = np.zeros_like(interpolation_samples_SPE84246)
     inclinations = np.zeros_like(interpolation_samples_SPE84246)

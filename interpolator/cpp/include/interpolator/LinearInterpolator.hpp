@@ -14,7 +14,7 @@ class LinearInterpolator : public BaseInterpolator
 {
   public:
     LinearInterpolator(const Vertices &trajectory)
-        : BaseInterpolator(trajectory, InterpolationType::linear)
+        : BaseInterpolator(trajectory)
     {
     }
 

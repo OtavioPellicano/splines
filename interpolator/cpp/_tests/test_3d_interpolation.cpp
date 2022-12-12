@@ -169,6 +169,52 @@ std::map<std::array<double, 3>, Vertex> projection_at_position_expected[] = {
 
 }; // namespace Samples
 
+BOOST_AUTO_TEST_CASE(test_readme_example, *utf::tolerance(1E-4))
+{
+    // Vertices is a vertices wrapper
+    // Vertex is basically a struct where you store position, inclination and azimuth as follow:
+    // Vertex{position, inclination, azimuth}
+    // inclination: angle from z to y axis
+    // azimuth: angle from x to y axis
+    auto trajectory = splines::Vertices(
+        {{214.13724, 0.095993095, 0.785398049999999},
+         {598.800936, 0.519235377499999, 1.3447759945},
+         {1550.31948, 0.519235377499999, 1.3447759945},
+         {3018.032064, 2.09439479999999, 4.97418765}} /*,AngleUnit::rad*/);
+
+    auto linear_interpolator = splines::InterpolatorFactory::make<LinearInterpolator>(trajectory);
+
+    auto position_desired = 2690.786592;
+
+    auto vertex = linear_interpolator->vertex_at_position(position_desired);
+
+    // expected: 2690.79,1.74319,5.56588
+    // std::cout << vertex << std::endl;
+
+    // get projections (cartesian coordinates)
+    auto x = linear_interpolator->x_at_position(position_desired);
+    auto y = linear_interpolator->y_at_position(position_desired);
+    auto z = linear_interpolator->z_at_position(position_desired);
+
+    // expected: 1009.79, -77.895, 1177.58
+    // std::cout << x << ", " << y << ", " << z << std::endl;
+
+    // return 0;
+
+    ///////////////////////////////////////////////////////
+    auto x_expected = 1009.79;
+    auto y_expected = -77.895;
+    auto z_expected = 1177.58;
+
+    BOOST_TEST(x == x_expected);
+    BOOST_TEST(y == y_expected);
+    BOOST_TEST(z == z_expected);
+
+    std::stringstream vertex_ss;
+    vertex_ss << vertex;
+    BOOST_CHECK(vertex_ss.str() == "2690.79,1.74319,5.56588");
+}
+
 BOOST_AUTO_TEST_CASE(test_angle_conversion, *utf::tolerance(1E-6))
 {
 
@@ -351,4 +397,13 @@ BOOST_AUTO_TEST_CASE(test_trajectory_class, *utf::tolerance(1E-6))
 
     compare_trajectory(trajectory, trajectory_deg);
     compare_trajectory(trajectory, trajectory_set);
+}
+
+BOOST_DATA_TEST_CASE(test_move_semantics, data::make(Samples::interpolation_types), interpolation_type)
+{
+    auto move_object = [](std::unique_ptr<BaseInterpolator> interpolator) -> void {};
+
+    auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
+    move_object(std::move(interpolator));
+    BOOST_CHECK(interpolator == nullptr);
 }

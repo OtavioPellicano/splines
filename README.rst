@@ -28,21 +28,20 @@ Example in C++
 
     #include <iostream>
     
-    #include <interpolator/InterpolatorBuilder.hpp>
+    #include <interpolator/InterpolatorFactory.hpp>
 
     int main()
     {
-
-        // Trajectory is a vertices wrapper
+        // Vertices is a Vertex composite
         // Vertex is basically a struct where you store position, inclination and azimuth as follow:
         // Vertex{position, inclination, azimuth}
         // inclination: angle from z to y axis
         // azimuth: angle from x to y axis
-        auto trajectory = splines::Trajectory(
+        auto trajectory = splines::Vertices(
             {{214.13724, 0.095993095, 0.785398049999999},
-             {598.800936, 0.519235377499999, 1.3447759945},
-             {1550.31948, 0.519235377499999, 1.3447759945},
-             {3018.032064, 2.09439479999999, 4.97418765}} /*,AngleUnit::rad*/);
+            {598.800936, 0.519235377499999, 1.3447759945},
+            {1550.31948, 0.519235377499999, 1.3447759945},
+            {3018.032064, 2.09439479999999, 4.97418765}} /*,AngleUnit::rad*/);
 
         auto linear_interpolator = splines::InterpolatorFactory::make<LinearInterpolator>(trajectory);
 
@@ -69,19 +68,28 @@ Example in Python 3
 
 .. code-block:: python
 
-    from _interpolator import (AngleUnit, InterpolatorFactory, InterpolationType, Vertex, Trajectory)
+    from _interpolator import (
+        AngleUnit,
+        InterpolatorFactory,
+        Vertex,
+        Vertices,
+    )
 
     def main():
 
-        # Trajectory is a vertices wrapper
+        # Vertices is a Vertex composite
         # Vertex is basically a struct where you store position, inclination and azimuth as follow:
         # Vertex{position, inclination, azimuth}
         # inclination: angle from z to y axis
         # azimuth: angle from x to y axis
-        trajectory = Trajectory([Vertex(214.13724, 0.095993095, 0.785398049999999), # default angle unti: radian
-                        Vertex(598.800936, 0.519235377499999, 1.3447759945),
-                        Vertex(1550.31948, 0.519235377499999, 1.3447759945),
-                        Vertex(3018.032064, 2.09439479999999, 4.97418765)])
+        trajectory = Vertices(
+            [
+                Vertex(214.13724, 0.095993095, 0.785398049999999),
+                Vertex(598.800936, 0.519235377499999, 1.3447759945),
+                Vertex(1550.31948, 0.519235377499999, 1.3447759945),
+                Vertex(3018.032064, 2.09439479999999, 4.97418765),
+            ]
+        )
 
         linear_interpolator = InterpolatorFactory.MakeLinearInterpolator(trajectory)
 
@@ -89,7 +97,7 @@ Example in Python 3
 
         vertex = linear_interpolator.VertexAtPosition(position_desired)
 
-        # print expected: 2690.786592,1.743193,5.565881
+        # print expected: 2690.79,1.74319,5.56588
         print(f"{vertex}")
 
         # get projections (cartesian coordinates)
@@ -98,7 +106,7 @@ Example in Python 3
         z = linear_interpolator.ZAtPosition(position_desired)
 
         # print expected: 1009.7933937687196, -77.894972532420184, 1177.583381
-        print(f"{x} , {y}, {z}")
+        print(f"{x}, {y}, {z}")
 
 
 Getting Started

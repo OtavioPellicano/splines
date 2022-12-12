@@ -8,6 +8,17 @@ LinearInterpolator::LinearInterpolator(const Vertices &trajectory)
 {
 }
 
+LinearInterpolator::LinearInterpolator(LinearInterpolator &&other)
+    : BaseInterpolator(std::forward<LinearInterpolator>(other))
+{
+}
+
+LinearInterpolator &LinearInterpolator::operator=(LinearInterpolator &&rhs)
+{
+    *this = std::forward<LinearInterpolator>(rhs);
+    return *this;
+}
+
 double LinearInterpolator::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
     return this->angle_at_position(position, adjacent_vertices, AngleType::inclination);

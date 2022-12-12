@@ -52,6 +52,47 @@ def _make_interpolator(trajectory, interpolation_type):
         return InterpolatorFactory.MakeCubicInterpolator(trajectory)
 
 
+def test_readme_example():
+
+    trajectory = Vertices(
+        [
+            Vertex(214.13724, 0.095993095, 0.785398049999999),
+            Vertex(598.800936, 0.519235377499999, 1.3447759945),
+            Vertex(1550.31948, 0.519235377499999, 1.3447759945),
+            Vertex(3018.032064, 2.09439479999999, 4.97418765),
+        ]
+    )
+
+    linear_interpolator = InterpolatorFactory.MakeLinearInterpolator(trajectory)
+
+    position_desired = 2690.786592
+
+    vertex = linear_interpolator.VertexAtPosition(position_desired)
+
+    # print expected: 2690.79,1.74319,5.56588
+    print(f"{vertex}")
+
+    # get projections (cartesian coordinates)
+    x = linear_interpolator.XAtPosition(position_desired)
+    y = linear_interpolator.YAtPosition(position_desired)
+    z = linear_interpolator.ZAtPosition(position_desired)
+
+    # print expected: 1009.7933937687196, -77.894972532420184, 1177.583381
+    print(f"{x}, {y}, {z}")
+
+    ######################################################
+    x_expected = 1009.7933937687196
+    y_expected = -77.894972532420184
+    z_expected = 1177.583381
+
+    assert pytest.approx(x) == x_expected
+    assert pytest.approx(y) == y_expected
+    assert pytest.approx(z) == z_expected
+
+    delimiter = ","
+    assert str(vertex) == delimiter.join([str(2690.79), str(1.74319), str(5.56588)])
+
+
 @pytest.mark.parametrize(
     "angle_unit", [AngleUnit.Deg, AngleUnit.Rad], ids=["deg", "rad"]
 )

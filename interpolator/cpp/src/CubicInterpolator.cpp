@@ -8,6 +8,17 @@ CubicInterpolator::CubicInterpolator(const Vertices &trajectory)
 {
 }
 
+CubicInterpolator::CubicInterpolator(CubicInterpolator &&other)
+    : BaseInterpolator(std::forward<CubicInterpolator>(other))
+{
+}
+
+CubicInterpolator &CubicInterpolator::operator=(CubicInterpolator &&rhs)
+{
+    *this = std::forward<CubicInterpolator>(rhs);
+    return *this;
+}
+
 double CubicInterpolator::inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const
 {
     return this->angle_at_position(position, adjacent_vertices, AngleType::inclination);

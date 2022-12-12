@@ -22,6 +22,11 @@ class BaseInterpolator : public IInterpolator
 
     BaseInterpolator(const Vertices &trajectory);
 
+    BaseInterpolator(BaseInterpolator &&other);
+    BaseInterpolator &operator=(BaseInterpolator &&rhs);
+    BaseInterpolator(const BaseInterpolator &other);
+    BaseInterpolator &operator=(const BaseInterpolator &rhs);
+
     const Vertices &trajectory() const final;
     void set_trajectory(const Vertices &trajectory) final;
 

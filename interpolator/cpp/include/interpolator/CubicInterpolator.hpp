@@ -14,6 +14,8 @@ class CubicInterpolator : public BaseInterpolator
 {
   public:
     CubicInterpolator(const Vertices &trajectory);
+    CubicInterpolator(CubicInterpolator &&other);
+    CubicInterpolator &operator=(CubicInterpolator &&rhs);
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

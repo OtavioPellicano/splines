@@ -14,6 +14,8 @@ class MinimumCurvatureInterpolator : public BaseInterpolator
 {
   public:
     MinimumCurvatureInterpolator(const Vertices &trajectory);
+    MinimumCurvatureInterpolator(MinimumCurvatureInterpolator &&other);
+    MinimumCurvatureInterpolator &operator=(MinimumCurvatureInterpolator &&rhs);
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

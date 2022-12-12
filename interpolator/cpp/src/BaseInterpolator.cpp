@@ -8,6 +8,28 @@ BaseInterpolator::BaseInterpolator(const Vertices &trajectory)
 {
 }
 
+BaseInterpolator::BaseInterpolator(BaseInterpolator &&other)
+    : _trajectory(std::move(other._trajectory))
+{
+}
+
+BaseInterpolator &BaseInterpolator::operator=(BaseInterpolator &&rhs)
+{
+    this->_trajectory = std::move(rhs._trajectory);
+    return *this;
+}
+
+BaseInterpolator::BaseInterpolator(const BaseInterpolator &other)
+    : _trajectory(other._trajectory)
+{
+}
+
+BaseInterpolator &BaseInterpolator::operator=(const BaseInterpolator &rhs)
+{
+    this->_trajectory = rhs._trajectory;
+    return *this;
+}
+
 const Vertices &BaseInterpolator::trajectory() const
 {
     return this->_trajectory;

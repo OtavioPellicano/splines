@@ -8,6 +8,17 @@ MinimumCurvatureInterpolator::MinimumCurvatureInterpolator(const Vertices &traje
 {
 }
 
+MinimumCurvatureInterpolator::MinimumCurvatureInterpolator(MinimumCurvatureInterpolator &&other)
+    : BaseInterpolator(std::forward<MinimumCurvatureInterpolator>(other))
+{
+}
+
+MinimumCurvatureInterpolator &MinimumCurvatureInterpolator::operator=(MinimumCurvatureInterpolator &&rhs)
+{
+    *this = std::forward<MinimumCurvatureInterpolator>(rhs);
+    return *this;
+}
+
 double MinimumCurvatureInterpolator::inclination_at_position(
     double position, const AdjacentVertices &adjacent_vertices) const
 {

@@ -352,3 +352,12 @@ BOOST_AUTO_TEST_CASE(test_trajectory_class, *utf::tolerance(1E-6))
     compare_trajectory(trajectory, trajectory_deg);
     compare_trajectory(trajectory, trajectory_set);
 }
+
+BOOST_DATA_TEST_CASE(test_move_semantics, data::make(Samples::interpolation_types), interpolation_type)
+{
+    auto move_object = [](std::unique_ptr<BaseInterpolator> interpolator) -> void {};
+
+    auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
+    move_object(std::move(interpolator));
+    BOOST_CHECK(interpolator == nullptr);
+}

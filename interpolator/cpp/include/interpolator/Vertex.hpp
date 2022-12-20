@@ -141,7 +141,7 @@ template <std::size_t Idx> struct tuple_element<Idx, splines::Vertex>
 
 namespace splines
 {
-template <std::size_t I> auto get(const splines::Vertex &v)
+template <std::size_t I> auto get(const Vertex &v)
 {
     static_assert(I < 3);
     if constexpr (I == 0)

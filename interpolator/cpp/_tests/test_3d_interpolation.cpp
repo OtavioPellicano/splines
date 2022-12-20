@@ -241,18 +241,27 @@ BOOST_DATA_TEST_CASE(
     test_vertex_at_position, data::make(Samples::interpolation_types) ^ Samples::vertices_at_postion_expected,
     interpolation_type, samples_expected)
 {
-
+    auto tol = 1E-4;
     auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
 
     BOOST_TEST(interpolator->trajectory().approx_equal(Samples::SPE84246));
 
-    for (auto &item : samples_expected)
+    for (auto const &[position, vertex_expected] : samples_expected)
     {
-        auto const &v_1 = interpolator->vertex_at_position(item.first);
-        auto const &v_2 = item.second;
+        auto const &v_1 = interpolator->vertex_at_position(position);
+        auto const &v_2 = vertex_expected;
+
         BOOST_TEST(
             v_1.approx_equal(v_2, .2),
             interpolation_type_str(*interpolator) + ": " + message_error_vertices_compare(v_1, v_2));
+
+        // compare using structured binding
+        auto [pos, inc, azm] = v_1;
+        auto [pos_exp, inc_exp, azm_exp] = v_2;
+
+        BOOST_TEST(fabs(pos - pos_exp) < tol);
+        BOOST_TEST(fabs(inc - inc_exp) < tol);
+        BOOST_TEST(fabs(azm - azm_exp) < tol);
     }
 }
 
@@ -311,15 +320,15 @@ BOOST_DATA_TEST_CASE(
                " != " + std::to_string(expected);
     };
 
-    for (auto &item : samples_expected)
+    for (auto &[point, vertex_expected] : samples_expected)
     {
-        auto x = interpolator->x_at_position(item.second.position());
-        auto y = interpolator->y_at_position(item.second.position());
-        auto z = interpolator->z_at_position(item.second.position());
+        auto x = interpolator->x_at_position(vertex_expected.position());
+        auto y = interpolator->y_at_position(vertex_expected.position());
+        auto z = interpolator->z_at_position(vertex_expected.position());
 
-        BOOST_TEST(fabs(x - item.first[0]) < tol, error_msg(x, item.first[0]));
-        BOOST_TEST(fabs(y - item.first[1]) < tol, error_msg(x, item.first[1]));
-        BOOST_TEST(fabs(z - item.first[2]) < tol, error_msg(x, item.first[2]));
+        BOOST_TEST(fabs(x - point[0]) < tol, error_msg(x, point[0]));
+        BOOST_TEST(fabs(y - point[1]) < tol, error_msg(x, point[1]));
+        BOOST_TEST(fabs(z - point[2]) < tol, error_msg(x, point[2]));
     }
 }
 
@@ -406,4 +415,18 @@ BOOST_DATA_TEST_CASE(test_move_semantics, data::make(Samples::interpolation_type
     auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
     move_object(std::move(interpolator));
     BOOST_CHECK(interpolator == nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(test_structured_binding, *utf::tolerance(1E-6))
+{
+    splines::Vertices vertices_sample = Samples::SPE84246;
+
+    auto v_it = vertices_sample.begin();
+    for (auto [pos, inc, azm] : vertices_sample)
+    {
+        BOOST_TEST(pos == v_it->position());
+        BOOST_TEST(inc == v_it->inclination());
+        BOOST_TEST(azm == v_it->azimuth());
+        ++v_it;
+    }
 }

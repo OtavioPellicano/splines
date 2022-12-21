@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <ostream>
+#include <tuple>
 
 namespace splines
 {
@@ -118,6 +119,45 @@ class Vertex
     std::string _delimiter = ","; // ostream delimiter
 };
 
+} // namespace splines
+
+/**
+ * Tuple-like API for class Vertex for structured bindings (read only)
+ * auto [pos, inc, azm] = Vertex;
+ */
+namespace std
+{
+
+template <> struct tuple_size<splines::Vertex>
+{
+    static constexpr int value = 3;
+};
+
+template <std::size_t Idx> struct tuple_element<Idx, splines::Vertex>
+{
+    using type = double;
+};
+
+} // namespace std
+
+namespace splines
+{
+template <std::size_t I> auto get(const Vertex &v)
+{
+    static_assert(I < 3);
+    if constexpr (I == 0)
+    {
+        return v.position();
+    }
+    else if constexpr (I == 1)
+    {
+        return v.inclination();
+    }
+    else // I == 2
+    {
+        return v.azimuth();
+    }
+}
 } // namespace splines
 
 #endif // VERTICESDEFINITION_HPP

@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <ostream>
+#include <tuple>
 
 namespace splines
 {

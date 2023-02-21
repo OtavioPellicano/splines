@@ -15,14 +15,9 @@ Vertex::Vertex(double position, double inclination, double azimuth, AngleUnit an
     }
 }
 
-bool Vertex::operator<(const Vertex &vt) const
+std::partial_ordering Vertex::operator<=>(const Vertex &other) const
 {
-    return this->_position < vt._position;
-}
-
-bool Vertex::operator>(const Vertex &vt) const
-{
-    return !(*this < vt);
+    return this->_position <=> other._position;
 }
 
 bool Vertex::approx_equal(const Vertex &vt, double tol_radius) const

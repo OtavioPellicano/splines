@@ -11,7 +11,7 @@ Splines
     :scale: 100%
     :target: https://travis-ci.com/github/OtavioPellicano/splines
 
-Splines is a library for 3D curves interpolation in spherical coordinates. The library is fully implemented in modern C++ (-std=c++17), but there is a Python 3
+Splines is a library for 3D curves interpolation in spherical coordinates. The library is fully implemented in modern C++ (currently -std=c++20), but there is a Python 3
 interface for a more convenient and simpler use.
 
 Interpolations Currently Supported
@@ -138,4 +138,4 @@ If you want ot compile in Debug mode, change ``cmake -DCMAKE_BUILD_TYPE=Release 
 Dependencies
 ============
 
-All dependencies were included in `environment.yml <https://github.com/OtavioPellicano/splines/blob/master/environment.yml>`_. You just need to build using a compiler which support C++ 17 or higher (suggestion g++-10).
+All dependencies were included in `environment.yml <https://github.com/OtavioPellicano/splines/blob/master/environment.yml>`_. You just need to build using a compiler which support C++ 20 or higher.

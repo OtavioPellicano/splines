@@ -43,8 +43,7 @@ class Vertex
     Vertex(
         double position = 0.0, double inclination = 0.0, double azimuth = 0.0, AngleUnit angle_unit = AngleUnit::rad);
 
-    bool operator<(const Vertex &vt) const;
-    bool operator>(const Vertex &vt) const;
+    std::partial_ordering operator<=>(const Vertex &other) const;
 
     /**
      * @brief operator <<

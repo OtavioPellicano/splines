@@ -357,7 +357,7 @@ BOOST_AUTO_TEST_CASE(test_operator_ostream)
     };
 
     auto stream_out = [](Vertices &vts,
-                         std::stringstream &(*st)(std::stringstream & ss, Vertex & vt)) -> std::stringstream {
+                         std::stringstream &(*st)(std::stringstream &ss, Vertex &vt)) -> std::stringstream {
         std::stringstream ss;
         for (auto vt : vts.vertices())
         {

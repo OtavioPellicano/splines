@@ -8,14 +8,18 @@ LinearInterpolator::LinearInterpolator(const Vertices &trajectory)
 {
 }
 
-LinearInterpolator::LinearInterpolator(LinearInterpolator &&other)
-    : BaseInterpolator(std::forward<LinearInterpolator>(other))
+template <typename Interpolator>
+LinearInterpolator::LinearInterpolator(Interpolator &&other)
+    requires std::same_as<Interpolator, LinearInterpolator>
+    : BaseInterpolator(std::forward<Interpolator>(other))
 {
 }
 
-LinearInterpolator &LinearInterpolator::operator=(LinearInterpolator &&rhs)
+template <typename Interpolator>
+LinearInterpolator &LinearInterpolator::operator=(Interpolator &&rhs)
+    requires std::same_as<Interpolator, LinearInterpolator>
 {
-    *this = std::forward<LinearInterpolator>(rhs);
+    *this = std::forward<Interpolator>(rhs);
     return *this;
 }
 

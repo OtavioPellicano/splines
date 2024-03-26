@@ -53,7 +53,6 @@ def _make_interpolator(trajectory, interpolation_type):
 
 
 def test_readme_example():
-
     trajectory = Vertices(
         [
             Vertex(214.13724, 0.095993095, 0.785398049999999),
@@ -112,7 +111,6 @@ def test_3d_interpolation(
     angle_unit,
     interpolation_type,
 ):
-
     trajectory = trajectory_SPE84246
     interpolator = _make_interpolator(trajectory, interpolation_type)
 
@@ -184,7 +182,7 @@ def test_trajectory_class(trajectory_SPE84246):
     def compare_trajectory(t_1, t_2):
         assert t_1.Size() == t_2.Size()
 
-        for (vt_1, vt_2) in zip(t_1.VerticesSorted(), t_2.VerticesSorted()):
+        for vt_1, vt_2 in zip(t_1.VerticesSorted(), t_2.VerticesSorted()):
             assert pytest.approx(vt_1.Position()) == vt_2.Position()
             assert pytest.approx(vt_1.Inclination()) == vt_2.Inclination()
             assert pytest.approx(vt_1.Azimuth()) == vt_2.Azimuth()

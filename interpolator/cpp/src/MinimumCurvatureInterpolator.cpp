@@ -8,14 +8,18 @@ MinimumCurvatureInterpolator::MinimumCurvatureInterpolator(const Vertices &traje
 {
 }
 
-MinimumCurvatureInterpolator::MinimumCurvatureInterpolator(MinimumCurvatureInterpolator &&other)
-    : BaseInterpolator(std::forward<MinimumCurvatureInterpolator>(other))
+template <typename Interpolator>
+MinimumCurvatureInterpolator::MinimumCurvatureInterpolator(Interpolator &&other)
+    requires std::same_as<Interpolator, MinimumCurvatureInterpolator>
+    : BaseInterpolator(std::forward<Interpolator>(other))
 {
 }
 
-MinimumCurvatureInterpolator &MinimumCurvatureInterpolator::operator=(MinimumCurvatureInterpolator &&rhs)
+template <typename Interpolator>
+MinimumCurvatureInterpolator &MinimumCurvatureInterpolator::operator=(Interpolator &&rhs)
+    requires std::same_as<Interpolator, MinimumCurvatureInterpolator>
 {
-    *this = std::forward<MinimumCurvatureInterpolator>(rhs);
+    *this = std::forward<Interpolator>(rhs);
     return *this;
 }
 

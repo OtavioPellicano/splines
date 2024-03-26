@@ -14,8 +14,14 @@ class MinimumCurvatureInterpolator : public BaseInterpolator
 {
   public:
     MinimumCurvatureInterpolator(const Vertices &trajectory);
-    MinimumCurvatureInterpolator(MinimumCurvatureInterpolator &&other);
-    MinimumCurvatureInterpolator &operator=(MinimumCurvatureInterpolator &&rhs);
+
+    template <typename Interpolator>
+    MinimumCurvatureInterpolator(Interpolator &&other)
+        requires std::same_as<Interpolator, MinimumCurvatureInterpolator>;
+
+    template <typename Interpolator>
+    MinimumCurvatureInterpolator &operator=(Interpolator &&rhs)
+        requires std::same_as<Interpolator, MinimumCurvatureInterpolator>;
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

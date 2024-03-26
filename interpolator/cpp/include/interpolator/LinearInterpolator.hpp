@@ -14,8 +14,13 @@ class LinearInterpolator : public BaseInterpolator
 {
   public:
     LinearInterpolator(const Vertices &trajectory);
-    LinearInterpolator(LinearInterpolator &&other);
-    LinearInterpolator &operator=(LinearInterpolator &&rhs);
+    template <typename Interpolator>
+    LinearInterpolator(Interpolator &&other)
+        requires std::same_as<Interpolator, LinearInterpolator>;
+
+    template <typename Interpolator>
+    LinearInterpolator &operator=(Interpolator &&rhs)
+        requires std::same_as<Interpolator, LinearInterpolator>;
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

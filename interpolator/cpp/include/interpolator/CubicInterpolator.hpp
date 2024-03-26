@@ -14,8 +14,14 @@ class CubicInterpolator : public BaseInterpolator
 {
   public:
     CubicInterpolator(const Vertices &trajectory);
-    CubicInterpolator(CubicInterpolator &&other);
-    CubicInterpolator &operator=(CubicInterpolator &&rhs);
+
+    template <typename Interpolator>
+    CubicInterpolator(Interpolator &&other)
+        requires std::same_as<Interpolator, CubicInterpolator>;
+
+    template <typename Interpolator>
+    CubicInterpolator &operator=(Interpolator &&rhs)
+        requires std::same_as<Interpolator, CubicInterpolator>;
 
   private:
     double inclination_at_position(double position, const AdjacentVertices &adjacent_vertices) const final;

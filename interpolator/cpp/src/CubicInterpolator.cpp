@@ -8,14 +8,18 @@ CubicInterpolator::CubicInterpolator(const Vertices &trajectory)
 {
 }
 
-CubicInterpolator::CubicInterpolator(CubicInterpolator &&other)
-    : BaseInterpolator(std::forward<CubicInterpolator>(other))
+template <typename Interpolator>
+CubicInterpolator::CubicInterpolator(Interpolator &&other)
+    requires std::same_as<Interpolator, CubicInterpolator>
+    : BaseInterpolator(std::forward<Interpolator>(other))
 {
 }
 
-CubicInterpolator &CubicInterpolator::operator=(CubicInterpolator &&rhs)
+template <typename Interpolator>
+CubicInterpolator &CubicInterpolator::operator=(Interpolator &&rhs)
+    requires std::same_as<Interpolator, CubicInterpolator>
 {
-    *this = std::forward<CubicInterpolator>(rhs);
+    *this = std::forward<Interpolator>(rhs);
     return *this;
 }
 

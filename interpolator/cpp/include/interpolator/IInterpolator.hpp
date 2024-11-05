@@ -89,6 +89,21 @@ class IInterpolator
     virtual double z_at_position(double position) const = 0;
 
     /**
+     * @brief generate_vertices
+     *
+     * @param num_vertices
+     * The number of vertices to be generated based on the current trajectory
+     *
+     * @param num_threads
+     * The number of threads allowed to run the member function. If none is given, all available threads
+     * will be used.
+     *
+     * @return
+     * The vertices sotered in a std::vector container.
+     */
+    virtual std::vector<Vertex> generate_vertices(std::size_t num_vertices, unsigned num_threads) const = 0;
+
+    /**
      * @brief add_n_drop
      * This method add a vertex into trajectory range and remove the last vertex, leaving range constant
      *

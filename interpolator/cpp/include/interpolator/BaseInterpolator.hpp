@@ -42,6 +42,9 @@ class BaseInterpolator : public IInterpolator
     double y_at_position(double position) const final;
     double z_at_position(double position) const final;
 
+    std::vector<Vertex> generate_vertices(
+        std::size_t num_vertices, unsigned num_threads = std::numeric_limits<unsigned>::max()) const final;
+
   private:
     typedef double (BaseInterpolator::*DeltaCalculator)(double, const AdjacentVertices &) const;
 
@@ -159,7 +162,7 @@ class BaseInterpolator : public IInterpolator
     /**
      * @brief angle_at_position
      * There is some parts in common when you computes inclination and azimuth interpolation (basically boundary
-     * conditions) This method agroup them
+     * conditions) This method group them
      *
      * @param position
      * The position represents the curve length with the first vertex as reference
@@ -175,6 +178,19 @@ class BaseInterpolator : public IInterpolator
      */
     virtual double angle_at_position(
         double position, const AdjacentVertices &adjacent_vertices, AngleType angle_type) const = 0;
+
+    /**
+     * @brief generate_positions
+     * This method generates a number of positions between the whole trajectory given an argument.
+     * The step of those positions depends on the given argument
+     *
+     * @param num_positions
+     * The number of positions to be generated
+     *
+     * @return
+     * Generates positions between the trajectory
+     */
+    std::vector<double> generate_positions(std::size_t num_positions) const;
 
   protected:
     /**

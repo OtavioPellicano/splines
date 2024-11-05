@@ -430,3 +430,29 @@ BOOST_AUTO_TEST_CASE(test_structured_binding, *utf::tolerance(1E-6))
         ++v_it;
     }
 }
+
+BOOST_DATA_TEST_CASE(test_generate_vertices, data::make(Samples::interpolation_types), interpolation_type)
+{
+    std::size_t num_vertices = 100;
+    auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
+
+    std::vector<Vertex> vertices_expected = interpolator->generate_vertices(num_vertices, 1);
+
+    std::vector<std::vector<Vertex>> vertices_mt;
+    vertices_mt.push_back(interpolator->generate_vertices(num_vertices));
+    vertices_mt.push_back(interpolator->generate_vertices(num_vertices, 2));
+    vertices_mt.push_back(interpolator->generate_vertices(num_vertices, 4));
+    vertices_mt.push_back(interpolator->generate_vertices(num_vertices, 8));
+
+    auto vertices_cmp = [](const auto &v_1, const auto &v_2) {
+        for (size_t i = 0; i < v_1.size(); ++i)
+        {
+            BOOST_TEST(v_1[i].approx_equal(v_2[i]));
+        }
+    };
+
+    for (auto &vertices : vertices_mt)
+    {
+        vertices_cmp(vertices_expected, vertices);
+    }
+}

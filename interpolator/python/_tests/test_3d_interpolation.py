@@ -201,3 +201,38 @@ def test_trajectory_class(trajectory_SPE84246):
     trajectory_deg = Vertices(trajectory_deg)
     compare_trajectory(trajectory_SPE84246, trajectory_deg)
     compare_trajectory(trajectory_set_sorted, trajectory_set)
+
+
+@pytest.mark.parametrize(
+    "interpolation_type",
+    [
+        InterpolationType.Linear,
+        InterpolationType.MinimumCurvature,
+        InterpolationType.Cubic,
+    ],
+    ids=["linear", "minimum_curvature", "cubic"],
+)
+def test_generate_vertices(
+    trajectory_SPE84246,
+    interpolation_samples_SPE84246,
+    interpolation_type,
+):
+    num_vertices = 100
+    trajectory = trajectory_SPE84246
+    interpolator = _make_interpolator(trajectory, interpolation_type)
+
+    vertices_expected = interpolator.GenerateVertices(num_vertices, 1)
+
+    vertices_mt = [
+        interpolator.GenerateVertices(num_vertices),
+        interpolator.GenerateVertices(num_vertices, 2),
+        interpolator.GenerateVertices(num_vertices, 4),
+        interpolator.GenerateVertices(num_vertices, 8),
+    ]
+
+    def vertices_cmp(v_1, v_2):
+        for i, _ in enumerate(v_1):
+            assert v_1[i].ApproxEqual(v_2[i])
+
+    for vertices in vertices_mt:
+        vertices_cmp(vertices_expected, vertices)

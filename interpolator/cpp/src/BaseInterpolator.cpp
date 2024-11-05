@@ -1,4 +1,5 @@
 #include "interpolator/BaseInterpolator.hpp"
+#include "interpolator/utils/Multithreading.hpp"
 
 namespace splines
 {
@@ -79,11 +80,6 @@ Vertex BaseInterpolator::vertex_at_position(double position) const
 
         auto const &adjacent_vertices = this->calculate_adjacent_vertices(position);
 
-        if (adjacent_vertices.first.approx_equal(adjacent_vertices.second))
-        {
-            return {adjacent_vertices.first};
-        }
-
         auto inclination_interpolated = this->inclination_at_position(position, adjacent_vertices);
         auto azimuth_interpolated = this->azimuth_at_position(position, adjacent_vertices);
 
@@ -124,6 +120,41 @@ double BaseInterpolator::y_at_position(double position) const
 double BaseInterpolator::z_at_position(double position) const
 {
     return this->projection_at_position(&BaseInterpolator::calculate_delta_z_projection, position);
+}
+
+std::vector<Vertex> BaseInterpolator::generate_vertices(std::size_t num_vertices, unsigned num_threads) const
+{
+    if (num_vertices < _trajectory.vertices().size())
+    {
+        return _trajectory.vertices_python();
+    }
+
+    std::vector<double> positions = this->generate_positions(num_vertices);
+    return utils::Multithreading::run<Vertex>(
+        positions.begin(), positions.end(), num_threads, [this](double pos) { return this->vertex_at_position(pos); });
+}
+
+std::vector<double> BaseInterpolator::generate_positions(std::size_t num_positions) const
+{
+    double first_trajectory_position = _trajectory.cbegin()->position();
+    double last_trajectory_position = std::prev(_trajectory.cend())->position();
+    double trajectory_length = last_trajectory_position - first_trajectory_position;
+    double increment = trajectory_length / static_cast<double>(num_positions);
+
+    std::vector<double> positions(num_positions);
+    positions[0] = first_trajectory_position;
+    for (std::size_t i = 1; i < positions.size(); ++i)
+    {
+        positions[i] = positions[i - 1] + increment;
+    }
+
+    double &last_position = positions[positions.size() - 1];
+    if (last_position > last_trajectory_position)
+    {
+        last_position = last_trajectory_position;
+    }
+
+    return positions;
 }
 
 double BaseInterpolator::projection_at_position(DeltaCalculator delta_calculator, double position) const

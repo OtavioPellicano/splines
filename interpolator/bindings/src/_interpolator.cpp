@@ -57,6 +57,11 @@ class PyIInterpolator : public IInterpolator
         PYBIND11_OVERLOAD_PURE(double, IInterpolator, z_at_position, position);
     }
 
+    std::vector<Vertex> generate_vertices(std::size_t num_vertices, unsigned num_threads) const override
+    {
+        PYBIND11_OVERLOAD_PURE(std::vector<Vertex>, IInterpolator, num_vertices, num_threads);
+    }
+
     void add_n_drop(const Vertex &vertex) override
     {
         PYBIND11_OVERLOAD_PURE(void, IInterpolator, add_n_drop, vertex);
@@ -124,7 +129,8 @@ PYBIND11_MODULE(_interpolator, m)
                 ss << vt;
                 return ss.str();
             })
-        .def("Delimiter", &Vertex::delimiter);
+        .def("Delimiter", &Vertex::delimiter)
+        .def("ApproxEqual", &Vertex::approx_equal, py::arg("other"), py::arg("tol_radius") = 1E-6);
 
     py::class_<Vertices>(m, "Vertices")
         .def(py::init<>())
@@ -145,7 +151,7 @@ PYBIND11_MODULE(_interpolator, m)
         .def("Positions", &Vertices::positions)
         .def("Inclinations", &Vertices::inclinations, py::arg("AngleUnit"))
         .def("Azimuths", &Vertices::azimuths, py::arg("AngleUnit"))
-        .def("ApproxEqual", &Vertices::approx_equal, py::arg("other"), py::arg("tol_radius"));
+        .def("ApproxEqual", &Vertices::approx_equal, py::arg("other"), py::arg("tol_radius") = 1E-6);
 
     py::class_<IInterpolator, PyIInterpolator>(m, "IInterpolator")
         .def(py::init<>())
@@ -156,7 +162,10 @@ PYBIND11_MODULE(_interpolator, m)
         .def("YAtPosition", &IInterpolator::y_at_position, py::arg("position"))
         .def("ZAtPosition", &IInterpolator::z_at_position, py::arg("position"))
         .def("AddNDrop", &IInterpolator::add_n_drop, py::arg("vertex"))
-        .def("DropNAdd", &IInterpolator::drop_n_add, py::arg("vertex"));
+        .def("DropNAdd", &IInterpolator::drop_n_add, py::arg("vertex"))
+        .def(
+            "GenerateVertices", &IInterpolator::generate_vertices, py::arg("num_vertices"),
+            py::arg("num_threads") = std::numeric_limits<unsigned>::max());
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")
         .def("Trajectory", &BaseInterpolator::trajectory)

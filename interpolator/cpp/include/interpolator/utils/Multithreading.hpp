@@ -48,8 +48,10 @@ struct Multithreading
 
         for (auto &fut : results)
         {
-            auto res = fut.get();
-            output.insert(output.begin() + output.size(), res.begin(), res.end());
+            for (auto res : fut.get())
+            {
+                output.insert(output.begin() + output.size(), std::move(res));
+            }
         }
 
         return output;

@@ -9,6 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(Boost COMPONENTS REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
+message("boost dir: ${Boost_INCLUDE_DIR}")
+
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
@@ -45,6 +47,12 @@ file(COPY ${PYTHON_TESTS_DIR}/. DESTINATION ${ARTIFACTS_DIR_PYTHON})
 
 add_executable(test_boost interpolator/cpp/_tests/test_3d_interpolation.cpp)
 target_link_libraries(test_boost PRIVATE interpolator)
+target_link_libraries(
+    test_boost PRIVATE
+    ${Boost_FILESYSTEM_LIBRARY}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+)
 
 add_custom_command(
     TARGET test_boost

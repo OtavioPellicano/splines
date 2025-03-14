@@ -134,6 +134,27 @@ std::vector<Vertex> BaseInterpolator::generate_vertices(std::size_t num_vertices
         positions.begin(), positions.end(), num_threads, [this](double pos) { return this->vertex_at_position(pos); });
 }
 
+std::vector<double> BaseInterpolator::generate_x_projections(std::size_t num_points, unsigned num_threads) const
+{
+    std::vector<double> positions = this->generate_positions(num_points);
+    return utils::Multithreading::run<double>(
+        positions.begin(), positions.end(), num_threads, [this](double pos) { return this->x_at_position(pos); });
+}
+
+std::vector<double> BaseInterpolator::generate_y_projections(std::size_t num_points, unsigned num_threads) const
+{
+    std::vector<double> positions = this->generate_positions(num_points);
+    return utils::Multithreading::run<double>(
+        positions.begin(), positions.end(), num_threads, [this](double pos) { return this->y_at_position(pos); });
+}
+
+std::vector<double> BaseInterpolator::generate_z_projections(std::size_t num_points, unsigned num_threads) const
+{
+    std::vector<double> positions = this->generate_positions(num_points);
+    return utils::Multithreading::run<double>(
+        positions.begin(), positions.end(), num_threads, [this](double pos) { return this->z_at_position(pos); });
+}
+
 std::vector<double> BaseInterpolator::generate_positions(std::size_t num_positions) const
 {
     double first_trajectory_position = _trajectory.cbegin()->position();

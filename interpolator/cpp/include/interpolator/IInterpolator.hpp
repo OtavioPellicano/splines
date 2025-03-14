@@ -99,9 +99,54 @@ class IInterpolator
      * will be used.
      *
      * @return
-     * The vertices sotered in a std::vector container.
+     * The vertices sorted in a std::vector container.
      */
     virtual std::vector<Vertex> generate_vertices(std::size_t num_vertices, unsigned num_threads) const = 0;
+
+    /**
+     * @brief generate_x_projections
+     *
+     * @param num_points
+     * The number of points to be generated based on the current trajectory
+     *
+     * @param num_threads
+     * The number of threads allowed to run the member function. If none is given, all available threads
+     * will be used.
+     *
+     * @return
+     * The x projections sorted in a std::vector container.
+     */
+    virtual std::vector<double> generate_x_projections(std::size_t num_points, unsigned num_threads) const = 0;
+
+    /**
+     * @brief generate_y_projections
+     *
+     * @param num_points
+     * The number of points to be generated based on the current trajectory
+     *
+     * @param num_threads
+     * The number of threads allowed to run the member function. If none is given, all available threads
+     * will be used.
+     *
+     * @return
+     * The y projections sorted in a std::vector container.
+     */
+    virtual std::vector<double> generate_y_projections(std::size_t num_points, unsigned num_threads) const = 0;
+
+    /**
+     * @brief generate_z_projections
+     *
+     * @param num_points
+     * The number of points to be generated based on the current trajectory
+     *
+     * @param num_threads
+     * The number of threads allowed to run the member function. If none is given, all available threads
+     * will be used.
+     *
+     * @return
+     * The z projections sorted in a std::vector container.
+     */
+    virtual std::vector<double> generate_z_projections(std::size_t num_points, unsigned num_threads) const = 0;
 
     /**
      * @brief add_n_drop

@@ -70,6 +70,31 @@ std::unique_ptr<BaseInterpolator> make_interpolator(const Vertices &trajectory, 
     }
 }
 
+enum class ProjectionType
+{
+    x,
+    y,
+    z
+};
+std::vector<double> generate_projections(
+    const std::unique_ptr<BaseInterpolator> &interpolator, ProjectionType projection,
+    InterpolationType interpolation_type, unsigned num_points,
+    unsigned num_threads = std::numeric_limits<unsigned>::max())
+{
+    if (projection == ProjectionType::x)
+    {
+        return interpolator->generate_x_projections(num_points, num_threads);
+    }
+    else if (projection == ProjectionType::y)
+    {
+        return interpolator->generate_y_projections(num_points, num_threads);
+    }
+    else
+    {
+        return interpolator->generate_z_projections(num_points, num_threads);
+    }
+}
+
 namespace Samples
 {
 
@@ -82,6 +107,8 @@ const Vertices SPE84246 = {
 
 InterpolationType interpolation_types[] = {
     InterpolationType::linear, InterpolationType::minimum_curvature, InterpolationType::cubic};
+
+ProjectionType projections_type[] = {ProjectionType::x, ProjectionType::y, ProjectionType::z};
 
 std::map<double, Vertex> vertices_at_postion_expected[] = {
     {
@@ -191,7 +218,7 @@ BOOST_AUTO_TEST_CASE(test_readme_example, *utf::tolerance(1E-4))
     // expected: 2690.79,1.74319,5.56588
     // std::cout << vertex << std::endl;
 
-    // get projections (cartesian coordinates)
+    // get projections_type (cartesian coordinates)
     auto x = linear_interpolator->x_at_position(position_desired);
     auto y = linear_interpolator->y_at_position(position_desired);
     auto z = linear_interpolator->z_at_position(position_desired);
@@ -236,6 +263,7 @@ BOOST_AUTO_TEST_CASE(test_angle_conversion, *utf::tolerance(1E-6))
 typedef std::map<double, Vertex> MapVt;
 BOOST_TEST_DONT_PRINT_LOG_VALUE(MapVt)
 BOOST_TEST_DONT_PRINT_LOG_VALUE(InterpolationType)
+BOOST_TEST_DONT_PRINT_LOG_VALUE(ProjectionType)
 
 BOOST_DATA_TEST_CASE(
     test_vertex_at_position, data::make(Samples::interpolation_types) ^ Samples::vertices_at_postion_expected,
@@ -454,5 +482,49 @@ BOOST_DATA_TEST_CASE(test_generate_vertices, data::make(Samples::interpolation_t
     for (auto &vertices : vertices_mt)
     {
         vertices_cmp(vertices_expected, vertices);
+    }
+}
+
+BOOST_DATA_TEST_CASE(
+    test_generate_projections,
+    data::make<InterpolationType>(Samples::interpolation_types) ^ data::make(Samples::projections_type),
+    interpolation_type, projection_type)
+{
+    std::size_t num_points = 100;
+    auto interpolator = make_interpolator(Samples::SPE84246, interpolation_type);
+
+    std::vector<Vertex> vertices_expected = interpolator->generate_vertices(num_points, 1);
+
+    std::vector<std::vector<double>> projections_mt = {
+        generate_projections(interpolator, projection_type, interpolation_type, num_points),
+        generate_projections(interpolator, projection_type, interpolation_type, num_points, 2),
+        generate_projections(interpolator, projection_type, interpolation_type, num_points, 4),
+        generate_projections(interpolator, projection_type, interpolation_type, num_points, 8)};
+
+    auto vertices_cmp = [&interpolator = interpolator](
+                            const std::vector<Vertex> &v, const std::vector<double> &projs, ProjectionType proj_t) {
+        double tol = 1e-6;
+        for (size_t i = 0; i < v.size(); ++i)
+        {
+            double v_projection;
+            if (proj_t == ProjectionType::x)
+            {
+                v_projection = interpolator->x_at_position(v[i].position());
+            }
+            else if (proj_t == ProjectionType::y)
+            {
+                v_projection = interpolator->y_at_position(v[i].position());
+            }
+            else
+            {
+                v_projection = interpolator->z_at_position(v[i].position());
+            }
+            BOOST_TEST(std::fabs(v_projection - projs[i]) < tol);
+        }
+    };
+
+    for (auto &projs : projections_mt)
+    {
+        vertices_cmp(vertices_expected, projs, projection_type);
     }
 }

@@ -62,6 +62,21 @@ class PyIInterpolator : public IInterpolator
         PYBIND11_OVERLOAD_PURE(std::vector<Vertex>, IInterpolator, num_vertices, num_threads);
     }
 
+    std::vector<double> generate_x_projections(std::size_t num_points, unsigned num_threads) const override
+    {
+        PYBIND11_OVERLOAD_PURE(std::vector<double>, IInterpolator, num_points, num_threads);
+    }
+
+    std::vector<double> generate_y_projections(std::size_t num_points, unsigned num_threads) const override
+    {
+        PYBIND11_OVERLOAD_PURE(std::vector<double>, IInterpolator, num_points, num_threads);
+    }
+
+    std::vector<double> generate_z_projections(std::size_t num_points, unsigned num_threads) const override
+    {
+        PYBIND11_OVERLOAD_PURE(std::vector<double>, IInterpolator, num_points, num_threads);
+    }
+
     void add_n_drop(const Vertex &vertex) override
     {
         PYBIND11_OVERLOAD_PURE(void, IInterpolator, add_n_drop, vertex);
@@ -165,6 +180,15 @@ PYBIND11_MODULE(_interpolator, m)
         .def("DropNAdd", &IInterpolator::drop_n_add, py::arg("vertex"))
         .def(
             "GenerateVertices", &IInterpolator::generate_vertices, py::arg("num_vertices"),
+            py::arg("num_threads") = std::numeric_limits<unsigned>::max())
+        .def(
+            "GenerateXProjections", &IInterpolator::generate_x_projections, py::arg("num_points"),
+            py::arg("num_threads") = std::numeric_limits<unsigned>::max())
+        .def(
+            "GenerateYProjections", &IInterpolator::generate_y_projections, py::arg("num_points"),
+            py::arg("num_threads") = std::numeric_limits<unsigned>::max())
+        .def(
+            "GenerateZProjections", &IInterpolator::generate_z_projections, py::arg("num_points"),
             py::arg("num_threads") = std::numeric_limits<unsigned>::max());
 
     py::class_<BaseInterpolator, PyBaseInterpolator, IInterpolator>(m, "BaseInterpolator")

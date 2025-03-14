@@ -45,6 +45,15 @@ class BaseInterpolator : public IInterpolator
     std::vector<Vertex> generate_vertices(
         std::size_t num_vertices, unsigned num_threads = std::numeric_limits<unsigned>::max()) const final;
 
+    std::vector<double> generate_x_projections(
+        std::size_t num_points, unsigned num_threads = std::numeric_limits<unsigned>::max()) const final;
+
+    std::vector<double> generate_y_projections(
+        std::size_t num_points, unsigned num_threads = std::numeric_limits<unsigned>::max()) const final;
+
+    std::vector<double> generate_z_projections(
+        std::size_t num_points, unsigned num_threads = std::numeric_limits<unsigned>::max()) const final;
+
   private:
     typedef double (BaseInterpolator::*DeltaCalculator)(double, const AdjacentVertices &) const;
 
